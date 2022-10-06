@@ -50,8 +50,8 @@
     flex-direction: column;
     align-self: center;
     margin: 10px;
-    min-height: fit-content;
-    height: 499px;
+    min-height: 499px;
+    max-height: fit-content;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);

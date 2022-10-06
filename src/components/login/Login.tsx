@@ -50,7 +50,6 @@ function Login() {
         e.preventDefault();
         setIsLoading(true)
         try {
-            debugger;
             const response = await axios.post("http://localhost:8080/users/login", { username, password });
             const serverResponse = response.data;
             dispatch({ type: ActionType.login, payload: serverResponse })

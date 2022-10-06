@@ -83,26 +83,26 @@ function Coupons() {
       <div className='main_conatainer'>
         <div className='coupons_container'>
           {displayCoupons.map((coupon: ICoupon) => {
-            return <Coupon coupon={coupon} />
+            return <Coupon key={coupon.id} coupon={coupon} />
           })}
         </div>
       </div>
-        <div className='pages_container'>
-          <ReactPaginate
-            previousLabel={"Previous"}
-            nextLabel={"Next"}
-            pageCount={pageCount}
-            onPageChange={changePage}
-            containerClassName={"pagination_buttons"}
-            pageLinkClassName={"pages_buttons"}
-            pageClassName={"pages_buttons"}
-            previousLinkClassName={"previous_button"}
-            nextLinkClassName={"next_button"}
-            disabledLinkClassName={"disabled_buttons"}
-            activeLinkClassName={"active_buttons"}
-          />
+      <div className='pages_container'>
+        <ReactPaginate
+          previousLabel={"Previous"}
+          nextLabel={"Next"}
+          pageCount={pageCount}
+          onPageChange={changePage}
+          containerClassName={"pagination_buttons"}
+          pageLinkClassName={"pages_buttons"}
+          pageClassName={"pages_buttons"}
+          previousLinkClassName={"previous_button"}
+          nextLinkClassName={"next_button"}
+          disabledLinkClassName={"disabled_buttons"}
+          activeLinkClassName={"active_buttons"}
+        />
 
-        </div>
+      </div>
     </div>
   )
 }

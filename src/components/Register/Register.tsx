@@ -14,17 +14,17 @@ function Register() {
 
   let dispatch = useDispatch();
 
-  let users: IUser[] = useSelector((state: AppState) => state.users)
-
   let customers: ICustomer[] = useSelector((state: AppState) => state.customers)
 
   async function createUser(user: IUser) {
-    axios.post("http://localhost:8080/users")
+    axios.post("http://localhost:8080/users" , user)
       .then(response => {
         let serverResponse = response.data
         dispatch({ type: ActionType.createUser, payload: serverResponse })
       })
   }
+
+
   async function createCustomer(customer: ICustomer) {
     axios.post("http://localhost:8080/customer")
       .then(response => {
@@ -32,26 +32,13 @@ function Register() {
         dispatch({ type: ActionType.createCustomer, payload: serverResponse })
       })
   }
-
-
-
-  async function getAllCustomers() {
-    axios.get("http://localhost:8080/customers")
+  async function isExistByUsername(username: IUser) {
+    axios.get(`http://localhost:8080/users/isExistByUsername?username=${username}`)
       .then(response => {
-        let serverResponse = response.data
-        dispatch({ type: ActionType.getAllCustomers, payload: serverResponse })
+        console.log(response.data);
+        return response.data 
       })
-
   }
-  async function getAllUsers() {
-    axios.get("http://localhost:8080/users")
-      .then(response => {
-        let serverResponse = response.data
-        dispatch({ type: ActionType.getAllUsers, payload: serverResponse })
-      })
-
-  }
-
 
   let [newUser, setNewUser]: any = useState(
     {
@@ -70,11 +57,6 @@ function Register() {
 
   let navigate = useNavigate()
 
-
-  useEffect(() => {
-    getAllUsers()
-    getAllCustomers()
-  }, [])
 
 
   let onChange = ((e: any) => {
@@ -117,17 +99,13 @@ function Register() {
       isValid = false
       // "Password should be between 7-14 letters, and must include at least one uppercase char, one lowercase char and a number."
     }
-    if (newUser.username) {
-      const currentUser = users.find((user: IUser) => { return newUser.username === user.username })
-      if (currentUser) {
+    if (isExistByUsername(newUser.username)) {
         setEmailError("The email you have entered already exist")
         isValid = false
       }
-    }
-
     if (isValid) {
-
-      navigate('/registered-succesfuly')
+      createUser(newUser)
+      navigate('/')
     }
   }
 

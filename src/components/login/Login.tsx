@@ -79,11 +79,11 @@ function Login() {
                     </div>
                     <form className='form' onSubmit={onLoginClicked}>
                         <div className='details'>
-                            <label htmlFor="email">Email</label>
-                            <input id='1' name='username' type="email" placeholder='Email' onChange={onChange} />
+                            <label aria-required={true} htmlFor="email">Email*</label>
+                            <input id='1' name='username' required={true} type="email" placeholder='Email' onChange={onChange} />
                         </div>
                         <div className='details'>
-                            <label htmlFor="password">Password</label>
+                            <label htmlFor="password">Password*</label>
                             <input id='2' name='password' type="password" placeholder='Password' onChange={onChange} />
                         </div>
                         <div className='error_container'>

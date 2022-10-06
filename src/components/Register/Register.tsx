@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { IUser } from '../../model/IUser';
@@ -22,14 +22,14 @@ function Register() {
       })
   }
 
-
   async function createCustomer(customer: ICustomer) {
-    axios.post("http://localhost:8080/customer")
+    axios.post("http://localhost:8080/customer", customer)
       .then(response => {
         let serverResponse = response.data
         dispatch({ type: ActionType.createCustomer, payload: serverResponse })
       })
   }
+
   async function isExistByUsername(username: ICustomer) {
     axios.get(`http://localhost:8080/users/isExistByUsername?username=${username}`)
       .then(response => {
@@ -47,6 +47,8 @@ function Register() {
   //     role: "Customer"
   //   }
   // )
+
+
   let [newCustomer, setNewCustomer]: any = useState(
     {
       username: "",
@@ -67,13 +69,10 @@ function Register() {
   let [passwordError, setPasswordError] = useState<string>("")
   let [rePasswordError, setRePasswordError] = useState<string>("")
   let [addressError, setAddressError] = useState<string>("")
-  // let [amountOfKidsError, setAmountOfKidsError] = useState<number>(0)
   let [phoneNumberError, setPhoneNumberError] = useState<string>("")
   let [birthdateError, setBirthdateError] = useState<string>("")
 
   let navigate = useNavigate()
-
-
 
   let onChange = ((e: any) => {
 
@@ -151,8 +150,6 @@ function Register() {
       setBirthdateError("Birth date is required")
       isValid = false
     }
-
-
     if (isExistByUsername(newCustomer.username)) {
       setEmailError("The email you have entered already exist")
       isValid = false
@@ -165,7 +162,6 @@ function Register() {
   }
 
 
-
   return (
 
     <div className='full_screen_register'>
@@ -173,53 +169,59 @@ function Register() {
       <div className='container_signup'>
 
         <div className="title_register_container">
+
           <h1 className='title_register'>Sign Up</h1>
         </div>
+
         <form className='register_form' onSubmit={sendForm}>
-          <div className='details'>
-            <label htmlFor="firstname">First Name</label>
+
+          <div className='details_register'>
+            <label htmlFor="firstname">First Name*</label>
             <input value={newCustomer.firstname} id='1' name='firstname' type="text" placeholder='First Name' onChange={onChange} />
             <p className='error'>{firstnameError}</p>
           </div>
 
-          <div className='details'>
-            <label htmlFor="lastname">Last Name</label>
+          <div className='details_register'>
+            <label htmlFor="lastname">Last Name*</label>
             <input value={newCustomer.lastname} id='2' name='lastname' type="text" placeholder='Last Name' onChange={onChange} />
             <p className='error'>{lastnameError}</p>
           </div>
 
-          <div className='details'>
-            <label htmlFor="email">Email</label>
+          <div className='details_register'>
+            <label htmlFor="email">Email*</label>
             <input value={newCustomer.username} id='3' name='username' type="email" placeholder='Email' onChange={onChange} />
             <p className='error'>{emailError}</p>
           </div>
 
-          <div className='details'>
-            <label htmlFor="password">Password</label>
+          <div className='details_register'>
+            <label htmlFor="password">Password*</label>
             <input value={newCustomer.password} id='4' name='password' type="password" placeholder='Password' onChange={onChange} />
             <p className='error'>{passwordError}</p>
           </div>
-          <div className='details'>
-            <label htmlFor="re-password">Re-Password</label>
+
+          <div className='details_register'>
+            <label htmlFor="re-password">Re-Password*</label>
             <input value={newCustomer.rePassword} id='5' name='re-password' type="password" placeholder='Re-Password' onChange={onChange} />
             <p className='error'>{rePasswordError}</p>
           </div>
-          <div className='details'>
-            <label htmlFor="password">Amount Of Kids</label>
+
+          <div className='details_register'>
+            <label htmlFor="amountOfChildren">Amount Of Kids</label>
             <input value={newCustomer.amountOfChildren} id='6' name='amountOfChildren' type="number" placeholder='Amount Of Kids' onChange={onChange} />
+            <p className='error'></p>
           </div>
-          <div className='details'>
-            <label htmlFor="password">Phone Number</label>
+
+          <div className='details_register'>
+            <label htmlFor="phoneNumber">Phone Number*</label>
             <input value={newCustomer.phoneNumber} id='7' name='phoneNumber' type="text" placeholder='Phone Number' onChange={onChange} />
             <p className='error'>{phoneNumberError}</p>
           </div>
-          <div className='details'>
-            <label htmlFor="password">Birth Date</label>
+
+          <div className='details_register'>
+            <label htmlFor="birthday">Birth Date*</label>
             <input value={newCustomer.birthday} id='8' name='birthday' type="date" placeholder='Birth Date' onChange={onChange} />
             <p className='error'>{birthdateError}</p>
           </div>
-
-
 
           <div className='submit_button_container'>
             <button type='submit'>Submit</button>

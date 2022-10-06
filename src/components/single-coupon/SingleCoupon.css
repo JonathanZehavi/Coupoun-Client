@@ -1,12 +1,15 @@
 .page_container{
+    display: flex;
+    flex-wrap: wrap;
     min-height: 83vh;
+    align-content: space-around;
 }
 
 .coupons_card {
     display: flex;
     align-items: center;
     min-height: fit-content;
-    height: 661px;
+    height: 400px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);

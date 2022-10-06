@@ -40,6 +40,7 @@
     font-size:20px;
 }
 
+
 .submit_button_container{
     display: flex;
     justify-content: center;
@@ -59,6 +60,7 @@
 .title_login {
     font-weight: bold;
     font-size: 50px;
+    margin-top: 20px;
 }
 
 .title_login_container {
@@ -67,7 +69,16 @@
 }
 
 .error_container{
-    justify-content: left;
-    float: left;
+   width: 85%;
+   height: 22px;
+   font-size: 1.1rem;
     color: red;
 }
+
+.loading_spinner {
+    height: 30px;
+}
+
+/* .error {
+    justify-content: left;
+} */

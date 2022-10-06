@@ -7,17 +7,15 @@ import { ICustomer } from '../../model/ICustomer'
 import { ActionType } from '../../redux/action-type';
 import { AppState } from '../../redux/app-state';
 import "./Register.css";
-import { stat } from 'fs';
-
 
 function Register() {
 
   let dispatch = useDispatch();
 
-  let customers: ICustomer[] = useSelector((state: AppState) => state.customers)
+  let customer: ICustomer = useSelector((state: AppState) => state.customer)
 
   async function createUser(user: IUser) {
-    axios.post("http://localhost:8080/users" , user)
+    axios.post("http://localhost:8080/users", user)
       .then(response => {
         let serverResponse = response.data
         dispatch({ type: ActionType.createUser, payload: serverResponse })
@@ -32,28 +30,46 @@ function Register() {
         dispatch({ type: ActionType.createCustomer, payload: serverResponse })
       })
   }
-  async function isExistByUsername(username: IUser) {
+  async function isExistByUsername(username: ICustomer) {
     axios.get(`http://localhost:8080/users/isExistByUsername?username=${username}`)
       .then(response => {
         console.log(response.data);
-        return response.data 
+        return response.data
       })
   }
 
-  let [newUser, setNewUser]: any = useState(
+  // let [newUser, setNewUser]: any = useState(
+  //   {
+  //     username: "",
+  //     password: "",
+  //     firstname: "",
+  //     lastname: "",
+  //     role: "Customer"
+  //   }
+  // )
+  let [newCustomer, setNewCustomer]: any = useState(
     {
       username: "",
       password: "",
       firstname: "",
       lastname: "",
-      role: "Customer"
+      role: "Customer",
+      address: "",
+      amountOfChildren: "",
+      phoneNumber: "",
+      birthday: "",
     }
   )
 
-  let [firstnameError, setFirstnameError]: any = useState("")
-  let [lastnameError, setLastnameError]: any = useState("")
-  let [emailError, setEmailError]: any = useState("")
-  let [passwordError, setPasswordError]: any = useState("")
+  let [firstnameError, setFirstnameError] = useState<string>("")
+  let [lastnameError, setLastnameError] = useState<string>("")
+  let [emailError, setEmailError] = useState<string>("")
+  let [passwordError, setPasswordError] = useState<string>("")
+  let [rePasswordError, setRePasswordError] = useState<string>("")
+  let [addressError, setAddressError] = useState<string>("")
+  // let [amountOfKidsError, setAmountOfKidsError] = useState<number>(0)
+  let [phoneNumberError, setPhoneNumberError] = useState<string>("")
+  let [birthdateError, setBirthdateError] = useState<string>("")
 
   let navigate = useNavigate()
 
@@ -61,7 +77,7 @@ function Register() {
 
   let onChange = ((e: any) => {
 
-    setNewUser({ ...newUser, [e.target.name]: e.target.value })
+    setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value })
 
     if (e.target.name === "firstname") {
       setFirstnameError("")
@@ -75,6 +91,18 @@ function Register() {
     if (e.target.name === "password") {
       setPasswordError("")
     }
+    if (e.target.name === "re-password") {
+      setRePasswordError("")
+    }
+    if (e.target.name === "address") {
+      setAddressError("")
+    }
+    if (e.target.name === "phoneNumber") {
+      setPhoneNumberError("")
+    }
+    if (e.target.name === "birthday") {
+      setBirthdateError("")
+    }
   })
 
   const sendForm = (e: any) => {
@@ -82,32 +110,60 @@ function Register() {
 
     let isValid: boolean = true;
 
-    if (!newUser.firstname) {
+    if (!newCustomer.firstname) {
       setFirstnameError("First name is required")
       isValid = false
     }
-    if (!newUser.lastname) {
+    if (!newCustomer.lastname) {
       setLastnameError("Last Name is required")
       isValid = false
     }
-    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(newUser.username)) {
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(newCustomer.username)) {
       setEmailError("Email address is invalid")
       isValid = false
     }
-    if (!/^[A-Za-z]\w{7,14}$/i.test(newUser.password)) {
-      setPasswordError("Password is invalid.")
+    if (!/^[A-Za-z]\w{7,14}$/i.test(newCustomer.password)) {
+      setPasswordError("Password is invalid")
       isValid = false
-      // "Password should be between 7-14 letters, and must include at least one uppercase char, one lowercase char and a number."
     }
-    if (isExistByUsername(newUser.username)) {
-        setEmailError("The email you have entered already exist")
-        isValid = false
-      }
+    // "Password should be between 7-14 letters, and must include at least one uppercase char, one lowercase char and a number."
+    if (newCustomer.rePassword !== newCustomer.password) {
+      setRePasswordError("Passwords does not much")
+      isValid = false
+    }
+    if (!newCustomer.address) {
+      setAddressError("Address is require")
+      isValid = false
+    }
+    if (!newCustomer.amountOfChildren) {
+      setNewCustomer({ ...newCustomer, [newCustomer.amountOfChildren]: 0 })
+      isValid = false
+    }
+    if (!/^\+?(972|0)(\-)?0?(([23489]{1}\d{7})|[5]{1}\d{8})$/i.test(newCustomer.phoneNumber)) {
+      setPhoneNumberError("Phone number is not valid")
+      isValid = false
+    }
+    if (!newCustomer.phoneNumber) {
+      setPhoneNumberError("Phone number is required")
+      isValid = false
+    }
+    if (!newCustomer.birthday) {
+      setBirthdateError("Birth date is required")
+      isValid = false
+    }
+
+
+    if (isExistByUsername(newCustomer.username)) {
+      setEmailError("The email you have entered already exist")
+      isValid = false
+    }
     if (isValid) {
-      createUser(newUser)
+      createCustomer(newCustomer)
       navigate('/')
     }
+
   }
+
 
 
   return (
@@ -122,27 +178,49 @@ function Register() {
         <form className='register_form' onSubmit={sendForm}>
           <div className='details'>
             <label htmlFor="firstname">First Name</label>
-            <input value={newUser.firstname} id='1' name='firstname' type="text" placeholder='First Name' onChange={onChange} />
+            <input value={newCustomer.firstname} id='1' name='firstname' type="text" placeholder='First Name' onChange={onChange} />
             <p className='error'>{firstnameError}</p>
           </div>
 
           <div className='details'>
             <label htmlFor="lastname">Last Name</label>
-            <input value={newUser.lastname} id='2' name='lastname' type="text" placeholder='Last Name' onChange={onChange} />
+            <input value={newCustomer.lastname} id='2' name='lastname' type="text" placeholder='Last Name' onChange={onChange} />
             <p className='error'>{lastnameError}</p>
           </div>
 
           <div className='details'>
             <label htmlFor="email">Email</label>
-            <input value={newUser.username} id='3' name='username' type="email" placeholder='Email' onChange={onChange} />
+            <input value={newCustomer.username} id='3' name='username' type="email" placeholder='Email' onChange={onChange} />
             <p className='error'>{emailError}</p>
           </div>
 
           <div className='details'>
             <label htmlFor="password">Password</label>
-            <input value={newUser.password} id='4' name='password' type="password" placeholder='Password' onChange={onChange} />
+            <input value={newCustomer.password} id='4' name='password' type="password" placeholder='Password' onChange={onChange} />
             <p className='error'>{passwordError}</p>
           </div>
+          <div className='details'>
+            <label htmlFor="re-password">Re-Password</label>
+            <input value={newCustomer.rePassword} id='5' name='re-password' type="password" placeholder='Re-Password' onChange={onChange} />
+            <p className='error'>{rePasswordError}</p>
+          </div>
+          <div className='details'>
+            <label htmlFor="password">Amount Of Kids</label>
+            <input value={newCustomer.amountOfChildren} id='6' name='amountOfChildren' type="number" placeholder='Amount Of Kids' onChange={onChange} />
+          </div>
+          <div className='details'>
+            <label htmlFor="password">Phone Number</label>
+            <input value={newCustomer.phoneNumber} id='7' name='phoneNumber' type="text" placeholder='Phone Number' onChange={onChange} />
+            <p className='error'>{phoneNumberError}</p>
+          </div>
+          <div className='details'>
+            <label htmlFor="password">Birth Date</label>
+            <input value={newCustomer.birthday} id='8' name='birthday' type="date" placeholder='Birth Date' onChange={onChange} />
+            <p className='error'>{birthdateError}</p>
+          </div>
+
+
+
           <div className='submit_button_container'>
             <button type='submit'>Submit</button>
           </div>

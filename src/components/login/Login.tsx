@@ -17,8 +17,6 @@ function Login() {
 
     let userState: IUser = useSelector((state: AppState) => state.user)
     
-    const [isUserLogedIn, setIsUserLogedIn] = useState<boolean>(false)
-    
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const [user, setUser] = useState({
@@ -35,6 +33,8 @@ function Login() {
     let connect = useContext(ConnectContext);
 
     let onChange = ((e: any) => {
+        setError("")
+        setIsLoading(false)
 
         setUser({ ...user, [e.target.name]: e.target.value })
 
@@ -59,11 +59,11 @@ function Login() {
             localStorage.setItem('userRole', serverResponse.role)
             connect(token);
             setIsLoading(false)
-            setIsUserLogedIn(true)
             dispatch({ type: ActionType.isLogedIn, payload: true })
             navigate('/');  
         }
         catch (error: any) {
+            setIsLoading(false)
             setError("Username or Password is incorrect")
         }
 
@@ -92,7 +92,9 @@ function Login() {
                         <div className='submit_button_container'>
                             <button className='submit_login' type='submit' disabled={isLoading}>Log In</button>
                         </div>
+                        <div className='loading_spinner'>
                             {isLoading && <LoadingSpinner />}
+                        </div>
                     </form>
                 </div>
             </div>

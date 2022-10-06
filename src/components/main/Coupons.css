@@ -1,0 +1,175 @@
+.main_conatainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 80vh;
+    min-width: 500px;
+    justify-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.coupons_container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
+
+
+/* @media(max-width:1870px) {
+    .coupons_container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media(max-width:1024px) {
+    .coupons_container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width:800px) {
+    .coupons_container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+} */
+.pages_container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+.amount {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+}
+
+.coupon_card {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin: 10px;
+    min-height: fit-content;
+    height: 499px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    line-break: auto;
+    width: 380px;
+}
+
+.coupon_card img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+}
+
+.buttons_on_coupon button:hover {
+    background-color: #cccccc;
+}
+.buttons_on_coupon button {
+    border-radius: 5px;
+}
+
+.buttons_on_coupon {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    gap: 10px;
+    margin-left: 10px;
+}
+
+.buttons_on_coupon button {
+    max-width: 110px;
+    min-width: 110px;
+    max-height: 50px;
+    min-height: 30px;
+    font-size: 13px;
+}
+
+.delete_coupon_button {
+    max-width: 110px;
+    min-width: 110px;
+    max-height: 50px;
+    min-height: 30px;
+    font-size: 15px;
+    align-self: center;
+}
+
+.card_body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: black;
+    list-style: none;
+    text-decoration: none;
+    margin: 20px;
+}
+a {
+    color: black;
+}
+
+
+.tag {
+    background: #cccccc;
+    border-radius: 50px;
+    font-size: 12px;
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: bolder;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.tag_teal {
+    background-color: black;
+}
+
+
+.pagination_buttons {
+    height: 40px;
+    margin-top: 20px;
+    list-style: none;
+    display: flex;
+    color: black;
+    justify-content: center;
+}
+
+.pagination_buttons a {
+    padding: 10px;
+    margin: 8px;
+    border-radius: 5px;
+    border: 1px solid;
+    color: black;
+    background-color: white;
+    cursor: pointer;
+}
+
+.pagination_buttons a:hover {
+    color: white;
+    background-color: black;
+}
+
+.active_buttons a {
+    color: white;
+    background-color: black;
+}
+
+.active_buttons a {
+    color: white;
+    background-color: black;
+}
+
+.pages_buttons.selected a {
+    color: white;
+    background-color: black;
+}
+
+
+.disabled_buttons a:hover {
+    color: white;
+    background-color: black;
+}

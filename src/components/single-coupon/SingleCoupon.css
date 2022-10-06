@@ -1,0 +1,99 @@
+.page_container{
+    min-height: 83vh;
+}
+
+.coupons_card {
+    display: flex;
+    align-items: center;
+    min-height: fit-content;
+    height: 661px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    font-weight: bolder;
+    font-size: 20px;
+    line-break: auto;
+    width: 80%;
+    margin:10px auto;
+}
+.card_header {
+    height: 100%;
+    flex-basis: 50%;
+}
+
+
+
+a:hover {
+    list-style: none;
+    text-decoration: none;
+    background-color: #fff;
+}
+
+.card_body_single_coupon{
+        display: flex;
+        margin: 0 auto;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            color: black;
+            list-style: none;
+            text-decoration: none;
+}
+
+.image_on_single_coupon {
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    
+}
+
+.buttons_on_coupon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+}
+
+.buttons_on_coupon button {
+    max-width: 110px;
+    min-width: 110px;
+    max-height: 50px;
+    min-height: 30px;
+    font-size: 13px;
+}
+
+.delete_coupon_button {
+    max-width: 110px;
+    min-width: 110px;
+    max-height: 50px;
+    min-height: 30px;
+    font-size: 15px;
+    align-self: center;
+}
+
+.card_body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 20px;
+}
+
+
+.category {
+    background: #cccccc;
+    border-radius: 50px;
+    font-size: 12px;
+    color: #fff;
+    font-weight: bolder;
+    padding: 5px 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.category_teal {
+    background-color: black;
+}

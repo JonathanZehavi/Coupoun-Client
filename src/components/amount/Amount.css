@@ -1,0 +1,29 @@
+.amount-wrap {
+    display: flex;
+    width: 100px;
+
+}
+
+.amount-wrap svg {
+    font-size: .8rem;
+}
+
+.amount-wrap input {
+    border-radius: 20px;
+    border-radius: 10px 0 0 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.btn-wrap button {
+    display: block;
+    font-size: .8rem;
+}
+
+.btn-wrap button:first-child {
+    border-radius: 0 10px 0 0;
+}
+
+.btn-wrap button:last-child {
+    border-radius: 0 0 10px 0;
+}

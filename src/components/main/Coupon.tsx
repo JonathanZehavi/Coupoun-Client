@@ -1,16 +1,15 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { BiPurchaseTag } from 'react-icons/bi'
 import { TbShoppingCartPlus } from 'react-icons/tb'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom'
-import { ICoupon } from '../../model/ICoupon'
+import { Link } from 'react-router-dom'
+import { ICoupon } from '../../Model/ICoupon'
 import { MdDeleteForever } from 'react-icons/md'
-import { IUser } from '../../model/IUser'
-import { ActionType } from '../../redux/action-type'
-import { AppState } from '../../redux/app-state'
-import Modal from '../modal/Modal'
-import Amount from '../amount/Amount'
+import { IUser } from '../../Model/IUser'
+import { ActionType } from '../../Redux/action-type'
+import { AppState } from '../../Redux/app-state'
+import Amount from '../Amount/Amount'
 
 export interface IProps {
   coupon: ICoupon
@@ -50,7 +49,7 @@ function Coupon(props: IProps) {
   }
 
 
-  let handleClick = () => {
+  let handleBuyNowWhenNotLoggedInClick = () => {
     if (!localStorage.getItem("userRole")) {
       setOpenModal(false)
     }
@@ -82,14 +81,14 @@ function Coupon(props: IProps) {
           </div>
           {localStorage.getItem('userRole') !== "Admin" && <>
             <div className='amount'>
-            <Amount quantity={0} />
+              <Amount amount={0} />
           </div>
           </>
           }
 
           <div className='buttons_on_coupon'>
-            {localStorage.getItem('userRole') !== "Admin" && <><button onClick={handleClick}>Buy Now <BiPurchaseTag /></button>
-              <button>Add To Cart <TbShoppingCartPlus /></button></>}
+            {localStorage.getItem('userRole') !== "Admin" && <><button className='buy_now' onClick={handleBuyNowWhenNotLoggedInClick}>Buy Now <BiPurchaseTag /></button>
+              <button className='add_to_cart'>+ Add To Cart <TbShoppingCartPlus /></button></>}
             {localStorage.getItem('userRole') === "Admin" && <button className='delete_coupon_button' onClick={() => deleteCoupon(props.coupon.id)}>Delete<MdDeleteForever /></button>}
           </div>
 

@@ -1,6 +1,6 @@
-import { ICoupon } from "../model/ICoupon";
-import { ICustomer } from "../model/ICustomer";
-import { IUser } from "../model/IUser";
+import { ICoupon } from "../Model/ICoupon";
+import { ICustomer } from "../Model/ICustomer";
+import { IUser } from "../Model/IUser";
 
 export class AppState {
     public coupons:ICoupon[] = [];

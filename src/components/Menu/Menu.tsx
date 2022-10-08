@@ -2,9 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Dropdown, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
-import { ICoupon } from '../../model/ICoupon';
-import { ActionType } from '../../redux/action-type';
-import { AppState } from '../../redux/app-state'
+import { ICoupon } from '../../Model/ICoupon';
+import { ActionType } from '../../Redux/action-type';
+import { AppState } from '../../Redux/app-state'
 import './Menu.css'
 
 

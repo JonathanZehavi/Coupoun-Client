@@ -5,15 +5,15 @@ import { FaAngleUp, FaAngleDown } from 'react-icons/fa'
 import { useEffect } from 'react'
 
 export interface IProps {
-    quantity: number
+    amount: number
 }
 
 
 function Amount(props: IProps) {
     const [amount, setAmount] = useState(0)
     useEffect(() => {
-        if (props.quantity) {
-            setAmount(props.quantity)
+        if (props.amount) {
+            setAmount(props.amount)
         }
     }, [])
 

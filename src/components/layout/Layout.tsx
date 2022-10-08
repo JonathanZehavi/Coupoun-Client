@@ -1,11 +1,4 @@
-import React, { useState } from 'react';
-import { Modal } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { Route, useNavigate } from 'react-router-dom';
-import { AppState } from '../../redux/app-state';
-import Footer from '../footer/Footer';
-import Header from '../header/Header';
-import Coupons from '../main/Coupons';
+import Coupons from '../Main/Coupons';
 import Menu from '../Menu/Menu';
 import './Layout.css';
 

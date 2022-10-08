@@ -2,10 +2,9 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { IUser } from '../../model/IUser';
-import { ICustomer } from '../../model/ICustomer'
-import { ActionType } from '../../redux/action-type';
-import { AppState } from '../../redux/app-state';
+import { ICustomer } from '../../Model/ICustomer'
+import { ActionType } from '../../Redux/action-type';
+import { AppState } from '../../Redux/app-state';
 import "./Register.css";
 
 function Register() {
@@ -14,30 +13,30 @@ function Register() {
 
   let customer: ICustomer = useSelector((state: AppState) => state.customer)
 
-  async function createUser(user: IUser) {
-    axios.post("http://localhost:8080/users", user)
-      .then(response => {
-        let serverResponse = response.data
-        dispatch({ type: ActionType.createUser, payload: serverResponse })
-      })
-  }
-
+  
   async function createCustomer(customer: ICustomer) {
     axios.post("http://localhost:8080/customer", customer)
-      .then(response => {
-        let serverResponse = response.data
-        dispatch({ type: ActionType.createCustomer, payload: serverResponse })
-      })
+    .then(response => {
+      let serverResponse = response.data
+      dispatch({ type: ActionType.createCustomer, payload: serverResponse })
+    })
   }
-
+  
   async function isExistByUsername(username: ICustomer) {
     axios.get(`http://localhost:8080/users/isExistByUsername?username=${username}`)
-      .then(response => {
-        console.log(response.data);
-        return response.data
-      })
+    .then(response => {
+      console.log(response.data);
+      return response.data
+    })
   }
-
+  
+  // async function createUser(user: IUser) {
+  //   axios.post("http://localhost:8080/users", user)
+  //     .then(response => {
+  //       let serverResponse = response.data
+  //       dispatch({ type: ActionType.createUser, payload: serverResponse })
+  //     })
+  // }
   // let [newUser, setNewUser]: any = useState(
   //   {
   //     username: "",
@@ -203,6 +202,12 @@ function Register() {
             <label htmlFor="re-password">Re-Password*</label>
             <input value={newCustomer.rePassword} id='5' name='re-password' type="password" placeholder='Re-Password' onChange={onChange} />
             <p className='error'>{rePasswordError}</p>
+          </div>
+
+          <div className='details_register'>
+            <label htmlFor="address">Address*</label>
+            <input value={newCustomer.address} id='6' name='address' type="text" placeholder='Address' onChange={onChange} />
+            <p className='error'>{addressError}</p>
           </div>
 
           <div className='details_register'>

@@ -82,11 +82,19 @@
 }
 
 .buttons_on_coupon button {
-    max-width: 110px;
-    min-width: 110px;
+    min-width:140px;
     max-height: 50px;
     min-height: 30px;
     font-size: 13px;
+}
+
+.add_to_cart {
+    background-color: cornflowerblue;
+    color: white;
+}
+.buy_now {
+    background-color: #7AC74F;
+    color: white;
 }
 
 .delete_coupon_button {
@@ -96,6 +104,8 @@
     min-height: 30px;
     font-size: 15px;
     align-self: center;
+    background-color: red;
+    color: white;
 }
 
 .card_body {

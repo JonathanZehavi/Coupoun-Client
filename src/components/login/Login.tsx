@@ -1,12 +1,10 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import axios from 'axios';
 import "./Login.css";
-import { ConnectContext } from '../context/socket-container';
+import { ConnectContext } from '../Context/Socket-Container';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { ActionType } from '../../redux/action-type';
-import { IUser } from '../../model/IUser';
-import { AppState } from '../../redux/app-state';
+import { useDispatch } from 'react-redux';
+import { ActionType } from '../../Redux/action-type';
 import LoadingSpinner from './LoadingSpinner';
 
 
@@ -15,7 +13,7 @@ function Login() {
     let dispatch = useDispatch();
     let navigate = useNavigate();
 
-    let userState: IUser = useSelector((state: AppState) => state.user)
+    // let userState: IUser = useSelector((state: AppState) => state.user)
     
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -26,9 +24,8 @@ function Login() {
     });
     let username = user.username
     let password = user.password
-    let role = userState?.role
 
-    const [error, setError] = useState("")
+    const [error, setError] = useState<string>("")
 
     let connect = useContext(ConnectContext);
 
@@ -66,9 +63,7 @@ function Login() {
             setIsLoading(false)
             setError("Username or Password is incorrect")
         }
-
     }
-
 
     return (
         <div>

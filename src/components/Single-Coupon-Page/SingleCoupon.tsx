@@ -1,14 +1,12 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BiPurchaseTag } from 'react-icons/bi';
 import { TbShoppingCartPlus } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { ICoupon } from '../../model/ICoupon'
-import { IUser } from '../../model/IUser';
-import { ActionType } from '../../redux/action-type';
-import { AppState } from '../../redux/app-state';
-import Coupon from '../main/Coupon';
+import { IUser } from '../../Model/IUser';
+import { ActionType } from '../../Redux/action-type';
+import { AppState } from '../../Redux/app-state';
 import './SingleCoupon.css'
 
 
@@ -74,8 +72,8 @@ function SingleCoupon() {
         <p>Offer Expiration Date: {coupon.endDate[2]}/{coupon.endDate[1]}/{coupon.endDate[0]}</p>
         <p>Price: ${coupon.price}</p>
         <div className='buttons_on_coupon'>
-            <button onClick={handleBuyNowClick}>Buy Now <BiPurchaseTag /></button>
-          <button>Add To Cart <TbShoppingCartPlus /></button>
+            <button className='buy_now' onClick={handleBuyNowClick}>Buy Now <BiPurchaseTag /></button>
+          <button className='add_to_cart'>+ Add To Cart <TbShoppingCartPlus /></button>
         {user?.role === "Admin" && <button className='delete_coupon_button' onClick={() => deleteCoupon(coupon.id)}>Delete</button>}
         </div>
       </div>

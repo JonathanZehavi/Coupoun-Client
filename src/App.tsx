@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import "./App.css";
-import SocketContainer from './components/context/socket-container';
-import Footer from './components/footer/Footer';
-import Header from './components/header/Header';
-import Layout from './components/layout/Layout';
-import Login from './components/login/Login';
+import SocketContainer from './components/Context/Socket-Container';
+import Footer from './components/Footer/Footer';
+import Header from './components/Header/Header';
+import Layout from './components/Layout/Layout';
+import Login from './components/Login/Login';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import Register from './components/Register/Register';
-import Modal from './components/modal/Modal';
-import SingleCoupon from './components/single-coupon/SingleCoupon';
+import Modal from './components/Modal/Modal';
+import SingleCoupon from './components/Single-Coupon-Page/SingleCoupon';
 import { useSelector } from 'react-redux';
-import { AppState } from './redux/app-state';
+import { AppState } from './Redux/app-state';
+import Cart from './components/Cart/Cart';
 
 
 function App() {
@@ -43,6 +44,9 @@ function App() {
         </Route> */}
             <Route path='/coupon/:id'>
               <Route index element={<SingleCoupon />} />
+            </Route>
+            <Route path='/cart'>
+              <Route index element={<Cart />} />
             </Route>
           </Routes>
           {/* <Footer /> */}

@@ -1,4 +1,3 @@
-import React from 'react'
 import  {AiFillFacebook, AiFillGithub, AiFillInstagram, AiFillLinkedin} from 'react-icons/ai'
 import './Footer.css'
 

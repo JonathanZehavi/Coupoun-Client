@@ -1,9 +1,7 @@
-import axios from 'axios';
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom'
-import { ActionType } from '../../redux/action-type';
-import { AppState } from '../../redux/app-state';
+import { useNavigate } from 'react-router-dom'
+import { ActionType } from '../../Redux/action-type';
 import './Modal.css'
 
 

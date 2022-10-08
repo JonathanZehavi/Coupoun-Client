@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css'
-import { store } from './redux/store';
+import { store } from './Redux/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

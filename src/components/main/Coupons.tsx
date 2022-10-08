@@ -1,16 +1,10 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { Modal } from 'react-bootstrap';
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Pagination } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { ICoupon } from '../../model/ICoupon';
-import { IUser } from '../../model/IUser';
-import { ActionType } from '../../redux/action-type';
-import { AppState } from '../../redux/app-state';
-import { TbShoppingCartPlus } from 'react-icons/tb'
-import { BiPurchaseTag } from 'react-icons/bi'
+import { ICoupon } from '../../Model/ICoupon';
+import { ActionType } from '../../Redux/action-type';
+import { AppState } from '../../Redux/app-state';
 import ReactPaginate from 'react-paginate';
 import './Coupons.css'
 import Coupon from './Coupon';
@@ -24,7 +18,7 @@ function Coupons() {
 
   let coupons: ICoupon[] = useSelector((state: AppState) => state.coupons)
 
-  const [pageNumber, setPageNumber] = useState(0)
+  const [pageNumber, setPageNumber] = useState<number>(0)
 
   const couponsPerPage = 4
 
@@ -33,7 +27,6 @@ function Coupons() {
   const pageCount = Math.ceil(coupons.length / couponsPerPage)
 
   const displayCoupons = coupons.slice(pagesVisited, pagesVisited + couponsPerPage)
-
 
 
   async function getCoupons() {
@@ -75,7 +68,6 @@ function Coupons() {
     getCoupons()
     setItemsPerPage(pageNumber, couponsPerPage)
   }, [])
-
 
 
   return (

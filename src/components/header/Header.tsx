@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Navbar, Container, Nav } from 'react-bootstrap'
 import { AiOutlineLogin, AiOutlineLogout, AiOutlineShoppingCart } from 'react-icons/ai'
 import { SiGnuprivacyguard } from 'react-icons/si'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { IUser } from '../../model/IUser'
-import { ActionType } from '../../redux/action-type'
-import { AppState } from '../../redux/app-state'
+import { ActionType } from '../../Redux/action-type'
+import { AppState } from '../../Redux/app-state'
 import "./Header.css"
 
 function Header() {
@@ -37,7 +34,7 @@ function Header() {
     <nav className='nav'>
       <div className='navbar_links'>
         <a className="active" href="/">Coupons</a>
-        <a href="#about">Cart <AiOutlineShoppingCart /></a>
+        <a href="/cart">Cart <AiOutlineShoppingCart /></a>
       </div>
 
       <div className='right'>

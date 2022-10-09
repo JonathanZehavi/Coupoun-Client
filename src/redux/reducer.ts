@@ -60,6 +60,14 @@ export function reduce(state: AppState = initialValue, action: Action): AppState
 
         case ActionType.isLogedIn:
             newAppState.isLogedIn = action.payload;
+            break;
+
+        case ActionType.addItemToCart:
+            newAppState.cartItem = action.payload
+            break;
+        
+        case ActionType.isCanvasOpen:
+            newAppState.isCanvasOpen = action.payload
     }
 
     return newAppState

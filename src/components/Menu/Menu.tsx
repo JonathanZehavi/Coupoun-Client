@@ -76,7 +76,7 @@ export function Menu() {
           <Dropdown.Menu>     
             <Dropdown.Item onClick={handleCategoryPicked} name='All'>Show All</Dropdown.Item>
             {allCoupons.map((coupon: ICoupon) => {
-              return <Dropdown.Item onClick={handleCategoryPicked} name={coupon.category}>{coupon.category}</Dropdown.Item>
+              return <Dropdown.Item onClick={handleCategoryPicked} key={coupon.id} name={coupon.category}>{coupon.category}</Dropdown.Item>
             })}            
           </Dropdown.Menu>
         </Dropdown>

@@ -3,6 +3,8 @@ import { useState } from 'react'
 import './Amount.css'
 import { FaAngleUp, FaAngleDown } from 'react-icons/fa'
 import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { ActionType } from '../../Redux/action-type'
 
 export interface IProps {
     amount: number
@@ -10,7 +12,10 @@ export interface IProps {
 
 
 function Amount(props: IProps) {
+    let dispatch = useDispatch();
+
     const [amount, setAmount] = useState(0)
+  
     useEffect(() => {
         if (props.amount) {
             setAmount(props.amount)

@@ -3,13 +3,15 @@ import React, { useState } from 'react'
 import { BiPurchaseTag } from 'react-icons/bi'
 import { TbShoppingCartPlus } from 'react-icons/tb'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ICoupon } from '../../Model/ICoupon'
 import { MdDeleteForever } from 'react-icons/md'
 import { IUser } from '../../Model/IUser'
 import { ActionType } from '../../Redux/action-type'
 import { AppState } from '../../Redux/app-state'
 import Amount from '../Amount/Amount'
+import { useCart } from '../Context/Cart-Container'
+import { Button } from 'react-bootstrap'
 
 export interface IProps {
   coupon: ICoupon
@@ -17,10 +19,13 @@ export interface IProps {
 
 function Coupon(props: IProps) {
 
-  const [openModal, setOpenModal] = useState(true)
+  const { getAmountOfItems, increaseCartAmount, decreaseCartAmount, removeFromCart }: any = useCart()
+
+  const amountOfItems = getAmountOfItems(props.coupon.id)
 
 
   let dispatch = useDispatch()
+  let navigate = useNavigate()
 
   let user: IUser = useSelector((state: AppState) => state.user)
 
@@ -49,14 +54,6 @@ function Coupon(props: IProps) {
   }
 
 
-  let handleBuyNowWhenNotLoggedInClick = () => {
-    if (!localStorage.getItem("userRole")) {
-      setOpenModal(false)
-    }
-    dispatch({ type: ActionType.openModal, payload: openModal })
-  }
-
-
   return (
     <div>
 
@@ -80,16 +77,35 @@ function Coupon(props: IProps) {
             <p>Price: ${props.coupon.price}</p>
           </div>
           {localStorage.getItem('userRole') !== "Admin" && <>
-            <div className='amount'>
-              <Amount amount={0} />
-          </div>
+
           </>
           }
+          {/* <button className='buy_now' onClick={handleBuyNowWhenNotLoggedInClick}>Buy Now <BiPurchaseTag /></button>  */}
 
           <div className='buttons_on_coupon'>
-            {localStorage.getItem('userRole') !== "Admin" && <><button className='buy_now' onClick={handleBuyNowWhenNotLoggedInClick}>Buy Now <BiPurchaseTag /></button>
-              <button className='add_to_cart'>+ Add To Cart <TbShoppingCartPlus /></button></>}
-            {localStorage.getItem('userRole') === "Admin" && <button className='delete_coupon_button' onClick={() => deleteCoupon(props.coupon.id)}>Delete<MdDeleteForever /></button>}
+            {!localStorage.getItem('userRole') && (<Button onClick={() => navigate("/login")}>Log In</Button>)}
+
+            {localStorage.getItem('userRole') === "Customer" &&
+              <div className='mt-auto'>
+                {amountOfItems == 0 ? (
+                  <button onClick={() => increaseCartAmount(props.coupon.id)} className='add_to_cart'>+ Add To Cart <TbShoppingCartPlus />
+                  </button>
+                ) : <div className='d-flex align-items-center flex-column' style={{ gap: ".5rem" }}>
+                  <div className='d-flex align-items-center justify-content-center' style={{ gap: ".5rem" }}>
+                    <Button onClick={() => decreaseCartAmount(props.coupon.id)}>-</Button>
+                    <div>
+                        <span className='fs-3'>{amountOfItems}</span>
+                        &ensp;In Cart
+                    </div>
+                    <Button className='w-10' onClick={() => increaseCartAmount(props.coupon.id)}>+</Button>
+                  </div>
+                  <Button onClick={() => removeFromCart(props.coupon.id)} variant='danger'>Remove</Button>
+                </div>}
+
+              </div>
+            }
+            {localStorage.getItem('userRole') === "Admin" &&
+              <Button className='delete_coupon_button bg-dangarous' onClick={() => deleteCoupon(props.coupon.id)}>Delete<MdDeleteForever /></Button>}
           </div>
 
 

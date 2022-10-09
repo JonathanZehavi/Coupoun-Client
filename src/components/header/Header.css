@@ -36,4 +36,16 @@
     align-items: center;
 }
 
+.cart-button {
+    background: none;
+    border: none;
+    color: white;
+    
+}
+
+.logout-button{
+    background: none;
+    border: none;
+    color: white;
+}
 

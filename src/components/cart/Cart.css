@@ -17,3 +17,8 @@
     border-radius: 5px;
     color: white;
 }
+
+.cart_item {
+    display: flex;
+    margin: 10px;
+}

@@ -62,7 +62,7 @@ a:hover {
 }
 
 .buttons_on_coupon button {
-    min-width: 130px;
+    min-width: 45px;
     max-height: 50px;
     min-height: 30px;
     font-size: 13px;

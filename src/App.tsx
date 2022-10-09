@@ -13,45 +13,33 @@ import SingleCoupon from './components/Single-Coupon-Page/SingleCoupon';
 import { useSelector } from 'react-redux';
 import { AppState } from './Redux/app-state';
 import Cart from './components/Cart/Cart';
+import { CartProvider, useCart } from './components/Context/Cart-Container';
 
 
 function App() {
 
-  let openModal = useSelector((state: AppState) => state.openModal)
-  console.log(openModal);
+  const {isOpen}: any = useCart()
 
+  let openModal = useSelector((state: AppState) => state.openModal)
 
   return (
     <div className='app'>
       <SocketContainer>
+        <CartProvider>
         <BrowserRouter>
           {openModal && <Modal />}
         <Header />
-          {/* <Header /> */}
+          <Cart isOpen={isOpen}/>
           <Routes>
             <Route path='/' element={<Layout />} />
-            <Route path="/signup">
-              <Route index element={<Register />} />
-            </Route>
-            {/* <Route path='/registered-succesfuly'>
-          <Route index element={<SuccesfulRegistration />} />
-        </Route> */}
-            <Route path='/login'>
-              <Route index element={<Login />} />
-            </Route>
-            {/* <Route path='/login-succesfuly'>
-          <Route index element={<SuccesfulLogin />} />
-        </Route> */}
-            <Route path='/coupon/:id'>
-              <Route index element={<SingleCoupon />} />
-            </Route>
-            <Route path='/cart'>
-              <Route index element={<Cart />} />
-            </Route>
+            <Route path="/signup" element={<Register />}/>
+            <Route path='/login' element={<Login />} />
+            <Route path='/coupon/:id' element={<SingleCoupon />} />
+              <Route path='/cart' element={<Cart isOpen={isOpen} />} />
           </Routes>
-          {/* <Footer /> */}
         <Footer />
         </BrowserRouter>
+        </CartProvider>
       </SocketContainer>
     </div>
   );

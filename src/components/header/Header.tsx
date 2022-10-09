@@ -1,32 +1,19 @@
+
+import { useState } from 'react'
 import { AiOutlineLogin, AiOutlineLogout, AiOutlineShoppingCart } from 'react-icons/ai'
 import { SiGnuprivacyguard } from 'react-icons/si'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { ActionType } from '../../Redux/action-type'
-import { AppState } from '../../Redux/app-state'
+import { useCart } from '../Context/Cart-Container'
 import "./Header.css"
 
-function Header() {
-  let dispatch = useDispatch()
-  let navigate = useNavigate()
+function Header({ isLoggedIn }: any) {
 
-  let isLogedIn = useSelector((state:AppState) => state.isLogedIn)
-  console.log(isLogedIn);
-  
-
-  // const [isLogedIn, setIsLogedIn] = useState<boolean>(false)
+  const { openCart, cartAmount, logOut }: any = useCart()
 
 
   let onLogout = () => {
-    dispatch({ type: ActionType.isLogedIn, payload: false })
+    logOut()
     localStorage.clear();
   }
-
-// useEffect(() => {
-//   if (localStorage.getItem("userRole")){
-//     setIsLogedIn(true)
-//   }
-// }, [])
 
 
   return (
@@ -34,16 +21,33 @@ function Header() {
     <nav className='nav'>
       <div className='navbar_links'>
         <a className="active" href="/">Coupons</a>
-        <a href="/cart">Cart <AiOutlineShoppingCart /></a>
+        <button className='cart-button' >
+          <a onClick={openCart}> Cart <AiOutlineShoppingCart />
+          </a>
+          <div className="rounded-circle bg-danger d-flex justify-content-center align-items-center"
+            style={{
+              color: "white",
+              width: "1.5rem",
+              height: "1.5rem",
+              bottom: 0,
+              right: 0,
+              transform: "translate(25%, 25%)"
+            }}
+          >{cartAmount}</div>
+        </button>
       </div>
 
       <div className='right'>
 
-        {isLogedIn && <a href='/' onClick={onLogout}>Logout <AiOutlineLogout /></a>}
-        {!isLogedIn && <>
-          <a href="/login">Login <AiOutlineLogin /></a>
-          <a href="/signup">Sign Up <SiGnuprivacyguard /></a>
-        </>}
+        {localStorage.getItem('userRole') && <button className='logout-button' onClick={onLogout}>
+          <a href='/' onClick={logOut}>Logout <AiOutlineLogout /></a>
+        </button>}
+        {!localStorage.getItem('userRole') &&
+          <><a href="/login">Login <AiOutlineLogin /></a><a href="/signup">Sign Up <SiGnuprivacyguard />
+          </a></>
+
+        }
+
       </div>
 
     </nav>

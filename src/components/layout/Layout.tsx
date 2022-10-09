@@ -1,4 +1,4 @@
-import Coupons from '../Main/Coupons';
+import Coupons from '../Coupons/Coupons';
 import Menu from '../Menu/Menu';
 import './Layout.css';
 

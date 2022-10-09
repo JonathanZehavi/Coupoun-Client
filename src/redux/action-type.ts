@@ -13,4 +13,6 @@ export enum ActionType {
     getAllCustomers,
     getCouponsByCategory,
     isLogedIn,
+    addItemToCart,
+    isCanvasOpen
 }

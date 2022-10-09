@@ -6,12 +6,15 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { ActionType } from '../../Redux/action-type';
 import LoadingSpinner from './LoadingSpinner';
+import { useCart } from '../Context/Cart-Container';
 
 
 function Login() {
 
     let dispatch = useDispatch();
     let navigate = useNavigate();
+
+    const {logIn}:any = useCart()
 
     // let userState: IUser = useSelector((state: AppState) => state.user)
     
@@ -56,6 +59,7 @@ function Login() {
             localStorage.setItem('userRole', serverResponse.role)
             connect(token);
             setIsLoading(false)
+            logIn()
             dispatch({ type: ActionType.isLogedIn, payload: true })
             navigate('/');  
         }

@@ -18,9 +18,6 @@ function Coupons() {
 
   let coupons: ICoupon[] = useSelector((state: AppState) => state.coupons)
 
-  console.log(coupons);
-  
-
   const [pageNumber, setPageNumber] = useState<number>(0)
 
   const couponsPerPage = 4

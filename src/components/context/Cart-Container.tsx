@@ -1,7 +1,5 @@
 import React, { ReactNode, useContext, useState } from 'react'
-
 import Cart from '../Cart/Cart'
-import Header from '../Header/Header'
 import { useLocalStorage } from '../Hooks/useLocalStorage'
 
 type CartContext = {
@@ -34,10 +32,6 @@ export function CartProvider({ children }: CartProviderProps) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
-    console.log(isLoggedIn);
-    
-
-    
 
     const cartAmount = cartItems.reduce((amount, item) => item.amount + amount, 0)
 

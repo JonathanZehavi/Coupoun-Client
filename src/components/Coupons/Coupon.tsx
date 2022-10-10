@@ -1,5 +1,4 @@
 import axios from 'axios'
-import React, { useState } from 'react'
 import { BiPurchaseTag } from 'react-icons/bi'
 import { TbShoppingCartPlus } from 'react-icons/tb'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,7 +8,6 @@ import { MdDeleteForever } from 'react-icons/md'
 import { IUser } from '../../Model/IUser'
 import { ActionType } from '../../Redux/action-type'
 import { AppState } from '../../Redux/app-state'
-import Amount from '../Amount/Amount'
 import { useCart } from '../Context/Cart-Container'
 import { Button } from 'react-bootstrap'
 

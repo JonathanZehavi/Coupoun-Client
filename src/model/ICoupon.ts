@@ -5,10 +5,11 @@ export interface ICoupon {
     id: number;
     title: string;
     description: string;
-    startDate: [year:number, month:number, day:number];
-    endDate: [year: number, month: number, day: number];
+    startDate: string;
+    endDate: string;
     amount: number;
     price: number;
     image: string;
     category: string;
+    companyId: number;
 }

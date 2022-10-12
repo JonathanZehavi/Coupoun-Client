@@ -1,26 +1,11 @@
 .aside_content {
         display: flex;
         flex-direction: column;
-        justify-content: space-evenly;
-        border: 2px solid;
-        border-radius: 10px;
+        height: inherit;
         margin: 2rem 1rem;
         padding: 1rem;
-        background-color: rgb(154, 154, 151, 0.5);
-        flex-basis: 15%;
-        min-height: 70vh;
-        max-height: 100vh;
         position: sticky;
         top: 0;
-        min-width: 220px;
-
-}
-
-.sorting_area {
-        display: inline-flex;
-        flex-direction: column;
-
-        
-  
+        justify-content: space-evenly;
 
 }

@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { AppState } from './Redux/app-state';
 import Cart from './components/Cart/Cart';
 import { CartProvider, useCart } from './components/Context/Cart-Container';
+import CreateCouponModal from './components/Modal/CreateCouponModal';
 
 
 function App() {
@@ -24,10 +25,11 @@ function App() {
 
   return (
     <div className='app'>
-      <SocketContainer>
+      {/* <SocketContainer> */}
         <CartProvider>
         <BrowserRouter>
-          {openModal && <Modal />}
+          {/* {openModal && <Modal />} */}
+            {openModal && <CreateCouponModal />}
         <Header />
           <Cart isOpen={isOpen}/>
           <Routes>
@@ -40,7 +42,7 @@ function App() {
         <Footer />
         </BrowserRouter>
         </CartProvider>
-      </SocketContainer>
+  {/* </SocketContainer> */}
     </div>
   );
 }

@@ -13,23 +13,23 @@ function Register() {
 
   let customer: ICustomer = useSelector((state: AppState) => state.customer)
 
-  
+
   async function createCustomer(customer: ICustomer) {
-    axios.post("http://localhost:8080/customer", customer)
-    .then(response => {
-      let serverResponse = response.data
-      dispatch({ type: ActionType.createCustomer, payload: serverResponse })
-    })
+    axios.post("http://localhost:8080/customers", customer)
+      .then(response => {
+        let serverResponse = response.data
+        dispatch({ type: ActionType.createCustomer, payload: serverResponse })
+      }) // ! error
   }
-  
+
   async function isExistByUsername(username: ICustomer) {
     axios.get(`http://localhost:8080/users/isExistByUsername?username=${username}`)
-    .then(response => {
-      console.log(response.data);
-      return response.data
-    })
+      .then(response => {
+        console.log(response.data);
+        return response.data
+      }) // ! error
   }
-  
+
   // async function createUser(user: IUser) {
   //   axios.post("http://localhost:8080/users", user)
   //     .then(response => {
@@ -75,7 +75,6 @@ function Register() {
 
   let onChange = ((e: any) => {
 
-    setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value })
 
     if (e.target.name === "firstname") {
       setFirstnameError("")
@@ -101,6 +100,9 @@ function Register() {
     if (e.target.name === "birthday") {
       setBirthdateError("")
     }
+
+    setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value })
+  
   })
 
   const sendForm = (e: any) => {

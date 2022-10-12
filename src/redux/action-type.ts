@@ -1,7 +1,6 @@
 export enum ActionType {
     getAllCoupons,
     getCouponsByPage,
-    getAllUsers,
     login,
     getTheLoggedinUser,
     deleteCoupon,
@@ -14,5 +13,6 @@ export enum ActionType {
     getCouponsByCategory,
     isLogedIn,
     addItemToCart,
-    isCanvasOpen
+    getCompanyById
+
 }

@@ -4,6 +4,7 @@ export interface IUser {
     password: string;
     firstname: string;
     lastname: string;
+    companyId?: number;
     role: string;
 }
 

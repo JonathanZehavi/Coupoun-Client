@@ -8,23 +8,29 @@ import { AppState } from '../../Redux/app-state';
 import ReactPaginate from 'react-paginate';
 import './Coupons.css'
 import Coupon from './Coupon';
+import { ICompany } from '../../Model/ICompany';
+import { IUser } from '../../Model/IUser';
+import CreateCouponModal from '../Modal/CreateCouponModal';
 
 
 
 function Coupons() {
 
-
   let dispatch = useDispatch();
 
   let coupons: ICoupon[] = useSelector((state: AppState) => state.coupons)
 
+  let companyId = JSON.parse(localStorage.getItem("companyId"))
+  
+  coupons = localStorage.getItem("userRole") === "Company" ?  coupons.filter((coupon => coupon.companyId === companyId)) : coupons;
+    
   const [pageNumber, setPageNumber] = useState<number>(0)
 
-  const couponsPerPage = 4
+  const couponsPerPage = 3
 
   const pagesVisited = pageNumber * couponsPerPage
 
-  const pageCount = Math.ceil(coupons.length / couponsPerPage)
+  let pageCount = Math.ceil(coupons.length / couponsPerPage)
 
   const displayCoupons = coupons.slice(pagesVisited, pagesVisited + couponsPerPage)
 
@@ -50,33 +56,29 @@ function Coupons() {
       .catch(error => alert(error.message));
   }
 
-  async function deleteCoupon(id: number) {
-    axios.delete(`http://localhost:8080/coupons/${id}`)
-      .then(response => {
-        dispatch({ type: ActionType.getAllCoupons, payload: id })
-      }
-      )
-      .catch(error => alert(error.message));
-  }
-
 
   let changePage = ({ selected }: any) => {
     setPageNumber(selected)
   }
 
   useEffect(() => {
+    localStorage.removeItem("EditMode")
     getCoupons()
     setItemsPerPage(pageNumber, couponsPerPage)
   }, [])
+
+  
 
 
   return (
     <div>
       <div className='main_conatainer'>
         <div className='coupons_container'>
+          <>
           {displayCoupons.map((coupon: ICoupon) => {
             return <Coupon key={coupon.id} coupon={coupon} />
           })}
+          </>
         </div>
       </div>
       <div className='pages_container'>

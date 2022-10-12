@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Dropdown, Form } from 'react-bootstrap';
+import { Button, Dropdown, Form } from 'react-bootstrap';
+import { TbCirclePlus } from 'react-icons/tb'
 import { useDispatch, useSelector } from 'react-redux'
 import { ICoupon } from '../../Model/ICoupon';
 import { ActionType } from '../../Redux/action-type';
@@ -14,6 +15,10 @@ export function Menu() {
   let dispatch = useDispatch()
 
   let allCoupons: ICoupon[] = useSelector((state: AppState) => state.couponsByCategory)
+
+  let categories = new Set(allCoupons.map(coupon => coupon.category))
+
+  let allCategories = Array.from(categories)
 
   async function getCoupons() {
     axios.get("http://localhost:8080/coupons")
@@ -48,15 +53,17 @@ export function Menu() {
   }
 
   let handleCategoryPicked = ((e: any) => {
-    if (e.target.name === "All"){
-        window.location.reload();
+    if (e.target.name === "All") {
+      window.location.reload()
+    } else {
+      getCouponsByCategory(e.target.name);
     }
-    getCouponsByCategory(e.target.name);
   })
 
-  useEffect(() => {
-    getCoupons()
-  }, [])
+  let handleOpenModal = () => {
+    dispatch({ type: ActionType.openModal, payload: true })
+  }
+
 
   let handleChange = (e: any) => {
     if (e.target.checked) {
@@ -64,30 +71,45 @@ export function Menu() {
     }
   }
 
+  useEffect(() => {
+    getCoupons()
+  }, [])
+
+
+
   return (
     <div className='aside_content'>
       <>
-      <div>
-        <h5>Pick coupons from a specific category:</h5>
-        <Dropdown>
-          <Dropdown.Toggle style={{ backgroundColor: "gray" }}>
-            Category
-          </Dropdown.Toggle>
-          <Dropdown.Menu>     
-            <Dropdown.Item onClick={handleCategoryPicked} name='All'>Show All</Dropdown.Item>
-            {allCoupons.map((coupon: ICoupon) => {
-              return <Dropdown.Item onClick={handleCategoryPicked} key={coupon.id} name={coupon.category}>{coupon.category}</Dropdown.Item>
-            })}            
-          </Dropdown.Menu>
-        </Dropdown>
-      </div>
-      <Form onChange={handleChange}>
-        <Form.Check id='title' label='Sort By Title' name='sorting-parameter' type="radio" />
-        <Form.Check id='endDate' label='Sort By Expiration Date' name='sorting-parameter' type="radio" />
-        <Form.Check id='category' label='Sort By Category' name='sorting-parameter' type="radio" />
-        <Form.Check id='priceHighToLow' label='Sort By Price High To Low' name='sorting-parameter' type="radio" />
-        <Form.Check id='priceLowToHigh' label='Sort By Price Low To High' name='sorting-parameter' type="radio" />
-      </Form>
+        <div>
+          <h5>Pick coupons from a specific category:</h5>
+          <Dropdown>
+            <Dropdown.Toggle style={{ backgroundColor: "gray" }}>
+              Category
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={handleCategoryPicked} name='All'>Show All</Dropdown.Item>
+              {allCategories.map((category: string, index) => {
+                return <Dropdown.Item onClick={handleCategoryPicked} key={index} name={category}>{category}</Dropdown.Item>
+              })}
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+        <div>
+
+          <Form onChange={handleChange}>
+            <Form.Check id='title' label='Sort By Title' name='sorting-parameter' type="radio" />
+            <Form.Check id='endDate' label='Sort By Expiration Date' name='sorting-parameter' type="radio" />
+            <Form.Check id='category' label='Sort By Category' name='sorting-parameter' type="radio" />
+            <Form.Check id='priceHighToLow' label='Sort By Price High To Low' name='sorting-parameter' type="radio" />
+            <Form.Check id='priceLowToHigh' label='Sort By Price Low To High' name='sorting-parameter' type="radio" />
+          </Form>
+
+        </div>
+        <div>
+          {(localStorage.getItem("userRole") === "Admin" || localStorage.getItem("userRole") === "Company") &&
+            <Button onClick={handleOpenModal} className='bg-success' style={{ fontSize: "11px" }}><TbCirclePlus style={{ fontSize: "15px" }} /> Create New Coupon </Button>
+          }
+        </div>
       </>
     </div>
   )

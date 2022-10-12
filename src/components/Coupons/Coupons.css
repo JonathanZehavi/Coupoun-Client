@@ -1,11 +1,11 @@
 .main_conatainer {
     display: flex;
     flex-direction: column;
-    min-height: 80vh;
     min-width: 500px;
     justify-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    height: 75vh;
 }
 
 .coupons_container {
@@ -13,6 +13,7 @@
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
+
 }
 
 
@@ -38,7 +39,9 @@
     display: flex;
     justify-content: center;
     position: relative;
+    height: 50px;
 }
+
 .amount {
     display: flex;
     justify-content: center;
@@ -50,14 +53,14 @@
     flex-direction: column;
     align-self: center;
     margin: 10px;
-    min-height: 499px;
+    min-height: 437px;
     max-height: fit-content;
     background-color: #fff;
-    border-radius: 10px;
+    border-radius: 27px;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     line-break: auto;
-    width: 380px;
+    width: 314px;
 }
 
 .coupon_card img {
@@ -69,48 +72,61 @@
 .buttons_on_coupon button:hover {
     background-color: #cccccc;
 }
+
 .buttons_on_coupon button {
     border-radius: 5px;
 }
 
-.buttons_on_coupon {
+.buttons-on-coupons {
+    height: 80px;
+}
+
+.mt-auto {
+    min-height: 80px;
+}
+
+.coupons-title {
     display: flex;
     justify-content: center;
-    align-self: center;
-    gap: 10px;
-    margin-left: 10px;
+    align-items: center;
+    width: 100%;
 }
 
-.buttons_on_coupon button {
-    min-width:140px;
-    max-height: 50px;
-    min-height: 30px;
-    font-size: 13px;
+.coupons-description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
 }
 
-.add_to_cart {
-    background-color: cornflowerblue;
-    color: white;
+.price-tag {
+    width: 100%;
+    justify-self: center;
+    font-size: 20px;
+    font-weight: bold;
 }
+
 .buy_now {
     background-color: #7AC74F;
     color: white;
 }
 
 .delete_coupon_button {
-    max-width: 110px;
-    min-width: 110px;
-    max-height: 50px;
-    min-height: 30px;
-    font-size: 15px;
-    align-self: center;
-    background-color: red;
-    color: white;
+    width: 100px;
+    margin-right: 10px;
 }
+
+.edit_coupon_button {
+    
+    width: 100px;
+}
+
 
 .card_body {
     display: flex;
     flex-direction: column;
+    min-height: 146px;
     justify-content: space-between;
     align-items: flex-start;
     color: black;
@@ -118,6 +134,7 @@
     text-decoration: none;
     margin: 20px;
 }
+
 a {
     color: black;
 }

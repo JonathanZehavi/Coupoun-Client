@@ -8,4 +8,6 @@
     /* backdrop-filter: blur(50px); */
     z-index: 998;
     padding: 0 2%;
+    background-color: #333;
+    height: 6.3vh;
 }

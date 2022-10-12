@@ -1,0 +1,75 @@
+.create-coupon-modal-background {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background-color: rgba(200, 200, 200, 0.9);
+    /* opacity: .93; */
+    inset: 0;
+    display: flex;
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-create-coupon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+    width: 400px;
+    gap: 5px;
+}
+
+.create-coupon-modal-title {
+    font-weight: bolder;
+    height: 30px;
+}
+
+.create-coupon-modal-conatainer {
+    isolation: isolate;
+    width: 600px;
+    height: 694px;
+    border-radius: 12px;
+    background-color: rgb(195, 192, 192);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    z-index: 2;
+    position: absolute;
+    flex-direction: column;
+    padding: 25px;
+
+}
+
+.close-modal-button {
+    display: flex;
+    justify-content: flex-end;
+}
+.form-create-coupon-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+}
+
+
+.details-of-coupons {
+    display: flex;
+    flex-direction: column;
+    height: 55px;
+    width: 350px;
+
+    font-weight: bold;
+}
+
+.details-of-coupons input {
+    border-radius: 5px;
+
+}
+
+.error {
+    color: red;
+    margin: 0;
+    height: 15px;
+}

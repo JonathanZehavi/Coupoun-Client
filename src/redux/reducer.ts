@@ -22,9 +22,6 @@ export function reduce(state: AppState = initialValue, action: Action): AppState
             newAppState.couponsByPage = action.payload
             break;
 
-        case ActionType.getAllUsers:
-            newAppState.users = action.payload           
-            break;
         
         case ActionType.login:
             newAppState.user = action.payload
@@ -66,8 +63,8 @@ export function reduce(state: AppState = initialValue, action: Action): AppState
             newAppState.cartItem = action.payload
             break;
         
-        case ActionType.isCanvasOpen:
-            newAppState.isCanvasOpen = action.payload
+        case ActionType.getCompanyById:
+            newAppState.company = action.payload
     }
 
     return newAppState

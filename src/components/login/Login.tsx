@@ -53,11 +53,12 @@ function Login() {
             const response = await axios.post("http://localhost:8080/users/login", { username, password });
             const serverResponse = response.data;
             dispatch({ type: ActionType.login, payload: serverResponse })
+            localStorage.setItem("companyId", JSON.stringify(serverResponse.companyId))      
             let token = 'Bearer ' + serverResponse.token;
             axios.defaults.headers.common['Authorization'] = token;
             localStorage.setItem('token', token);
             localStorage.setItem('userRole', serverResponse.role)
-            connect(token);
+            // connect(token);
             setIsLoading(false)
             logIn()
             dispatch({ type: ActionType.isLogedIn, payload: true })

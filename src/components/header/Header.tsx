@@ -14,6 +14,7 @@ function Header() {
   
   let onLogout = () => {
     setIsLoggedIn(false)  
+    
     localStorage.clear()
   }
 

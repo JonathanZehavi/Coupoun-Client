@@ -1,35 +1,55 @@
-import React, { ReactNode, useContext, useState } from 'react'
+import React, { Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from 'react'
 import Cart from '../Cart/Cart'
 import { useLocalStorage } from '../Hooks/useLocalStorage'
+
+
+type CartProviderProps = {
+    children: ReactNode
+}
+
+export type CartItems = {
+    id: number;
+    amount: number;
+}
 
 type CartContext = {
     getAmountOfItems: (id: number) => number
     increaseCartAmount: (id: number) => void
     decreaseCartAmount: (id: number) => void
     removeFromCart: (id: number) => void
+    cartItems: CartItems[]
+    cartAmount: number
+    setCartItems: Dispatch<SetStateAction<CartItems[]>>
+    openCart: () => void
+    closeCart: () => void
+    logIn: () => void
+    logOut: () => void
+    isLoggedIn: boolean
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
 
 }
-
-export const CartContext = React.createContext({});
 
 export function useCart() {
     return useContext(CartContext)
 }
 
-type CartProviderProps = {
-    children: ReactNode
-}
 
-export type CartItem = {
-    id: number;
-    amount: number;
-}
+export const CartContext = React.createContext({} as CartContext);
+
 
 export function CartProvider({ children }: CartProviderProps) {
 
-    const [cartItems, setCartItems] = useLocalStorage<CartItem[]>("shopping-cart", [])
+    const [cartItems, setCartItems] = useLocalStorage<CartItems[]>("shopping-cart", [])
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    const chesckIsLoggedIn = () => {
+        if (localStorage.getItem("isLoggedIn")) {
+            setIsLoggedIn(true)
+        } else {
+            setIsLoggedIn(false)
+        }
+    }
 
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
 
@@ -79,6 +99,11 @@ export function CartProvider({ children }: CartProviderProps) {
         })
     }
 
+    useEffect(() => {
+        chesckIsLoggedIn()
+    }, [])
+    
+
     return (
         <CartContext.Provider
             value={{
@@ -89,9 +114,12 @@ export function CartProvider({ children }: CartProviderProps) {
                 openCart,
                 closeCart,
                 cartItems,
+                setCartItems,
                 cartAmount,
                 logIn,
-                logOut
+                logOut,
+                isLoggedIn,
+                setIsLoggedIn
             }}>
             {children}
             <Cart isOpen={isOpen} />

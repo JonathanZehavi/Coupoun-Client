@@ -1,0 +1,28 @@
+.my-info-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 87vh;
+}
+
+.card-my-info {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    width: 40rem;
+    height: max-content;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.button-edit-info-container {
+    display: flex;
+    width: 95%;
+    margin: 10px;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px;
+
+}
+
+.card-my-info-title {
+    font-size: 30px;
+}

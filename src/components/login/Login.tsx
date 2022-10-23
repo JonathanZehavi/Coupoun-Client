@@ -3,21 +3,16 @@ import axios from 'axios';
 import "./Login.css";
 import { ConnectContext } from '../Context/Socket-Container';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { ActionType } from '../../Redux/action-type';
 import LoadingSpinner from './LoadingSpinner';
-import { useCart } from '../Context/Cart-Container';
-
+import { useCart } from '../Context/Cart-Context';
+import { Button } from 'react-bootstrap';
 
 function Login() {
 
-    let dispatch = useDispatch();
+    const { logIn } = useCart()
+
     let navigate = useNavigate();
 
-    const {logIn}:any = useCart()
-
-    // let userState: IUser = useSelector((state: AppState) => state.user)
-    
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const [user, setUser] = useState({
@@ -48,21 +43,22 @@ function Login() {
 
     const onLoginClicked = async (e: any) => {
         e.preventDefault();
+
         setIsLoading(true)
         try {
             const response = await axios.post("http://localhost:8080/users/login", { username, password });
             const serverResponse = response.data;
-            dispatch({ type: ActionType.login, payload: serverResponse })
-            localStorage.setItem("companyId", JSON.stringify(serverResponse.companyId))      
             let token = 'Bearer ' + serverResponse.token;
             axios.defaults.headers.common['Authorization'] = token;
+            localStorage.setItem("companyId", JSON.stringify(serverResponse.companyId))
             localStorage.setItem('token', token);
             localStorage.setItem('userRole', serverResponse.role)
+            localStorage.setItem('isLoggedIn', 'true')
+            localStorage.setItem('userId', serverResponse.id)
+            logIn()
             // connect(token);
             setIsLoading(false)
-            logIn()
-            dispatch({ type: ActionType.isLogedIn, payload: true })
-            navigate('/');  
+            navigate('/');
         }
         catch (error: any) {
             setIsLoading(false)
@@ -79,8 +75,8 @@ function Login() {
                     </div>
                     <form className='form' onSubmit={onLoginClicked}>
                         <div className='details'>
-                            <label aria-required={true} htmlFor="email">Email*</label>
-                            <input id='1' name='username' required={true} type="email" placeholder='Email' onChange={onChange} />
+                            <label htmlFor="email">Email*</label>
+                            <input id='1' name='username' type="email" placeholder='Email' onChange={onChange} />
                         </div>
                         <div className='details'>
                             <label htmlFor="password">Password*</label>
@@ -90,7 +86,7 @@ function Login() {
                             <span className='error'>{error}</span>
                         </div>
                         <div className='submit_button_container'>
-                            <button className='submit_login' type='submit' disabled={isLoading}>Log In</button>
+                            <Button className='button_login' style={{ fontSize: '18px', width: '120px' }} type='submit' disabled={isLoading}>Log In</Button>
                         </div>
                         <div className='loading_spinner'>
                             {isLoading && <LoadingSpinner />}

@@ -1,14 +1,13 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
-import { BiPurchaseTag } from 'react-icons/bi';
 import { MdDeleteForever, MdEditNote } from 'react-icons/md';
 import { TbShoppingCartPlus } from 'react-icons/tb';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ICoupon } from '../../Model/ICoupon';
 import { ActionType } from '../../Redux/action-type';
-import { useCart } from '../Context/Cart-Container';
+import { useCart } from '../Context/Cart-Context';
 import './SingleCoupon.css'
 
 
@@ -24,8 +23,9 @@ function SingleCoupon() {
     axios.delete(`http://localhost:8080/coupons/${id}`)
       .then(response => {
         dispatch({ type: ActionType.getAllCoupons, payload: id })
+        localStorage.removeItem("EditMode")
       }
-      )
+    )
       .catch(error => alert(error.message));
   }
 
@@ -154,23 +154,29 @@ function SingleCoupon() {
     }
 
     if (isValid) {
-      updateCoupon(coupon.id, coupon)
-      localStorage.removeItem("EditMode")
-      navigate(`/coupon/${coupon.id}`)
+      updateCoupon(coupon.id, coupon) 
+      localStorage.removeItem("EditMode")  
+      window.location.reload()        
     }
   }
 
-  const [editMode, SetEditMode] = useState<string | undefined>(undefined)
+  const [editMode, setEditMode] = useState<boolean>(false)
+  const [editModeFromMainPage, setEditModeFromMainPage] = useState<string | undefined | void>(undefined)
+
+  let handleCancelEditClick = () => {
+    setEditMode(false)
+    setEditModeFromMainPage(localStorage.removeItem("EditMode"))
+  }
 
   useEffect(() => {
-    SetEditMode(localStorage.getItem("EditMode"))
+    setEditModeFromMainPage(localStorage.getItem("EditMode"))
     fetch(`http://localhost:8080/coupons/${id}`).then(data => data.json()).then(setCoupon);
   }, [])
 
 
   return (
     <div className='single-coupon-page-container'>
-      {editMode ?
+      {(editMode || editModeFromMainPage) ?
         <>
           <div className='single-coupon-card'>
             <div className='single-coupon-card-header'>
@@ -218,7 +224,8 @@ function SingleCoupon() {
                 <p className='error'>{imageError}</p>
               </div>
               <div className='submit-changes-container'>
-                <Button className="sumbit-edit bg-success" style={{ fontSize: "10px" }} onClick={handleSubmitChangesClick}>Submit Changes</Button>
+                <Button className="sumbit-edit bg-success" style={{ border: 'none' }} onClick={handleSubmitChangesClick}>Submit Changes</Button>
+                <Button className='cancel-changes-info bg-danger' style={{ border: 'none' }} onClick={handleCancelEditClick}>Cancel Changes</Button>
               </div>
             </div>
           </div>
@@ -235,11 +242,11 @@ function SingleCoupon() {
             <p>Offer Expiration Date: {coupon.endDate[2]}/{coupon.endDate[1]}/{coupon.endDate[0]}</p>
             <p>Price: ${coupon.price}</p>
             <div className='buttons-on-single-coupon'>
-              {!localStorage.getItem('userRole') && (<Button onClick={() => navigate("/login")}>Log In</Button>)}
+              {!localStorage.getItem('userRole') && (<Button onClick={() => navigate("/login")}>Log In to order</Button>)}
               {localStorage.getItem('userRole') === "Customer" &&
-                <div className='mt-auto'>
+                <div>
                   {amountOfItems === 0 ? (
-                    <Button onClick={() => increaseCartAmount(coupon.id)} className='add-to-cart'>+ Add To Cart <TbShoppingCartPlus />
+                    <Button onClick={() => increaseCartAmount(coupon.id)} className='add-to-cart bg-success'>+ Add To Cart <TbShoppingCartPlus />
                     </Button>
                   ) : <div className='d-flex align-items-center flex-column' style={{ gap: ".5rem" }}>
                     <div className='d-flex align-items-center justify-content-center' style={{ gap: ".5rem" }}>
@@ -255,8 +262,8 @@ function SingleCoupon() {
                 </div>
               }
               {(localStorage.getItem('userRole') === "Admin" || localStorage.getItem('userRole') === "Company") &&
-                <><Button className='delete_coupon_button' style={{ fontSize: "10px" }} onClick={() => deleteCoupon(coupon.id)}>Delete<MdDeleteForever /></Button>
-                  <Button className='edit_coupon_button' style={{ fontSize: "10px" }} onClick={() => SetEditMode("true")} >Edit<MdEditNote /></Button></>}
+                <><Button className='delete_coupon_button_on_single_coupon bg-danger' style={{ fontSize: "10px", width: "100px", border: "none" }} onClick={() => deleteCoupon(coupon.id)}>Delete<MdDeleteForever /></Button>
+                <Button className='edit_coupon_button_on_single_coupon bg-warning' style={{ fontSize: "10px", width: "100px", border: "none" }} onClick={() => setEditMode(true)} >Edit<MdEditNote /></Button></>}
             </div>
           </div>
         </div>}

@@ -26,7 +26,14 @@
     height: 30px;
 }
 
+.animate__animated.animate__bounce {
+    --animate-duration: 0.2s;
+    
+}
+
 .create-coupon-modal-conatainer {
+    display: inline-block;
+    margin: 0 0.5rem;
     isolation: isolate;
     width: 600px;
     height: 694px;
@@ -45,6 +52,7 @@
     display: flex;
     justify-content: flex-end;
 }
+
 .form-create-coupon-container {
     display: flex;
     flex-direction: column;
@@ -72,4 +80,8 @@
     color: red;
     margin: 0;
     height: 15px;
+}
+
+.button-submit-coupon {
+    height: 40px;
 }

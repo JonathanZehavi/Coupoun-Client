@@ -1,8 +1,9 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { Button, Dropdown, Form } from 'react-bootstrap';
+import { useEffect } from 'react'
+import { Button, Dropdown } from 'react-bootstrap';
 import { TbCirclePlus } from 'react-icons/tb'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
 import { ICoupon } from '../../Model/ICoupon';
 import { ActionType } from '../../Redux/action-type';
 import { AppState } from '../../Redux/app-state'
@@ -13,6 +14,7 @@ import './Menu.css'
 export function Menu() {
 
   let dispatch = useDispatch()
+  let navigate = useNavigate()
 
   let allCoupons: ICoupon[] = useSelector((state: AppState) => state.couponsByCategory)
 
@@ -54,7 +56,7 @@ export function Menu() {
 
   let handleCategoryPicked = ((e: any) => {
     if (e.target.name === "All") {
-      window.location.reload()
+      sortBy("title")
     } else {
       getCouponsByCategory(e.target.name);
     }
@@ -66,9 +68,8 @@ export function Menu() {
 
 
   let handleChange = (e: any) => {
-    if (e.target.checked) {
-      sortBy(e.target.id).then((data: any) => data.json()).then(console.log);
-    }
+    console.log(e);
+    sortBy(e).then((data: any) => data.json());
   }
 
   useEffect(() => {
@@ -81,12 +82,11 @@ export function Menu() {
     <div className='aside_content'>
       <>
         <div>
-          <h5>Pick coupons from a specific category:</h5>
           <Dropdown>
-            <Dropdown.Toggle style={{ backgroundColor: "gray" }}>
-              Category
+            <Dropdown.Toggle style={{ backgroundColor: "#333", width: "200px", fontSize: "16px", border: "none" }}>
+              Categories
             </Dropdown.Toggle>
-            <Dropdown.Menu>
+            <Dropdown.Menu style={{ width: "200px" }}>
               <Dropdown.Item onClick={handleCategoryPicked} name='All'>Show All</Dropdown.Item>
               {allCategories.map((category: string, index) => {
                 return <Dropdown.Item onClick={handleCategoryPicked} key={index} name={category}>{category}</Dropdown.Item>
@@ -96,18 +96,22 @@ export function Menu() {
         </div>
         <div>
 
-          <Form onChange={handleChange}>
-            <Form.Check id='title' label='Sort By Title' name='sorting-parameter' type="radio" />
-            <Form.Check id='endDate' label='Sort By Expiration Date' name='sorting-parameter' type="radio" />
-            <Form.Check id='category' label='Sort By Category' name='sorting-parameter' type="radio" />
-            <Form.Check id='priceHighToLow' label='Sort By Price High To Low' name='sorting-parameter' type="radio" />
-            <Form.Check id='priceLowToHigh' label='Sort By Price Low To High' name='sorting-parameter' type="radio" />
-          </Form>
+          <Dropdown onSelect={handleChange} >
+            <Dropdown.Toggle style={{ backgroundColor: "#333", width: "200px", fontSize: "16px", border: "none" }}>
+              Sort Items
+            </Dropdown.Toggle>
+            <Dropdown.Menu style={{ width: "200px", border: "none" }}>
+              <Dropdown.Item eventKey={"title"} id='title' name='sorting-parameter'>Ttile</Dropdown.Item>
+              <Dropdown.Item eventKey={"endDate"} id='endDate' name='sorting-parameter'>Expiration Date</Dropdown.Item>
+              <Dropdown.Item eventKey={"category"} id='category' name='sorting-parameter' type="radio">Category</Dropdown.Item>
+              <Dropdown.Item eventKey={"price"} id='price' name='sorting-parameter'>Price Low To High</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
 
         </div>
-        <div>
+        <div className='add-coupon-button'>
           {(localStorage.getItem("userRole") === "Admin" || localStorage.getItem("userRole") === "Company") &&
-            <Button onClick={handleOpenModal} className='bg-success' style={{ fontSize: "11px" }}><TbCirclePlus style={{ fontSize: "15px" }} /> Create New Coupon </Button>
+            <Button onClick={handleOpenModal} className='bg-success' style={{ fontSize: "13px", border: "none" }}><TbCirclePlus style={{ fontSize: "15px" }} /> Create New Coupon </Button>
           }
         </div>
       </>

@@ -8,25 +8,25 @@ import { AppState } from '../../Redux/app-state';
 import ReactPaginate from 'react-paginate';
 import './Coupons.css'
 import Coupon from './Coupon';
-import { ICompany } from '../../Model/ICompany';
-import { IUser } from '../../Model/IUser';
-import CreateCouponModal from '../Modal/CreateCouponModal';
-
+import { useCart } from '../Context/Cart-Context';
+import Menu from '../Menu/Menu';
 
 
 function Coupons() {
+
+  const {isLoggedIn} = useCart()
 
   let dispatch = useDispatch();
 
   let coupons: ICoupon[] = useSelector((state: AppState) => state.coupons)
 
   let companyId = JSON.parse(localStorage.getItem("companyId"))
-  
-  coupons = localStorage.getItem("userRole") === "Company" ?  coupons.filter((coupon => coupon.companyId === companyId)) : coupons;
-    
+
+  coupons = localStorage.getItem("userRole") === "Company" ? coupons.filter((coupon => coupon.companyId === companyId)) : coupons;
+
   const [pageNumber, setPageNumber] = useState<number>(0)
 
-  const couponsPerPage = 3
+  const couponsPerPage = 10
 
   const pagesVisited = pageNumber * couponsPerPage
 
@@ -65,22 +65,20 @@ function Coupons() {
     localStorage.removeItem("EditMode")
     getCoupons()
     setItemsPerPage(pageNumber, couponsPerPage)
-  }, [])
-
+  }, [isLoggedIn, !localStorage.getItem("shopping-cart")])
   
-
 
   return (
     <div>
       <div className='main_conatainer'>
+        <Menu/>
         <div className='coupons_container'>
           <>
-          {displayCoupons.map((coupon: ICoupon) => {
-            return <Coupon key={coupon.id} coupon={coupon} />
-          })}
+            {displayCoupons.map((coupon: ICoupon) => {
+              return <Coupon key={coupon.id} coupon={coupon} />
+            })}
           </>
         </div>
-      </div>
       <div className='pages_container'>
         <ReactPaginate
           previousLabel={"Previous"}
@@ -96,6 +94,7 @@ function Coupons() {
           activeLinkClassName={"active_buttons"}
         />
 
+      </div>
       </div>
     </div>
   )

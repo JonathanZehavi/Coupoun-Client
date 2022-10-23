@@ -20,10 +20,12 @@
     font-size: 17px;
 }
 
-.nav a:hover {
+
+.nav a:hover, button:hover {
     background-color: #ddd;
     color: black;
 }
+
 
 .nav a.active {
     background-color: #484372;
@@ -37,14 +39,8 @@
     gap: 8px;
 }
 
-.cart-button {
-    background: none;
-    border: none;
-    color: white;
-    
-}
 
-.logout-button{
+.logout-button {
     background: none;
     border: none;
     color: white;
@@ -56,5 +52,15 @@
     justify-content: center;
     align-items: center;
     font-size: 17px;
+    background: none;
+    border: none;
+    color: white;
+    padding: 14px 16px;
 }
 
+
+@media (max-width: 2025px) {
+    .nav {
+        width: 100%;
+    }
+}

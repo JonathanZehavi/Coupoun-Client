@@ -1,5 +1,3 @@
-import { ReactChild, ReactChildren } from "react";
-import { ReactNode } from "react";
 
 export interface ICoupon {
     id: number;

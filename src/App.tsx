@@ -1,48 +1,60 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import "./App.css";
-import SocketContainer from './components/Context/Socket-Container';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import Layout from './components/Layout/Layout';
 import Login from './components/Login/Login';
+import { createGlobalStyle } from 'styled-components';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import Register from './components/Register/Register';
-import Modal from './components/Modal/Modal';
 import SingleCoupon from './components/Single-Coupon-Page/SingleCoupon';
 import { useSelector } from 'react-redux';
 import { AppState } from './Redux/app-state';
-import Cart from './components/Cart/Cart';
-import { CartProvider, useCart } from './components/Context/Cart-Container';
+import { CartProvider } from './components/Context/Cart-Context';
 import CreateCouponModal from './components/Modal/CreateCouponModal';
+import MyInfoPage from './components/My-Info-Page/MyInfoPage';
+import Checkout from './components/Checkout/Checkout';
+import Receipt from './components/Receipt/Receipt';
+import Coupon from './components/Coupons/Coupon';
+import Coupons from './components/Coupons/Coupons';
+import Menu from './components/Menu/Menu';
 
 
 function App() {
 
-  const {isOpen}: any = useCart()
-
   let openModal = useSelector((state: AppState) => state.openModal)
+
+  const GlobalStyle = createGlobalStyle`
+  body {
+   font-family: 'Changa', sans-serif;
+
+  }
+  `
 
   return (
     <div className='app'>
+      <GlobalStyle />
       {/* <SocketContainer> */}
-        <CartProvider>
+
+      <CartProvider>
         <BrowserRouter>
-          {/* {openModal && <Modal />} */}
-            {openModal && <CreateCouponModal />}
         <Header />
-          <Cart isOpen={isOpen}/>
+          {openModal && <CreateCouponModal />}
           <Routes>
-            <Route path='/' element={<Layout />} />
-            <Route path="/signup" element={<Register />}/>
+            <Route path='/' element={<Coupons />} />
+            <Route path='/' element={<Menu />} />
+            <Route path="/signup" element={<Register />} />
             <Route path='/login' element={<Login />} />
             <Route path='/coupon/:id' element={<SingleCoupon />} />
-              <Route path='/cart' element={<Cart isOpen={isOpen} />} />
+            <Route path='/myinfo' element={<MyInfoPage />} />
+            <Route path='/checkout' element={<Checkout />} />
+            <Route path='/receipt' element={<Receipt />} />
           </Routes>
         <Footer />
         </BrowserRouter>
-        </CartProvider>
-  {/* </SocketContainer> */}
+      </CartProvider>
+      {/* </SocketContainer> */}
     </div>
   );
 }

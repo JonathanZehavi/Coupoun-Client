@@ -1,4 +1,7 @@
 import Coupons from '../Coupons/Coupons';
+import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
+import Login from '../Login/Login';
 import Menu from '../Menu/Menu';
 import './Layout.css';
 
@@ -6,33 +9,20 @@ function Layout() {
 
 
   return (
-    // <>
-    // <div>
-    // <section className="layout">
-    //     <Menu />
-    //   <main className='main'>
-    //     <Coupons />
-    //   </main>
-    // </section>
-    // </div>
-    // </>
 
     <section className="layout">
-      {/* <header>
-
-      </header> */}
-
+      <header>
+        {/* <Header/> */}
+      </header>
       <aside>
        <Menu />
       </aside>
-
       <main>
         <Coupons />
       </main>
-
-      {/* <footer>
-
-      </footer> */}
+      <footer>
+        {/* <Footer/> */}
+      </footer>
     </section>
   );
 }

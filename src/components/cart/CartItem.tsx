@@ -1,9 +1,8 @@
-import React from 'react'
 import { Button, Stack } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { ICoupon } from '../../Model/ICoupon';
 import { AppState } from '../../Redux/app-state';
-import { useCart } from '../Context/Cart-Container';
+import { useCart } from '../Context/Cart-Context';
 
 type CartItemProp = {
     id: number;
@@ -12,9 +11,11 @@ type CartItemProp = {
 
 
 function CartItem({ id, amount }: CartItemProp) {
-    const { removeFromCart }: any = useCart()
+
+    const { removeFromCart } = useCart()
 
     const coupons = useSelector((state: AppState) => state.coupons)
+
 
     const item: ICoupon = coupons.find(item => item.id === id)
     if (item == null) return null;
@@ -22,7 +23,7 @@ function CartItem({ id, amount }: CartItemProp) {
 
     return (
         <Stack direction="horizontal" gap={2}>
-            <img src={item.image} style={{
+            <img src={item.image} alt='coupon-card-img' style={{
                 width: "125px",
                 height: "125px",
                 objectFit: "cover"
@@ -42,7 +43,7 @@ function CartItem({ id, amount }: CartItemProp) {
                     ${item.price * amount}
                 </div>
                 <Button variant="outline-danger" size='sm' onClick={() => removeFromCart(item.id)}>&times;</Button>
-                
+
             </div>
         </Stack>
     )

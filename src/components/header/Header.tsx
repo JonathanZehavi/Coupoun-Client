@@ -1,24 +1,36 @@
+import { useEffect, useState } from 'react'
 import { AiOutlineLogin, AiOutlineLogout, AiOutlineShoppingCart } from 'react-icons/ai'
 import { SiGnuprivacyguard } from 'react-icons/si'
-import { useCart } from '../Context/Cart-Container'
+import { BiUserCircle } from 'react-icons/bi'
+import { Link } from 'react-router-dom'
+import { CartItems, useCart } from '../Context/Cart-Context'
 import "./Header.css"
+import { useLocalStorage } from '../Hooks/useLocalStorage'
 
 function Header() {
 
-  const { openCart, cartAmount, logOut }: any = useCart()
-
-
+  const { openCart, cartAmount, isLoggedIn, setIsLoggedIn } = useCart()
+  
+  
   let onLogout = () => {
-    logOut()
-    localStorage.clear();
+    setIsLoggedIn(false)  
+    
+    localStorage.clear()
   }
+
+  
 
 
   return (
 
     <nav className='nav'>
       <div className='navbar_links'>
-        <a className="active" href="/">Coupons</a>
+        <Link style={{ padding: 0 }} to={'/'}><a className="active">Coupons</a></Link>
+        {(isLoggedIn || localStorage.getItem("isLoggedIn")) &&
+          <Link style={{ padding: 0 }} to='myinfo'><a className="my-info">My Info  <BiUserCircle /></a></Link>}
+
+
+        {(localStorage.getItem("userRole") === "Customer" && (isLoggedIn || localStorage.getItem("isLoggedIn"))) &&
           <button className='cart-button' onClick={openCart}>Cart<AiOutlineShoppingCart />
             <div className="rounded-circle bg-danger d-flex justify-content-center align-items-center"
               style={{
@@ -29,20 +41,21 @@ function Header() {
                 right: 0,
                 position: "relative",
                 transform: "translate(25%, 25%)"
-              }}
-            >{cartAmount}</div>
-          </button>
-      </div><div className='right'>
-
-        {localStorage.getItem('userRole') && <button className='logout-button' onClick={onLogout}>
-          <a href='/' onClick={logOut}>Logout <AiOutlineLogout /></a>
-        </button>}
-        {!localStorage.getItem('userRole') &&
-          <><a href="/login">Login <AiOutlineLogin /></a><a href="/signup">Sign Up <SiGnuprivacyguard />
-          </a></>}
+              }} >
+              {cartAmount}
+            </div>
+          </button>}
+      </div>
+      <div className='right'>
+        {(localStorage.getItem("isLoggedIn") || isLoggedIn) ? <Link style={{ padding: 0 }} to='/'><a onClick={onLogout}>Logout <AiOutlineLogout /></a></Link>
+          :
+          <>
+            <Link style={{ padding: 0 }} to='login'><a>Login <AiOutlineLogin /></a></Link>
+            <Link style={{ padding: 0 }} to='/signup'><a>Sign Up <SiGnuprivacyguard /></a></Link>
+          </>}
 
       </div>
-    </nav>
+    </nav >
   );
 }
 

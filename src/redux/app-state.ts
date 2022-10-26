@@ -16,5 +16,7 @@ export class AppState {
     public isLoggedIn: boolean;
     public purchaseId: number;
     public purchaseDetails: IPurchaseDetails;
+    public companies: ICompany[] = []
+    public companiesByPage: ICompany[] = []
     
 }

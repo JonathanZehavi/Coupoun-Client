@@ -12,42 +12,24 @@ function Register() {
 
   let dispatch = useDispatch();
 
-  let customer: ICustomer = useSelector((state: AppState) => state.customer)
-
-
   async function createCustomer(customer: any) {
     axios.post("http://localhost:8080/customers", customer)
       .then(response => {
         let serverResponse = response.data
         dispatch({ type: ActionType.createCustomer, payload: serverResponse })
-      }) // ! error
+      }).catch(error => alert(error.message))
   }
 
-  async function isExistByUsername(username: string) {
-
-    axios.get(`http://localhost:8080/users/isExistByUsername?username=${username}`)
-      .then(response => {
-        return response.data
-      }) // ! error
+  const isExistByUsername = async (username: string) => {
+    await axios.get(`http://localhost:8080/users/isExistByUsername?username=${username}`)  
+    return new Promise(function(resolve, reject) {
+      if (resolve){
+        return true
+      } else {
+        return false
+      }
+    });
   }
-
-  // async function createUser(user: IUser) {
-  //   axios.post("http://localhost:8080/users", user)
-  //     .then(response => {
-  //       let serverResponse = response.data
-  //       dispatch({ type: ActionType.createUser, payload: serverResponse })
-  //     })
-  // }
-  // let [newUser, setNewUser]: any = useState(
-  //   {
-  //     username: "",
-  //     password: "",
-  //     firstname: "",
-  //     lastname: "",
-  //     role: "Customer"
-  //   }
-  // )
-
 
 
   let [newCustomer, setNewCustomer] = useState({
@@ -98,9 +80,6 @@ function Register() {
     if (e.target.name === "birthday") {
       setBirthdateError("")
     }
-    console.log(e.target.id);
-
-
     if (+e.target.id <= 4) {
       setNewCustomer({
         ...newCustomer,
@@ -116,11 +95,14 @@ function Register() {
   })
 
 
-  const sendForm = (e: any) => {
+  const sendForm = async (e: any) => {
     e.preventDefault();
-    console.log(newCustomer);
 
     let isValid: boolean = true;
+     
+    let isUsernameExist = await isExistByUsername(newCustomer.user.username)
+    console.log(isUsernameExist);
+    
 
     if (!newCustomer.user.firstname) {
       setFirstnameError("First name is required")
@@ -134,8 +116,8 @@ function Register() {
       setEmailError("Email address is invalid")
       isValid = false
     }
-    if (!/^[A-Za-z]\w{7,14}$/i.test(newCustomer.user.password)) {
-      setPasswordError("Password is invalid")
+    if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}/i.test(newCustomer.user.password)) {
+      setPasswordError("Password must include at least 8 chars, not more than 12 chars, one uppercase and one lower case")
       isValid = false
     }
     if (!newCustomer.address) {
@@ -157,15 +139,18 @@ function Register() {
       setBirthdateError("Birth date is required")
       isValid = false
     }
-    if (!isExistByUsername(newCustomer.user.username)) {
-      setEmailError("The email you have entered already exist")
-      isValid = false
-    }
+    
+
+    // if (isExistByUsername(newCustomer.user.username)) {
+    //   setEmailError("The email you have entered already exist")
+    //   isValid = false
+    // }
     if (isValid) {
-      createCustomer(newCustomer)
-      navigate('/login')
+      // createCustomer(newCustomer)
+      // navigate('/login')
     }
   }
+
 
 
 
@@ -181,7 +166,7 @@ function Register() {
         </div>
 
         <form className='register_form' onSubmit={sendForm}>
-          
+
           <div className='register-form-middle-area'>
             <div className='register-part-one'>
               <div className='details_register'>

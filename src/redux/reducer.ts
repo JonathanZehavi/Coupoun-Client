@@ -44,6 +44,19 @@ export function reduce(state: AppState = initialValue, action: Action): AppState
 
         case ActionType.getPurchaseDetails:
             newAppState.purchaseDetails = action.payload
+            break;
+        
+        case ActionType.getAllCompanies:
+            newAppState.companies = action.payload
+            break;
+
+        case ActionType.getCompaniesByPage:
+            newAppState.companiesByPage = action.payload
+            break;
+        
+        case ActionType.getCompanyById:
+            newAppState.company = action.payload
+            break;
         
     }
 

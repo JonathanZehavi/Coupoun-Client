@@ -1,0 +1,45 @@
+.mgmt-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-direction: column;
+    width: 97%;
+    height: 82vh;
+    margin: 20px;
+}
+
+.companies-area {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    height: 85vh;
+}
+
+.comapny-card {
+    height: 200px;
+    width: 450px;
+}
+
+.company-card-header {
+    font-size: 20px;
+}
+
+.company-card-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 15px;
+}
+
+.company-card-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.comapny-card-text {
+    text-align: center;
+}

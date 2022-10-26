@@ -52,7 +52,7 @@ function SingleCoupon() {
     axios.put(`http://localhost:8080/coupons/${id}`, coupon)
       .then(response => {
         return response.data
-      })
+      }).catch(error => alert(error.message));
 
   }
 
@@ -155,8 +155,8 @@ function SingleCoupon() {
 
     if (isValid) {
       updateCoupon(coupon.id, coupon) 
-      localStorage.removeItem("EditMode")  
-      window.location.reload()        
+      setEditMode(false)
+      localStorage.removeItem("EditMode")           
     }
   }
 

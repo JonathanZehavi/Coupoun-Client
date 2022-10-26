@@ -10,6 +10,7 @@ import './Coupons.css'
 import Coupon from './Coupon';
 import { useCart } from '../Context/Cart-Context';
 import Menu from '../Menu/Menu';
+import styled from 'styled-components';
 
 
 function Coupons() {
@@ -47,7 +48,7 @@ function Coupons() {
 
 
   async function setItemsPerPage(pageNumber: number, couponsPerPage: number) {
-    axios.get(`http://localhost:8080/coupons/pages?pageNumber=${pageNumber}&pageSize=${couponsPerPage}`)
+    axios.get(`http://localhost:8080/coupons/pages/${pageNumber}/${couponsPerPage}`)
       .then(response => {
         let serverResponse = response.data
         dispatch({ type: ActionType.getCouponsByPage, payload: serverResponse })
@@ -65,7 +66,7 @@ function Coupons() {
     localStorage.removeItem("EditMode")
     getCoupons()
     setItemsPerPage(pageNumber, couponsPerPage)
-  }, [isLoggedIn, !localStorage.getItem("shopping-cart")])
+  }, [])
   
 
   return (

@@ -19,6 +19,8 @@ import Receipt from './components/Receipt/Receipt';
 import Coupon from './components/Coupons/Coupon';
 import Coupons from './components/Coupons/Coupons';
 import Menu from './components/Menu/Menu';
+import AdminPage from './components/AdminMGMT/AdminPage';
+import SingleCompanyPage from './components/AdminMGMT/SingleCompanyPage';
 
 
 function App() {
@@ -37,9 +39,9 @@ function App() {
       <GlobalStyle />
       {/* <SocketContainer> */}
 
-      <CartProvider>
-        <BrowserRouter>
-        <Header />
+      <BrowserRouter>
+        <CartProvider>
+          <Header />
           {openModal && <CreateCouponModal />}
           <Routes>
             <Route path='/' element={<Coupons />} />
@@ -47,13 +49,15 @@ function App() {
             <Route path="/signup" element={<Register />} />
             <Route path='/login' element={<Login />} />
             <Route path='/coupon/:id' element={<SingleCoupon />} />
+            <Route path='/company/:id' element={<SingleCompanyPage />} />
             <Route path='/myinfo' element={<MyInfoPage />} />
             <Route path='/checkout' element={<Checkout />} />
             <Route path='/receipt' element={<Receipt />} />
+            <Route path='/mgmt' element={<AdminPage/>} />
           </Routes>
-        <Footer />
-        </BrowserRouter>
-      </CartProvider>
+          <Footer />
+        </CartProvider>
+      </BrowserRouter>
       {/* </SocketContainer> */}
     </div>
   );

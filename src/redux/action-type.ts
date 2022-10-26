@@ -7,5 +7,8 @@ export enum ActionType {
     getCouponsByCategory,
     isLoggedIn,
     getPurchaseId,
-    getPurchaseDetails
+    getPurchaseDetails,
+    getAllCompanies,
+    getCompaniesByPage,
+    getCompanyById
 }

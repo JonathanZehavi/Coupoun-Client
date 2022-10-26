@@ -15,6 +15,8 @@ import './Checkout.css'
 function Checkout() {
 
   const { cartItems } = useCart()
+  console.log(cartItems, "cartItems");
+  
 
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -59,7 +61,7 @@ function Checkout() {
 
 
 
-  function getProductsInCart() {
+  function getCouponsFromCart() {
     const couponsId = cartItems.map(item => item.id)
     const couponsAmount = cartItems.map(item => item.amount)
     let arrayOfCouponsId = couponsId.flatMap((x, i) => Array(couponsAmount[i]).fill(x));
@@ -78,8 +80,9 @@ function Checkout() {
 
 
 
+  console.log(purchase.totalPrice);
   let handlePlaceOrderClick = () => {
-
+    
     setIsLoading(true)
     createPurchase(purchase)
     localStorage.removeItem("shopping-cart")
@@ -96,7 +99,7 @@ function Checkout() {
   }, [])
 
   useEffect(() => {
-    getProductsInCart()
+    getCouponsFromCart()
   }, [coupons])
 
 

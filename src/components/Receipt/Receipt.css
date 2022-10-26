@@ -7,21 +7,39 @@
 
 .purchase-details {
     padding: 10px;
-    height: 500px;
+    height: 636px;
     width: 500px;
     background-color: white;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
 }
 
-.coupons-of-purchase-details{
-    height: 250px;
+.coupons-of-purchase-details {
+
+    height: 320px;
     overflow-y: auto;
 }
-.title-purchase-details{
+
+.title-purchase-details {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 50px;
 }
 
+.coupon-on-recepit {
+
+    margin: 5px;
+}
+
+.header-receipt {
+    border-bottom: 1px solid;
+    border-width: 50%;
+}
+
+.go-to-home-button-container{
+    height: 82px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

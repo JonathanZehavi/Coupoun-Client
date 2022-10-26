@@ -83,7 +83,7 @@
     display: flex;
     justify-content: center;
     position: relative;
-    height: 58px;
+    height: 38px;
 }
 
 .amount {
@@ -187,8 +187,9 @@
     margin: 5px;
 }
 
-a {
+.pages_container > a {
     color: black;
+    
 }
 
 
@@ -208,7 +209,7 @@ a {
 
 
 .pagination_buttons {
-    height: 40px;
+    height: 20px;
     margin-top: 20px;
     list-style: none;
     display: flex;
@@ -252,4 +253,18 @@ a {
 .disabled_buttons a:hover {
     color: white;
     background-color: black;
+}
+
+.buttons-on-coupons-out-of-stock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+}
+
+.delete-and-edit-coupon-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
 }

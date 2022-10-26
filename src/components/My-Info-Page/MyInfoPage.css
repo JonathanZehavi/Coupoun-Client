@@ -26,3 +26,11 @@
 .card-my-info-title {
     font-size: 30px;
 }
+
+.submit-and-cancel-buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 50px;
+}

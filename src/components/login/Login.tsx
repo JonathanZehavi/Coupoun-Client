@@ -9,7 +9,7 @@ import { Button } from 'react-bootstrap';
 
 function Login() {
 
-    const { logIn } = useCart()
+    const { logIn, setCartItems, isLoggedIn } = useCart()
 
     let navigate = useNavigate();
 
@@ -50,15 +50,18 @@ function Login() {
             const serverResponse = response.data;
             let token = 'Bearer ' + serverResponse.token;
             axios.defaults.headers.common['Authorization'] = token;
+            console.log(token);
+            
             localStorage.setItem("companyId", JSON.stringify(serverResponse.companyId))
             localStorage.setItem('token', token);
             localStorage.setItem('userRole', serverResponse.role)
             localStorage.setItem('isLoggedIn', 'true')
             localStorage.setItem('userId', serverResponse.id)
             logIn()
+            setCartItems([])
             // connect(token);
-            setIsLoading(false)
             navigate('/');
+            setIsLoading(false)
         }
         catch (error: any) {
             setIsLoading(false)
@@ -70,28 +73,37 @@ function Login() {
         <div>
             <div className='full_screen_login'>
                 <div className='container_login'>
-                    <div className='title_login_container'>
-                        <h1 className='title_login'>Login</h1>
-                    </div>
-                    <form className='form' onSubmit={onLoginClicked}>
-                        <div className='details'>
-                            <label htmlFor="email">Email*</label>
-                            <input id='1' name='username' type="email" placeholder='Email' onChange={onChange} />
-                        </div>
-                        <div className='details'>
-                            <label htmlFor="password">Password*</label>
-                            <input id='2' name='password' type="password" placeholder='Password' onChange={onChange} />
-                        </div>
-                        <div className='error_container'>
-                            <span className='error'>{error}</span>
-                        </div>
-                        <div className='submit_button_container'>
-                            <Button className='button_login' style={{ fontSize: '18px', width: '120px' }} type='submit' disabled={isLoading}>Log In</Button>
-                        </div>
-                        <div className='loading_spinner'>
-                            {isLoading && <LoadingSpinner />}
-                        </div>
-                    </form>
+                    {(isLoggedIn || localStorage.getItem("isLoggedIn")) ?
+                            <div className='you-are-logged-in-message'>
+                                You are already logged in
+                            </div>
+
+                            :
+                                <>
+                            <div className='title_login_container'>
+                                <h1 className='title_login'>Login</h1>
+                            </div><form className='form' onSubmit={onLoginClicked}>
+                                <div className='details'>
+                                    <label htmlFor="email">Email*</label>
+                                    <input id='1' name='username' type="email" placeholder='Email' onChange={onChange} />
+                                </div>
+                                <div className='details'>
+                                    <label htmlFor="password">Password*</label>
+                                    <input id='2' name='password' type="password" placeholder='Password' onChange={onChange} />
+                                </div>
+                                <div className='error_container'>
+                                    <span className='error'>{error}</span>
+                                </div>
+                                <div className='submit_button_container'>
+                                    <Button className='button_login' style={{ fontSize: '18px', width: '120px' }} type='submit' disabled={isLoading}>Log In</Button>
+                                </div>
+                                <div className='loading_spinner'>
+                                    {isLoading && <LoadingSpinner />}
+                                </div>
+                            </form>
+
+                        </>
+                    }
                 </div>
             </div>
         </div >

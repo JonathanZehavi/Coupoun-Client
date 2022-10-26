@@ -20,15 +20,9 @@ function Register() {
       }).catch(error => alert(error.message))
   }
 
-  const isExistByUsername = async (username: string) => {
-    await axios.get(`http://localhost:8080/users/isExistByUsername?username=${username}`)  
-    return new Promise(function(resolve, reject) {
-      if (resolve){
-        return true
-      } else {
-        return false
-      }
-    });
+  async function isExistByUsername(username: string) {
+    const response = await axios.get(`http://localhost:8080/users/isExistByUsername?username=${username}`)
+    return response.data
   }
 
 
@@ -99,10 +93,8 @@ function Register() {
     e.preventDefault();
 
     let isValid: boolean = true;
-     
+
     let isUsernameExist = await isExistByUsername(newCustomer.user.username)
-    console.log(isUsernameExist);
-    
 
     if (!newCustomer.user.firstname) {
       setFirstnameError("First name is required")
@@ -141,13 +133,13 @@ function Register() {
     }
     
 
-    // if (isExistByUsername(newCustomer.user.username)) {
-    //   setEmailError("The email you have entered already exist")
-    //   isValid = false
-    // }
+    if (isUsernameExist) {
+      setEmailError("The email you have entered already exist")
+      isValid = false
+    }
     if (isValid) {
-      // createCustomer(newCustomer)
-      // navigate('/login')
+      createCustomer(newCustomer)
+      navigate('/login')
     }
   }
 

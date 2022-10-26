@@ -49,9 +49,7 @@ function Login() {
             const response = await axios.post("http://localhost:8080/users/login", { username, password });
             const serverResponse = response.data;
             let token = 'Bearer ' + serverResponse.token;
-            axios.defaults.headers.common['Authorization'] = token;
-            console.log(token);
-            
+            axios.defaults.headers.common['Authorization'] = token;     
             localStorage.setItem("companyId", JSON.stringify(serverResponse.companyId))
             localStorage.setItem('token', token);
             localStorage.setItem('userRole', serverResponse.role)

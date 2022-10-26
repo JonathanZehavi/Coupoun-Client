@@ -24,13 +24,7 @@ function CreateCouponModal() {
             })
     }
     async function isCompanyExist(id: number | string) {
-        // await axios.get(`http://localhost:8080/companies/isCompanyExist/${id}`)
-        //     .then(response => {
-        //         return 
-        //     }).catch(error => alert(error.message));
         const response = await axios.get(`http://localhost:8080/companies/isCompanyExist/${id}`)
-        console.log(response.data, "THIS IS OURRRRRSSSSSSSSSS");
-        
         return response.data
     }
 
@@ -97,9 +91,7 @@ function CreateCouponModal() {
 
         let isCompanyExistById = await isCompanyExist(newCoupon.companyId)
 
-        if (!isCompanyExistById) {
-            console.log("working");
-            
+        if (!isCompanyExistById) {     
             setCompanyIdError("Couldn't find this company ID")
             isValid = false
         }

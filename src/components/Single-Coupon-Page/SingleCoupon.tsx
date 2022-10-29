@@ -20,17 +20,21 @@ function SingleCoupon() {
   const { getAmountOfItems, increaseCartAmount, decreaseCartAmount, removeFromCart }: any = useCart()
 
   async function deleteCoupon(id: number) {
-    axios.delete(`http://localhost:8080/coupons/${id}`)
+    axios.delete(`http://localhost:8080/coupons/${id}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+        }
+      })
       .then(response => {
         dispatch({ type: ActionType.getAllCoupons, payload: id })
         localStorage.removeItem("EditMode")
       }
-    )
+      )
       .catch(error => alert(error.message));
   }
 
   const [coupon, setCoupon] = useState<{ [key: string]: string | number | any | ICoupon }>({})
-
 
   const amountOfItems = getAmountOfItems(coupon.id)
 
@@ -48,8 +52,13 @@ function SingleCoupon() {
     return result
   }
 
-  async function updateCoupon(id: number, coupon: any) {
-    axios.put(`http://localhost:8080/coupons/${id}`, coupon)
+  async function updateCoupon(id: number, coupon: { [key: string]: string | number | any | ICoupon }) {
+    axios.put(`http://localhost:8080/coupons/${id}`, coupon,
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+        }
+      })
       .then(response => {
         return response.data
       }).catch(error => alert(error.message));
@@ -154,9 +163,9 @@ function SingleCoupon() {
     }
 
     if (isValid) {
-      updateCoupon(coupon.id, coupon) 
+      updateCoupon(coupon.id, coupon)
       setEditMode(false)
-      localStorage.removeItem("EditMode")           
+      localStorage.removeItem("EditMode")
     }
   }
 
@@ -236,10 +245,16 @@ function SingleCoupon() {
             <img className='image-on-single-coupon' src={coupon.image} alt='coupons-img-header' />
           </div>
           <div className="single-coupon-card-body">
+
             <h4 className='single-coupon-category single-coupon-category-teal'>{coupon.category}</h4>
             <p>{coupon.description}</p>
             <p>Start At: {coupon.startDate[2]}/{coupon.startDate[1]}/{coupon.startDate[0]}</p>
             <p>Offer Expiration Date: {coupon.endDate[2]}/{coupon.endDate[1]}/{coupon.endDate[0]}</p>
+            {coupon.amount < 10 &&
+              <div className='best-seller-image-on-single-coupon'>
+                <img src='../images/BestSellerIMG.jpg' alt="bestSellerImage" />
+              </div>
+            }
             <p>Price: ${coupon.price}</p>
             <div className='buttons-on-single-coupon'>
               {!localStorage.getItem('userRole') && (<Button onClick={() => navigate("/login")}>Log In to order</Button>)}
@@ -263,7 +278,7 @@ function SingleCoupon() {
               }
               {(localStorage.getItem('userRole') === "Admin" || localStorage.getItem('userRole') === "Company") &&
                 <><Button className='delete_coupon_button_on_single_coupon bg-danger' style={{ fontSize: "10px", width: "100px", border: "none" }} onClick={() => deleteCoupon(coupon.id)}>Delete<MdDeleteForever /></Button>
-                <Button className='edit_coupon_button_on_single_coupon bg-warning' style={{ fontSize: "10px", width: "100px", border: "none" }} onClick={() => setEditMode(true)} >Edit<MdEditNote /></Button></>}
+                  <Button className='edit_coupon_button_on_single_coupon bg-warning' style={{ fontSize: "10px", width: "100px", border: "none" }} onClick={() => setEditMode(true)} >Edit<MdEditNote /></Button></>}
             </div>
           </div>
         </div>}

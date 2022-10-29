@@ -1,0 +1,13 @@
+.card-stats-body {
+    height: 40px;
+}
+
+.card-header-stats-card {
+    font-size: 15px;
+    font-weight: bolder;
+}
+
+.card-text-stats-card {
+    margin: 10px;
+    height: 90px;
+}

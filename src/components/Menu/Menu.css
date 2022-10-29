@@ -11,10 +11,12 @@
         background-color: #333;
         border-radius: 6px;
         color: white;
-        
-
 }
 
-.add-coupon-button{
+.aside_content Button {
+        box-shadow: none;
+}
+
+.add-coupon-button {
         height: 10px;
 }

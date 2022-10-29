@@ -60,6 +60,11 @@ function Coupon(props: IProps) {
               <img src={props.coupon.image} alt='coupon-img' />
             </Link>
           </div>
+          {props.coupon.amount < 10 &&
+            <div className='best-seller-image'>
+              <img src='./images/BestSellerIMG.jpg' alt="bestSellerImage" />
+            </div>
+          }
           <div className="card_body">
             <h4 className='tag tag_teal'>{props.coupon.category}</h4>
             <h5 className='coupons-title' style={{ fontWeight: "bold" }}>{props.coupon.title}</h5>

@@ -18,6 +18,10 @@ export function reduce(state: AppState = initialValue, action: Action): AppState
             newAppState.couponsByPage = action.payload
             break;
         
+        case ActionType.getCouponsSortedBy:
+            newAppState.couponsBySorting = action.payload
+            break;
+        
         case ActionType.openModal:
             newAppState.openModal = action.payload
             break;
@@ -56,6 +60,14 @@ export function reduce(state: AppState = initialValue, action: Action): AppState
         
         case ActionType.getCompanyById:
             newAppState.company = action.payload
+            break;
+
+        case ActionType.getPageNumber:
+            newAppState.pageNumber = action.payload
+            break;
+
+        case ActionType.getCouponsByCompanyId:
+            newAppState.couponsByCompanyId = action.payload
             break;
         
     }

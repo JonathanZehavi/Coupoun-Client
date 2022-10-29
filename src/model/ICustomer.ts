@@ -11,5 +11,5 @@ export interface ICustomer {
     address: string;
     amountOfChildren: string;
     phoneNumber: string;
-    birthday: string;
+    birthday: number[];
 }

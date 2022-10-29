@@ -21,6 +21,7 @@ import Coupons from './components/Coupons/Coupons';
 import Menu from './components/Menu/Menu';
 import AdminPage from './components/AdminMGMT/AdminPage';
 import SingleCompanyPage from './components/AdminMGMT/SingleCompanyPage';
+import Statistics from './components/AdminMGMT/Statistics';
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
             <Route path='/checkout' element={<Checkout />} />
             <Route path='/receipt' element={<Receipt />} />
             <Route path='/mgmt' element={<AdminPage/>} />
+            <Route path='/statistics' element={<Statistics/>} />
           </Routes>
           <Footer />
         </CartProvider>

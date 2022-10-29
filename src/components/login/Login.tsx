@@ -22,6 +22,7 @@ function Login() {
     });
     let username = user.username
     let password = user.password
+    let role = user.role
 
     const [error, setError] = useState<string>("")
 
@@ -46,10 +47,10 @@ function Login() {
 
         setIsLoading(true)
         try {
-            const response = await axios.post("http://localhost:8080/users/login", { username, password });
+            const response = await axios.post("http://localhost:8080/users/login", { username, password })
             const serverResponse = response.data;
-            let token = 'Bearer ' + serverResponse.token;
-            axios.defaults.headers.common['Authorization'] = token;     
+            let token =  serverResponse.token;
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}` 
             localStorage.setItem("companyId", JSON.stringify(serverResponse.companyId))
             localStorage.setItem('token', token);
             localStorage.setItem('userRole', serverResponse.role)

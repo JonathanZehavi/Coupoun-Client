@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react'
 import { AiOutlineLogin, AiOutlineLogout, AiOutlineShoppingCart } from 'react-icons/ai'
 import { SiGnuprivacyguard } from 'react-icons/si'
-import { FcManager } from 'react-icons/fc'
+import { FcManager, FcStatistics } from 'react-icons/fc'
 import { BiUserCircle } from 'react-icons/bi'
 import { Link } from 'react-router-dom'
-import { CartItems, useCart } from '../Context/Cart-Context'
+import { useCart } from '../Context/Cart-Context'
 import "./Header.css"
-import { useLocalStorage } from '../Hooks/useLocalStorage'
 
 function Header() {
 
@@ -15,7 +13,6 @@ function Header() {
 
   let onLogout = () => {
     setIsLoggedIn(false)
-
     localStorage.clear()
   }
 
@@ -48,7 +45,10 @@ function Header() {
               </div>
             </button>}
             {localStorage.getItem("userRole") === "Admin" && 
+            <>
             <Link style={{ padding: 0 }} to='/mgmt'><a className="my-info">MGMT  <FcManager /></a></Link>
+            <Link style={{ padding: 0 }} to='/statistics'><a className="my-info">Stats  <FcStatistics /></a></Link>
+            </>
             }
         </div>
         <div className='right'>

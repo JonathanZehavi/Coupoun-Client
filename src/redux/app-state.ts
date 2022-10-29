@@ -18,5 +18,8 @@ export class AppState {
     public purchaseDetails: IPurchaseDetails;
     public companies: ICompany[] = []
     public companiesByPage: ICompany[] = []
+    public pageNumber: number = 0
+    public category:string
+    public couponsByCompanyId: ICoupon[] = []
     
 }

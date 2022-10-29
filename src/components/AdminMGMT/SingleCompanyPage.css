@@ -1,0 +1,103 @@
+.single-company-page-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 20px;
+    flex-direction: column;
+    width: 97%;
+    height: 82vh;
+    margin: 20px;
+}
+
+.coupons-company-container {
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(5, 1fr);
+    overflow-y: auto;
+
+}
+
+.coupon-card-on-company-page {
+    border: 1px solid;
+    border-radius: 5px;
+    margin: 10px;
+    background-color: white;
+}
+
+.card-single-company {
+    width: 673px;
+    height: 350px;
+}
+
+.single-company-card-header {
+    height: 90px;
+    font-size: 40px;
+    font-weight: bolder;
+}
+
+.single-company-card-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 90px;
+    font-size: 25px;
+    font-weight: bolder;
+}
+
+.single-company-card-footer Button {
+    width: 100px;
+    font-size: 18px;
+
+}
+
+
+.single-comapny-card-text {
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    height: 120px;
+    font-size: 32px;
+}
+
+.error-company-form {
+    font-size: 14px;
+    height: 10px;
+    color: red;
+}
+
+
+.form-edit-company-container {
+    display: flex;
+    border-radius: 5px;
+    flex-direction: column;
+    background-color: white;
+    border: 2px solid;
+    padding: 20px;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 673px;
+        height: 350px;
+}
+
+.edit-company-details {
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+.buttons-company-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+}
+
+.buttons-company-container Button {
+    width: 100px;
+    font-size: 18px;
+
+}

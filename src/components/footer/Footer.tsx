@@ -1,4 +1,4 @@
-import { TbBrandGithub, TbBrandInstagram, TbBrandFacebook, TbBrandLinkedin } from 'react-icons/tb'
+import { TbBrandGithub, TbBrandLinkedin } from 'react-icons/tb'
 import './Footer.css'
 
 function Footer() {

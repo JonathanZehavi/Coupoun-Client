@@ -1,11 +1,9 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { ICustomer } from '../../Model/ICustomer'
 import { ActionType } from '../../Redux/action-type';
-import { AppState } from '../../Redux/app-state';
 import "./Register.css";
 
 function Register() {

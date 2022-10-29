@@ -1,6 +1,7 @@
 export enum ActionType {
     getAllCoupons,
     getCouponsByPage,
+    getCouponsSortedBy,
     openModal,
     getCouponById,
     createCustomer,
@@ -10,5 +11,7 @@ export enum ActionType {
     getPurchaseDetails,
     getAllCompanies,
     getCompaniesByPage,
-    getCompanyById
+    getCompanyById,
+    getPageNumber,
+    getCouponsByCompanyId
 }

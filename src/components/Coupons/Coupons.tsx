@@ -15,25 +15,29 @@ import styled from 'styled-components';
 
 function Coupons() {
 
-  const {isLoggedIn} = useCart()
-
   let dispatch = useDispatch();
+
+  const { isLoggedIn } = useCart()
+
+  let couponsByPage: ICoupon[] = useSelector((state: AppState) => state.couponsByPage)
 
   let coupons: ICoupon[] = useSelector((state: AppState) => state.coupons)
 
   let companyId = JSON.parse(localStorage.getItem("companyId"))
 
-  coupons = localStorage.getItem("userRole") === "Company" ? coupons.filter((coupon => coupon.companyId === companyId)) : coupons;
-
   const [pageNumber, setPageNumber] = useState<number>(0)
 
   const couponsPerPage = 10
 
-  const pagesVisited = pageNumber * couponsPerPage
-
   let pageCount = Math.ceil(coupons.length / couponsPerPage)
+  
+  couponsByPage = localStorage.getItem("userRole") === "Company" ? 
+  coupons.filter((coupon => coupon.companyId === companyId))  
+  : couponsByPage;
 
-  const displayCoupons = coupons.slice(pagesVisited, pagesVisited + couponsPerPage)
+
+  dispatch({ type: ActionType.getPageNumber, payload: pageNumber })
+
 
 
   async function getCoupons() {
@@ -62,40 +66,49 @@ function Coupons() {
     setPageNumber(selected)
   }
 
+
   useEffect(() => {
     localStorage.removeItem("EditMode")
-    getCoupons()
     setItemsPerPage(pageNumber, couponsPerPage)
-  }, [])
-  
+    getCoupons()
+  }, [pageNumber])
+
+
+  useEffect(() => {
+    getCoupons()
+  }, [isLoggedIn])
+
+
+
+
 
   return (
     <div>
       <div className='main_conatainer'>
-        <Menu/>
+        <Menu />
         <div className='coupons_container'>
           <>
-            {displayCoupons.map((coupon: ICoupon) => {
+            {couponsByPage.map((coupon: ICoupon) => {
               return <Coupon key={coupon.id} coupon={coupon} />
             })}
           </>
         </div>
-      <div className='pages_container'>
-        <ReactPaginate
-          previousLabel={"Previous"}
-          nextLabel={"Next"}
-          pageCount={pageCount}
-          onPageChange={changePage}
-          containerClassName={"pagination_buttons"}
-          pageLinkClassName={"pages_buttons"}
-          pageClassName={"pages_buttons"}
-          previousLinkClassName={"previous_button"}
-          nextLinkClassName={"next_button"}
-          disabledLinkClassName={"disabled_buttons"}
-          activeLinkClassName={"active_buttons"}
-        />
+        <div className='pages_container'>
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            pageCount={pageCount}
+            onPageChange={changePage}
+            containerClassName={"pagination_buttons"}
+            pageLinkClassName={"pages_buttons"}
+            pageClassName={"pages_buttons"}
+            previousLinkClassName={"previous_button"}
+            nextLinkClassName={"next_button"}
+            disabledLinkClassName={"disabled_buttons"}
+            activeLinkClassName={"active_buttons"}
+          />
 
-      </div>
+        </div>
       </div>
     </div>
   )

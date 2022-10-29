@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Dropdown } from 'react-bootstrap';
 import { TbCirclePlus } from 'react-icons/tb'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,31 +13,49 @@ import './Menu.css'
 
 export function Menu() {
 
+  const [parameter, setParameter] = useState<string>("")
+
   let dispatch = useDispatch()
   let navigate = useNavigate()
 
-  let allCoupons: ICoupon[] = useSelector((state: AppState) => state.couponsByCategory)
+  let pageNumber = useSelector((state: AppState) => state.pageNumber)
 
-  let categories = new Set(allCoupons.map(coupon => coupon.category))
+  let couponsByCategotry: ICoupon[] = useSelector((state: AppState) => state.couponsByCategory)
+
+  let pageSize = 10;
+
+  let categories = new Set(couponsByCategotry.map(coupon => coupon.category))
 
   let allCategories = Array.from(categories)
+
+
 
   async function getCoupons() {
     axios.get("http://localhost:8080/coupons")
       .then(response => {
         let serverResponse = response.data
-        dispatch({ type: ActionType.getCouponsByCategory, payload: serverResponse })
+        dispatch({ type: ActionType.getAllCoupons, payload: serverResponse })
       }
       )
       .catch(error => alert(error.message));
   }
 
-  async function sortBy(parameterToSortBy: string) {
-    axios.get(`http://localhost:8080/coupons/parameterToSortByAscending?sortAscending=${parameterToSortBy}`)
+
+  async function sortBy(pageNumber: number, pageSize: number, parameterToSortBy: string) {
+    axios.get(`http://localhost:8080/coupons/pageAndSortAscending/${pageNumber}/${pageSize}?parameterToSortBy=${parameterToSortBy}`)
       .then(response => {
         let serverResponse = response.data
-        dispatch({ type: ActionType.getAllCoupons, payload: serverResponse })
+        dispatch({ type: ActionType.getCouponsByPage, payload: serverResponse })
+      }
+      )
+      .catch(error => alert(error.message));
+  }
 
+  async function setItemsPerPage(pageNumber: number, couponsPerPage: number) {
+    axios.get(`http://localhost:8080/coupons/pages/${pageNumber}/${couponsPerPage}`)
+      .then(response => {
+        let serverResponse = response.data
+        dispatch({ type: ActionType.getCouponsByPage, payload: serverResponse })
       }
       )
       .catch(error => alert(error.message));
@@ -48,17 +66,21 @@ export function Menu() {
       .then(response => {
         let serverResponse = response.data
         dispatch({ type: ActionType.getAllCoupons, payload: serverResponse })
+        dispatch({ type: ActionType.getCouponsByPage, payload: serverResponse })
         return serverResponse
       }
       )
       .catch(error => alert(error.message));
   }
 
+
+
   let handleCategoryPicked = ((e: any) => {
     if (e.target.name === "All") {
-      sortBy("title")
+      setItemsPerPage(0, 10)
+      getCoupons()
     } else {
-      getCouponsByCategory(e.target.name);
+      getCouponsByCategory(e.target.name)
     }
   })
 
@@ -68,13 +90,14 @@ export function Menu() {
 
 
   let handleChange = (e: any) => {
-    console.log(e);
-    sortBy(e).then((data: any) => data.json());
+    setItemsPerPage(0, 10)
+    getCoupons()
+    sortBy(pageNumber, pageSize, e)
   }
 
   useEffect(() => {
     getCoupons()
-  }, [])
+  }, [parameter])
 
 
 

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -13,10 +13,14 @@ function CreateCouponModal() {
     let dispatch = useDispatch()
     let navigate = useNavigate()
 
-    // const [isCompanyExistById, setIsCompanyExistById] = useState<boolean>(false)
 
     async function createCoupon(coupon: ICoupon) {
-        axios.post('http://localhost:8080/coupons', coupon)
+        axios.post('http://localhost:8080/coupons', coupon,
+            {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
+            })
             .then(response => {
                 let serverResponse = response.data
                 dispatch({ type: ActionType.openModal, payload: false })
@@ -24,7 +28,12 @@ function CreateCouponModal() {
             })
     }
     async function isCompanyExist(id: number | string) {
-        const response = await axios.get(`http://localhost:8080/companies/isCompanyExist/${id}`)
+        const response = await axios.get(`http://localhost:8080/companies/isCompanyExist/${id}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
+            })
         return response.data
     }
 
@@ -91,7 +100,7 @@ function CreateCouponModal() {
 
         let isCompanyExistById = await isCompanyExist(newCoupon.companyId)
 
-        if (!isCompanyExistById) {     
+        if (!isCompanyExistById) {
             setCompanyIdError("Couldn't find this company ID")
             isValid = false
         }
@@ -163,7 +172,7 @@ function CreateCouponModal() {
     }
 
     return (
-        <div className="create-coupon-modal-background animate__animated animate__bounceInLeft">
+        <div className="create-coupon-modal-background">
             <div className='create-coupon-modal-conatainer'>
                 <div className='close-modal-button'>
                     <button style={{ background: "none", border: "none", fontSize: "15px" }} onClick={handleCloseModal}>X</button>

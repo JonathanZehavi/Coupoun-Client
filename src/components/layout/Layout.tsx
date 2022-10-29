@@ -1,7 +1,4 @@
 import Coupons from '../Coupons/Coupons';
-import Footer from '../Footer/Footer';
-import Header from '../Header/Header';
-import Login from '../Login/Login';
 import Menu from '../Menu/Menu';
 import './Layout.css';
 

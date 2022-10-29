@@ -6,6 +6,7 @@
 }
 
 .single-coupon-card {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -196,4 +197,13 @@ a:hover {
 
 .single-coupon-category-teal {
     background-color: black;
+}
+
+.best-seller-image-on-single-coupon img {
+    position: absolute;
+    margin-left: 221px;
+    margin-top: -257px;
+    height: 197px;
+    width: 211px;
+    mix-blend-mode: multiply;
 }

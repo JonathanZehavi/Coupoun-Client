@@ -23,7 +23,6 @@ function CustomerInfo() {
                     day = '0' + day
                 }
                 setCustomer({ ...customer, ['birthday']: [year, month, day] })
-
             }
             )
             .catch(error => alert(error.message));

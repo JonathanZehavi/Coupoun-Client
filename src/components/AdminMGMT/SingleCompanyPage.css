@@ -22,6 +22,7 @@
     border-radius: 5px;
     margin: 10px;
     background-color: white;
+    width: 300px;
 }
 
 .card-single-company {
@@ -77,7 +78,7 @@
     justify-content: space-evenly;
     align-items: center;
     width: 673px;
-        height: 350px;
+    height: 350px;
 }
 
 .edit-company-details {

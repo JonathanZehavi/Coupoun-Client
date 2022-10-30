@@ -62,8 +62,8 @@ function Statistics() {
 
 
     return (
-        <div className='mgmt-container'>
-            <div className='companies-area'>
+        <div className='stats-container'>
+            <div className='stats-area'>
                 {purchases.map((purchase: IPurchaseDetails) => {
                     const date = new Date(
                         purchase.dateOfPurchase[0],
@@ -74,7 +74,7 @@ function Statistics() {
                         purchase.dateOfPurchase[5]
                     )
                     return <div key={purchase.id}>
-                        <Card className='comapny-card'>
+                        <Card className='stats-card'>
                             <Card.Body >
                                 <Card.Header className='card-header-stats-card'>Customer Name: {purchase.lastname}, {purchase.firstname}</Card.Header>
                                 <Card.Text className='card-text-stats-card'>

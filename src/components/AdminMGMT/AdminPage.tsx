@@ -51,11 +51,11 @@ function AdminPage() {
 
     async function setItemsPerPage(pageNumber: number, companiesPerPage: number) {
         axios.get(`http://localhost:8080/companies/pages/${pageNumber}/${companiesPerPage}`,
-        {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
-            }
-        })
+            {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
+            })
             .then(response => {
                 let serverResponse = response.data
                 dispatch({ type: ActionType.getCompaniesByPage, payload: serverResponse })
@@ -92,7 +92,7 @@ function AdminPage() {
                     return <Card key={company.id} className='comapny-card'>
                         <Card.Body>
                             <Card.Header className='company-card-header'>
-                                {company.companyName}
+                                {company.companyName}, ID: {company.id}
                             </Card.Header>
                             <Card.Title className='company-card-title'>
                                 Details

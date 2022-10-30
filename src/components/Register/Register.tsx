@@ -129,7 +129,7 @@ function Register() {
       setBirthdateError("Birth date is required")
       isValid = false
     }
-    
+
 
     if (isUsernameExist) {
       setEmailError("The email you have entered already exist")

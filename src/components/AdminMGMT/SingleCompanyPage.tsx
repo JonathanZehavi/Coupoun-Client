@@ -39,17 +39,25 @@ function SingleCompanyPage() {
       }).catch(error => alert(error.message))
   }
 
-
   async function updateCompany(id: number, comapny: { [key: string]: string | number | any | ICompany }) {
     axios.put(`http://localhost:8080/companies/${id}`, comapny,
       {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem("token")}`
-        }
-      })
-      .then(response => {
-        let serverResponse = response.data
+        },
       }).catch(error => alert(error.message))
+  }
+
+  const deleteCompany = (id: number) => {
+    if (window.confirm("Are you sure you want to delete this company? this action will lead deleting all linked coupons")) {
+      axios.delete(`http://localhost:8080/companies/${id}`, {
+        headers: {
+          'Authorization': `${localStorage.getItem('token')}`
+        },
+      }
+      ).catch(error => alert(error.message));
+      navigate("/")
+    }
   }
 
   let handleEditCompanyClick = () => {
@@ -97,13 +105,6 @@ function SingleCompanyPage() {
   }
 
 
-  let handleDeleteCompanyClick = () => {
-    window.confirm("Are you sure you want to delete?")
-    if ("Yes") {
-
-    }
-  }
-
   useEffect(() => {
     getCouponsByComnpanyId(JSON.parse(id))
     fetch(`http://localhost:8080/companies/${JSON.parse(id)}`,
@@ -146,7 +147,7 @@ function SingleCompanyPage() {
         <Card className='card-single-company'>
           <Card.Body>
             <Card.Header className='single-company-card-header'>
-              {company.companyName}
+              {company.companyName}, ID: {company.id}
             </Card.Header>
 
             <Card.Text className='single-comapny-card-text'>
@@ -156,7 +157,7 @@ function SingleCompanyPage() {
             </Card.Text>
             <Card.Footer className='single-company-card-footer'>
               <Button onClick={handleEditCompanyClick}>Edit</Button>
-              <Button>Delete</Button>
+              <Button onClick={() => deleteCompany(JSON.parse(id))}>Delete</Button>
             </Card.Footer>
           </Card.Body>
         </Card>

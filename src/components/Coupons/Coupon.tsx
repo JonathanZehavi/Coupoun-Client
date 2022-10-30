@@ -39,7 +39,7 @@ function Coupon(props: IProps) {
           'Authorization': `${localStorage.getItem('token')}`
         },
       }
-      )
+      ).catch(error => alert(error.message));
     }
   }
 

@@ -1,3 +1,27 @@
+.stats-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-direction: column;
+    width: 97%;
+    height: 82vh;
+    margin: 20px;
+}
+
+.stats-area {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    height: 66vh;
+}
+
+.stats-card.card {
+    height: 200px;
+    width: 450px;
+}
+
+
 .card-stats-body {
     height: 40px;
 }

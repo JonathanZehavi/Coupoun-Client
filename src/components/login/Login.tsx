@@ -22,7 +22,6 @@ function Login() {
     });
     let username = user.username
     let password = user.password
-    let role = user.role
 
     const [error, setError] = useState<string>("")
 
@@ -49,8 +48,8 @@ function Login() {
         try {
             const response = await axios.post("http://localhost:8080/users/login", { username, password })
             const serverResponse = response.data;
-            let token =  serverResponse.token;
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}` 
+            let token = serverResponse.token;
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
             localStorage.setItem("companyId", JSON.stringify(serverResponse.companyId))
             localStorage.setItem('token', token);
             localStorage.setItem('userRole', serverResponse.role)
@@ -73,12 +72,12 @@ function Login() {
             <div className='full_screen_login'>
                 <div className='container_login'>
                     {(isLoggedIn || localStorage.getItem("isLoggedIn")) ?
-                            <div className='you-are-logged-in-message'>
-                                You are already logged in
-                            </div>
+                        <div className='you-are-logged-in-message'>
+                            You are already logged in
+                        </div>
 
-                            :
-                                <>
+                        :
+                        <>
                             <div className='title_login_container'>
                                 <h1 className='title_login'>Login</h1>
                             </div><form className='form' onSubmit={onLoginClicked}>

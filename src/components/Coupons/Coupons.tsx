@@ -27,28 +27,17 @@ function Coupons() {
 
   const [pageNumber, setPageNumber] = useState<number>(0)
 
-  const couponsPerPage = 10
-
-  let pageCount = Math.ceil(coupons.length / couponsPerPage)
-  
-  couponsByPage = localStorage.getItem("userRole") === "Company" ? 
-  coupons.filter((coupon => coupon.companyId === companyId))  
-  : couponsByPage;
-
-
   dispatch({ type: ActionType.getPageNumber, payload: pageNumber })
 
+  const couponsPerPage = 10
 
+  let amountOfCoupons = coupons.length;
 
-  async function getCoupons() {
-    axios.get("http://localhost:8080/coupons")
-      .then(response => {
-        let serverResponse = response.data
-        dispatch({ type: ActionType.getAllCoupons, payload: serverResponse })
-      }
-      )
-      .catch(error => alert(error.message));
-  }
+  let pageCount = localStorage.getItem("userRole") === "Company" ? Math.ceil(couponsByPage.length / couponsPerPage) : Math.ceil(coupons.length / couponsPerPage)
+
+  couponsByPage = localStorage.getItem("userRole") === "Company" ?
+    coupons.filter((coupon => coupon.companyId === companyId))
+    : couponsByPage;
 
 
   async function setItemsPerPage(pageNumber: number, couponsPerPage: number) {
@@ -61,7 +50,6 @@ function Coupons() {
       .catch(error => alert(error.message));
   }
 
-
   let changePage = ({ selected }: any) => {
     setPageNumber(selected)
   }
@@ -70,13 +58,17 @@ function Coupons() {
   useEffect(() => {
     localStorage.removeItem("EditMode")
     setItemsPerPage(pageNumber, couponsPerPage)
-    getCoupons()
   }, [pageNumber])
 
 
   useEffect(() => {
-    getCoupons()
   }, [isLoggedIn])
+
+  useEffect(() => {
+    console.log(amountOfCoupons);
+
+  }, [amountOfCoupons])
+
 
 
 

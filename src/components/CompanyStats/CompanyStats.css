@@ -1,0 +1,53 @@
+.company-stats-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-direction: column;
+    width: 97%;
+    height: 82vh;
+    margin: 20px;
+}
+
+.coupons-company-stats-area {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px;
+}
+
+.coupon-card-company-stats {
+    height: 328px;
+    width: 476px;
+}
+
+.coupon-card-company-stats-header {
+    object-fit: cover;
+
+}
+
+.coupon-card-company-stats-header img {
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
+    height: 120px;
+    width: 100%;
+
+}
+
+.coupon-card-company-stats-body {
+    height: 90px;
+    margin: 30px;
+    font-size: 25px;
+}
+
+.footer-card-company-stats-container {
+    display: flex;
+    height: 45px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.amount-of-times-purchased {
+    width: 50px;
+    font-size: 30px;
+}

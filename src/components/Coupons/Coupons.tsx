@@ -65,7 +65,6 @@ function Coupons() {
   }, [isLoggedIn])
 
   useEffect(() => {
-    console.log(amountOfCoupons);
 
   }, [amountOfCoupons])
 

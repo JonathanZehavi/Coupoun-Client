@@ -4,7 +4,7 @@
     justify-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    height: 87vh;
+    height: 89vh;
 }
 
 .coupons_container {
@@ -67,7 +67,7 @@
 
 @media (max-height:725px) {
     .coupons_container {
-        height: 77vh;
+        height: 81vh;
         scroll-behavior: smooth;
     }
 }
@@ -83,8 +83,9 @@
 .pages_container {
     display: flex;
     justify-content: center;
+    align-items: center;
     position: relative;
-    height: 38px;
+    height: 53px;
 }
 
 .amount {
@@ -228,6 +229,7 @@
     background-color: white;
     cursor: pointer;
     text-decoration: none;
+    padding: 0 10px;
 
 }
 
@@ -239,18 +241,21 @@
 .active_buttons a {
     color: white;
     background-color: black;
+    padding: 0 10px;
 }
 
 .active_buttons a {
     color: white;
     background-color: black;
+    padding: 0 10px;
 }
 
 .pages_buttons.selected a {
     color: white;
     background-color: black;
-}
+    padding: 0 10px;
 
+}
 
 .disabled_buttons a:hover {
     color: white;
@@ -278,4 +283,8 @@
     height: 107px;
     width: 110px;
     mix-blend-mode: multiply;
+}
+
+.pagination-in-coupons-page {
+    width: 20px;
 }

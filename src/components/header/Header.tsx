@@ -20,17 +20,14 @@ function Header() {
 
 
   return (
-
     <>
       <nav className='nav'>
         <div className='navbar_links'>
-          <Link style={{ padding: 0 }} to={'/'}><a className="active">Coupons</a></Link>
+          <Link className="active" to={'/'}>Coupons</Link>
           {(isLoggedIn || localStorage.getItem("isLoggedIn")) &&
-            <Link style={{ padding: 0 }} to='myinfo'><a className="my-info">My Info  <BiUserCircle /></a></Link>}
-
-
+            <Link className="link" to='myinfo'>My Info  <BiUserCircle /></Link>}
           {(localStorage.getItem("userRole") === "Customer" && (isLoggedIn || localStorage.getItem("isLoggedIn"))) &&
-            <button className='cart-button' onClick={openCart}>Cart<AiOutlineShoppingCart />
+            <button className='cart-button link' onClick={openCart}>Cart<AiOutlineShoppingCart />
               <div className="rounded-circle bg-danger d-flex justify-content-center align-items-center"
                 style={{
                   color: "white",
@@ -44,21 +41,25 @@ function Header() {
                 {cartAmount}
               </div>
             </button>}
-            {localStorage.getItem("userRole") === "Admin" && 
+          {localStorage.getItem("userRole") === "Admin" &&
             <>
-            <Link style={{ padding: 0 }} to='/mgmt'><a className="my-info">MGMT  <FcManager /></a></Link>
-            <Link style={{ padding: 0 }} to='/statistics'><a className="my-info">Stats  <FcStatistics /></a></Link>
+              <Link className='link' to='/mgmt'>MGMT  <FcManager /></Link>
+              <Link className='link' to='/statistics'>Stats  <FcStatistics /></Link>
             </>
-            }
+          }
+          {localStorage.getItem("userRole") === "Company" &&
+            <>
+              <Link className='link' to='/companystatistics'>Stats  <FcStatistics /></Link>
+            </>
+          }
         </div>
         <div className='right'>
-          {(localStorage.getItem("isLoggedIn") || isLoggedIn) ? <Link style={{ padding: 0 }} to='/'><a onClick={onLogout}>Logout <AiOutlineLogout /></a></Link>
+          {(localStorage.getItem("isLoggedIn") || isLoggedIn) ? <Link className='link' onClick={onLogout} to='/'>Logout <AiOutlineLogout /></Link>
             :
             <>
-              <Link style={{ padding: 0 }} to='login'><a>Login <AiOutlineLogin /></a></Link>
-              <Link style={{ padding: 0 }} to='/signup'><a>Sign Up <SiGnuprivacyguard /></a></Link>
+              <Link className='link' to='login'>Login <AiOutlineLogin /></Link>
+              <Link className='link' to='/signup'>Sign Up <SiGnuprivacyguard /></Link>
             </>}
-
         </div>
       </nav >
     </>

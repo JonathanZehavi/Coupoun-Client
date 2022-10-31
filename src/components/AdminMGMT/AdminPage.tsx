@@ -68,8 +68,6 @@ function AdminPage() {
         getCompanyById(id)
     }
 
-
-
     let changePage = ({ selected }: any) => {
         setPageNumber(selected)
     }

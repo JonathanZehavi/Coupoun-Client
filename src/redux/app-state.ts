@@ -16,10 +16,12 @@ export class AppState {
     public isLoggedIn: boolean;
     public purchaseId: number;
     public purchaseDetails: IPurchaseDetails;
+    public purchasesDetails: IPurchaseDetails[] = [];
+    public purchasesDetailsByPage: IPurchaseDetails[] = [];
     public companies: ICompany[] = []
     public companiesByPage: ICompany[] = []
     public pageNumber: number = 0
-    public category:string
+    public category: string
     public couponsByCompanyId: ICoupon[] = []
-    
+
 }

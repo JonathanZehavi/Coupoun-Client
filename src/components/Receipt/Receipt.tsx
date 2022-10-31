@@ -14,8 +14,6 @@ function Receipt() {
 
     let dateToString = new Date().toLocaleString('IL')
 
-    
-
     const { setCartItems } = useCart()
 
     let navigate = useNavigate()
@@ -37,7 +35,7 @@ function Receipt() {
     async function getPurchaseDetails(id: number) {
         axios.get(`http://localhost:8080/purchases/getPurchaseDetails/${id}`)
             .then(response => {
-                let serverResponse = response.data              
+                let serverResponse = response.data
                 setPurchaseDetails({ ...serverResponse, coupons: serverResponse.coupons, dateOfPurchase: dateToString })
             }
             )

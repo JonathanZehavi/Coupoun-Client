@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import "./App.css";
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
-import Layout from './components/Layout/Layout';
 import Login from './components/Login/Login';
 import { createGlobalStyle } from 'styled-components';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
@@ -16,12 +15,13 @@ import CreateCouponModal from './components/Modal/CreateCouponModal';
 import MyInfoPage from './components/My-Info-Page/MyInfoPage';
 import Checkout from './components/Checkout/Checkout';
 import Receipt from './components/Receipt/Receipt';
-import Coupon from './components/Coupons/Coupon';
 import Coupons from './components/Coupons/Coupons';
 import Menu from './components/Menu/Menu';
 import AdminPage from './components/AdminMGMT/AdminPage';
 import SingleCompanyPage from './components/AdminMGMT/SingleCompanyPage';
 import Statistics from './components/AdminMGMT/Statistics';
+import CompanyStats from './components/CompanyStats/CompanyStats';
+import PurchasesHistory from './components/PurchasesHistory/PurchasesHistory';
 
 
 function App() {
@@ -54,8 +54,10 @@ function App() {
             <Route path='/myinfo' element={<MyInfoPage />} />
             <Route path='/checkout' element={<Checkout />} />
             <Route path='/receipt' element={<Receipt />} />
-            <Route path='/mgmt' element={<AdminPage/>} />
-            <Route path='/statistics' element={<Statistics/>} />
+            <Route path='/mgmt' element={<AdminPage />} />
+            <Route path='/statistics' element={<Statistics />} />
+            <Route path='/companystatistics' element={<CompanyStats />} />
+            <Route path='/purchaseshistory' element={<PurchasesHistory />} />
           </Routes>
           <Footer />
         </CartProvider>

@@ -1,10 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { FaUserCircle } from 'react-icons/fa'
+import { FaUserCircle, FaHistory } from 'react-icons/fa'
 import { Button, Form } from 'react-bootstrap';
 import { ICustomer } from '../../Model/ICustomer';
+import { useNavigate } from 'react-router-dom';
 
 function CustomerInfo() {
+
+    let navigate = useNavigate()
 
     const [editMyInfoMode, setEditMyInfoMode] = useState<boolean>(false)
 
@@ -137,7 +140,9 @@ function CustomerInfo() {
         setEditMyInfoMode(true)
     }
 
-    console.log(customer);
+    let handleMyPurchasesHistoryClick = () => {
+        navigate("/purchaseshistory")
+    }
 
 
     useEffect(() => {
@@ -206,7 +211,8 @@ function CustomerInfo() {
                         }
                     </div>
                     <div className="my-info-buttons-container">
-                        <Button className='cancel-changes-info bg-warning' style={{ border: 'none', height: '30px' }} onClick={handleOnEditClick}>Edit My Info <FaUserCircle /></Button>
+                        <Button className='cancel-changes-info bg-warning' style={{ border: 'none', height: '30px', width: "157px" }} onClick={handleOnEditClick}>Edit My Info <FaUserCircle /></Button>
+                        <Button className='cancel-changes-info bg-info' style={{ border: 'none', height: '30px' }} onClick={handleMyPurchasesHistoryClick}>My Purchases History <FaHistory /></Button>
                     </div>
                 </div>
             }

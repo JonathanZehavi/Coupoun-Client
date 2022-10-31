@@ -11,17 +11,17 @@ export function reduce(state: AppState = initialValue, action: Action): AppState
     switch (action.type) {
 
         case ActionType.getAllCoupons:
-            newAppState.coupons = action.payload 
+            newAppState.coupons = action.payload
             break;
 
         case ActionType.getCouponsByPage:
             newAppState.couponsByPage = action.payload
             break;
-        
+
         case ActionType.getCouponsSortedBy:
             newAppState.couponsBySorting = action.payload
             break;
-        
+
         case ActionType.openModal:
             newAppState.openModal = action.payload
             break;
@@ -29,7 +29,7 @@ export function reduce(state: AppState = initialValue, action: Action): AppState
         case ActionType.getCouponById:
             newAppState.coupon = action.payload
             break;
-            
+
         case ActionType.createCustomer:
             newAppState.customer = action.payload
             break;
@@ -41,7 +41,7 @@ export function reduce(state: AppState = initialValue, action: Action): AppState
         case ActionType.isLoggedIn:
             newAppState.isLoggedIn = action.payload
             break;
-        
+
         case ActionType.getPurchaseId:
             newAppState.purchaseId = action.payload
             break;
@@ -49,7 +49,14 @@ export function reduce(state: AppState = initialValue, action: Action): AppState
         case ActionType.getPurchaseDetails:
             newAppState.purchaseDetails = action.payload
             break;
-        
+
+        case ActionType.getAllPurchasesDetails:
+            newAppState.purchasesDetails = action.payload
+            break;
+        case ActionType.getAllPurchasesDetailsByPage:
+            newAppState.purchasesDetailsByPage = action.payload
+            break;
+
         case ActionType.getAllCompanies:
             newAppState.companies = action.payload
             break;
@@ -57,7 +64,7 @@ export function reduce(state: AppState = initialValue, action: Action): AppState
         case ActionType.getCompaniesByPage:
             newAppState.companiesByPage = action.payload
             break;
-        
+
         case ActionType.getCompanyById:
             newAppState.company = action.payload
             break;
@@ -69,7 +76,7 @@ export function reduce(state: AppState = initialValue, action: Action): AppState
         case ActionType.getCouponsByCompanyId:
             newAppState.couponsByCompanyId = action.payload
             break;
-        
+
     }
 
     return newAppState

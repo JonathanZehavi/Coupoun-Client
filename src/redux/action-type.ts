@@ -9,6 +9,8 @@ export enum ActionType {
     isLoggedIn,
     getPurchaseId,
     getPurchaseDetails,
+    getAllPurchasesDetails,
+    getAllPurchasesDetailsByPage,
     getAllCompanies,
     getCompaniesByPage,
     getCompanyById,

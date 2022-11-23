@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ActionType } from '../../Redux/action-type'
+import { AiOutlineCloseCircle } from 'react-icons/ai'
 import 'animate.css'
 import './CreateCouponModal.css'
 import { ICoupon } from '../../Model/ICoupon'
@@ -23,7 +24,6 @@ function CreateCouponModal() {
             })
             .then(response => {
                 let serverResponse = response.data
-                dispatch({ type: ActionType.openModal, payload: false })
                 navigate(`/coupon/${serverResponse.id}`)
             })
     }
@@ -94,16 +94,11 @@ function CreateCouponModal() {
     }
 
     let handleSubmit = async (e: any) => {
-        e.preventDefault()
+                e.preventDefault()
 
         let isValid: boolean = true;
 
-        let isCompanyExistById = await isCompanyExist(newCoupon.companyId)
 
-        if (!isCompanyExistById) {
-            setCompanyIdError("Couldn't find this company ID")
-            isValid = false
-        }
         if (!newCoupon.title) {
             setTitleError("Title is required")
             isValid = false
@@ -138,6 +133,7 @@ function CreateCouponModal() {
             setCompanyIdError("Company ID is required")
             isValid = false
         }
+        
         if (!newCoupon.amount) {
             setAmountError("Amount is required")
             isValid = false
@@ -158,6 +154,12 @@ function CreateCouponModal() {
             setImageError("Image is required")
             isValid = false
         }
+        let isCompanyExistById = await isCompanyExist(newCoupon.companyId)
+
+        if (!isCompanyExistById) {
+            setCompanyIdError("Couldn't find this company ID")
+            isValid = false
+        }
         if (isValid) {
             createCoupon(newCoupon)
             dispatch({ type: ActionType.openModal, payload: false })
@@ -175,7 +177,7 @@ function CreateCouponModal() {
         <div className="create-coupon-modal-background">
             <div className='create-coupon-modal-conatainer'>
                 <div className='close-modal-button'>
-                    <button style={{ background: "none", border: "none", fontSize: "15px" }} onClick={handleCloseModal}>X</button>
+                    <Button style={{background: "none", border: "none", boxShadow: "none"}} onClick={handleCloseModal}><AiOutlineCloseCircle style={{fontSize: "20px"}}/></Button>
                 </div>
                 <div className='form-create-coupon-container'>
                     <h3 className='create-coupon-modal-title'>Please enter details for the new coupon:</h3>

@@ -11,7 +11,7 @@
     align-items: center;
     justify-content: space-between;
     min-height: fit-content;
-    height: 400px;
+    min-height: 51vh;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
@@ -45,6 +45,7 @@
     .single-coupon-card {
         width: 80%;
         line-break: auto;
+        height: 51vh;
     }
 
     .image-on-single-coupon {

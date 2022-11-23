@@ -1,19 +1,24 @@
 import { AiOutlineLogin, AiOutlineLogout, AiOutlineShoppingCart } from 'react-icons/ai'
 import { SiGnuprivacyguard } from 'react-icons/si'
-import { FcManager, FcStatistics } from 'react-icons/fc'
+import { FcAbout, FcManager, FcStatistics } from 'react-icons/fc'
 import { BiUserCircle } from 'react-icons/bi'
+import { RiCoupon3Line } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
 import { useCart } from '../Context/Cart-Context'
 import "./Header.css"
+import { useAuth } from '../Context/AuthProvider'
 
 function Header() {
 
   const { openCart, cartAmount, isLoggedIn, setIsLoggedIn } = useCart()
 
+  const { tokenDecoded, setAuth } = useAuth()
+
 
   let onLogout = () => {
     setIsLoggedIn(false)
     localStorage.clear()
+    setAuth(undefined)
   }
 
 
@@ -23,10 +28,10 @@ function Header() {
     <>
       <nav className='nav'>
         <div className='navbar_links'>
-          <Link className="active" to={'/'}>Coupons</Link>
+          <Link className="active" to={'/'}><RiCoupon3Line style={{ fontSize: "35px" }} /> </Link>
           {(isLoggedIn || localStorage.getItem("isLoggedIn")) &&
             <Link className="link" to='myinfo'>My Info  <BiUserCircle /></Link>}
-          {(localStorage.getItem("userRole") === "Customer" && (isLoggedIn || localStorage.getItem("isLoggedIn"))) &&
+          {(tokenDecoded() === "ROLE_Customer" && (isLoggedIn || localStorage.getItem("isLoggedIn"))) &&
             <button className='cart-button link' onClick={openCart}>Cart<AiOutlineShoppingCart />
               <div className="rounded-circle bg-danger d-flex justify-content-center align-items-center"
                 style={{
@@ -41,13 +46,14 @@ function Header() {
                 {cartAmount}
               </div>
             </button>}
-          {localStorage.getItem("userRole") === "Admin" &&
+          {tokenDecoded() === "ROLE_Admin" &&
             <>
               <Link className='link' to='/mgmt'>MGMT  <FcManager /></Link>
               <Link className='link' to='/statistics'>Stats  <FcStatistics /></Link>
+              <Link className='link' to='/guide'>Guide  <FcAbout /></Link>
             </>
           }
-          {localStorage.getItem("userRole") === "Company" &&
+          {tokenDecoded() === "ROLE_Company" &&
             <>
               <Link className='link' to='/companystatistics'>Stats  <FcStatistics /></Link>
             </>

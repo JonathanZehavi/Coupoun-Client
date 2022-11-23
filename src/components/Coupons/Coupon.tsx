@@ -6,8 +6,10 @@ import { ICoupon } from '../../Model/ICoupon'
 import { MdDeleteForever, MdEditNote } from 'react-icons/md'
 import { ActionType } from '../../Redux/action-type'
 import { useCart } from '../Context/Cart-Context'
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import { Button } from 'react-bootstrap'
-import Coupons from './Coupons'
+import { useAuth } from '../Context/AuthProvider'
 
 export interface IProps {
   coupon: ICoupon
@@ -15,12 +17,15 @@ export interface IProps {
 
 function Coupon(props: IProps) {
 
-  const { getAmountOfItems, increaseCartAmount, decreaseCartAmount, removeFromCart }: any = useCart()
+  const { getAmountOfItems, increaseCartAmount, decreaseCartAmount, removeFromCart } = useCart()
+
+  const { tokenDecoded } = useAuth()
 
   const amountOfItems = getAmountOfItems(props.coupon.id)
 
   let dispatch = useDispatch()
   let navigate = useNavigate()
+
 
   async function getCouponById(id: number) {
     axios.get(`http://localhost:8080/coupons/${id}`)
@@ -32,16 +37,20 @@ function Coupon(props: IProps) {
       .catch(error => alert(error.message));
   }
 
+
   const deleteCoupon = (id: number) => {
-    if (window.confirm("Are you sure you want to delete?")) {
-      axios.delete(`http://localhost:8080/coupons/${id}`, {
-        headers: {
-          'Authorization': `${localStorage.getItem('token')}`
-        },
-      }
-      ).catch(error => alert(error.message));
+    axios.delete(`http://localhost:8080/coupons/${id}`, {
+      headers: {
+        'Authorization': `${localStorage.getItem('token')}`
+      },
     }
+    ).catch(error => {
+      if (error.message.includes("403")) {
+        navigate("/unauthorized")
+      }
+    });
   }
+
 
   let handleEditClick = () => {
     localStorage.setItem("EditMode", "true")
@@ -52,7 +61,7 @@ function Coupon(props: IProps) {
   }
 
   return (
-    <div>
+    <div className='single-coupon-on-all-coupons'>
       <>
         <div key={props.coupon.id} className='coupon_card'>
           <div className='card_header_on_home_page'>
@@ -73,8 +82,8 @@ function Coupon(props: IProps) {
           </div>
           {props.coupon.amount ?
             <div className='buttons-on-coupons'>
-              {!localStorage.getItem('userRole') && (<Button className='login_coupon_button bg-dangarous w-50' style={{ border: "none" }} onClick={() => navigate("/login")}>Log In to order</Button>)}
-              {localStorage.getItem('userRole') === "Customer" &&
+              {!tokenDecoded() && (<Button className='login_coupon_button bg-secondary w-50' style={{ border: "none" }} onClick={() => navigate("/login")}>Log In to order</Button>)}
+              {tokenDecoded() === "ROLE_Customer" &&
                 <div >
                   {amountOfItems === 0 ?
                     (<Button onClick={() => increaseCartAmount(props.coupon.id)} className='add-to-cart bg-success w-100' style={{ border: "none" }}>+ Add To Cart <TbShoppingCartPlus />
@@ -102,9 +111,22 @@ function Coupon(props: IProps) {
             </div>
 
           }
-          {(localStorage.getItem('userRole') === "Admin" || localStorage.getItem('userRole') === "Company") &&
+          {(tokenDecoded() === "ROLE_Admin" || tokenDecoded() === "ROLE_Company") &&
             <div className='delete-and-edit-coupon-container'>
-              <><Button className='delete_coupon_button bg-danger' style={{ fontSize: "10px", border: "none" }} onClick={() => deleteCoupon(props.coupon.id)}>Delete<MdDeleteForever /></Button>
+              <><Button className='delete_coupon_button bg-danger' style={{ fontSize: "10px", border: "none" }} onClick={() =>
+                confirmAlert({
+                  title: 'Are you sure you want to delete this coupon?',
+                  buttons: [
+                    {
+                      label: 'Yes',
+                      onClick: () => deleteCoupon(props.coupon.id)
+                    },
+                    {
+                      label: 'No',
+                    }
+                  ],
+                })
+              }>Delete<MdDeleteForever /></Button>
                 <Link to={`/coupon/${props.coupon.id}`}>
                   <Button className='edit_coupon_button bg-warning' style={{ fontSize: "10px", border: "none" }} onClick={handleEditClick}>Edit<MdEditNote /></Button>
                 </Link></>

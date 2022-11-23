@@ -5,8 +5,15 @@
     gap: 20px;
     flex-direction: column;
     width: 97%;
-    height: 82vh;
+    z-index: 998;
+    height: 74vh;
     margin: 20px;
+}
+
+.create-new-company-button-container {
+    display: flex;
+    width: 100%;
+    justify-content: start;
 }
 
 .companies-area {

@@ -1,0 +1,138 @@
+.create-user-modal-background {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background-color: rgba(200, 200, 200, 0.5);
+    inset: 0;
+    display: flex;
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-create-user {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 694px;
+    width: 531px;
+    gap: 5px;
+}
+
+.create-user-modal-title {
+    font-weight: bolder;
+    height: 30px;
+    font-size: 25px;
+}
+
+
+.create-user-modal-conatainer {
+    margin: 0 0.5rem;
+    isolation: isolate;
+    width: 600px;
+    height: 800px;
+    border-radius: 12px;
+    background-color: #9DB5B2;
+    box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+    display: flex;
+    z-index: 2;
+    position: absolute;
+    flex-direction: column;
+    padding: 25px;
+}
+
+
+.close-modal-button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-create-user-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 541px;
+}
+
+
+.details-of-user {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 548px;
+    font-weight: bold;
+}
+
+
+.dropdown-roles {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 548px;
+    font-weight: bold;
+}
+
+.dropdown-container {
+    width: 150px;
+    align-self: flex-start;
+    margin-left: 50px;
+}
+
+.dropdown-roles label {
+    font-size: 20px;
+    border-radius: 5px;
+    width: 450px;
+}
+
+.roles-dropdown-button:focus {
+    background-color: gray;
+    border: none;
+}
+
+.roles-dropdown-button {
+    background-color: gray;
+    border: none;
+    width: 200px;
+    height: 40px;
+    font-size: 20px;
+}
+
+
+.btn-check:checked+.btn-secondary,
+.btn-check:active+.btn-secondary,
+.btn-secondary:active,
+.btn-secondary.active,
+.show>.btn-secondary.dropdown-toggle {
+    background-color: gray;
+    border: none;
+}
+
+.details-of-user input {
+    border-radius: 5px;
+    width: 450px;
+    height: 41px;
+}
+
+.details-of-user label {
+    font-size: 20px;
+    border-radius: 5px;
+    width: 450px;
+}
+
+.error {
+    color: red;
+    margin: 0;
+    font-size: 15px;
+    height: 32px;
+    width: 450px;
+}
+
+.button-submit-user {
+    height: 40px;
+}

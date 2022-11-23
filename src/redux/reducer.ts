@@ -18,24 +18,37 @@ export function reduce(state: AppState = initialValue, action: Action): AppState
             newAppState.couponsByPage = action.payload
             break;
 
-        case ActionType.getCouponsSortedBy:
-            newAppState.couponsBySorting = action.payload
-            break;
 
         case ActionType.openModal:
             newAppState.openModal = action.payload
+            break;
+
+        case ActionType.openCompanyModal:
+            newAppState.openCompanyModal = action.payload
+            break;
+
+        case ActionType.openUserModal:
+            newAppState.openUserModal = action.payload
             break;
 
         case ActionType.getCouponById:
             newAppState.coupon = action.payload
             break;
 
-        case ActionType.createCustomer:
-            newAppState.customer = action.payload
-            break;
-
         case ActionType.getCouponsByCategory:
             newAppState.couponsByCategory = action.payload
+            break;
+
+        case ActionType.getAllUsers:
+            newAppState.users = action.payload
+            break;
+
+        case ActionType.getUsersByPage:
+            newAppState.usersByPage = action.payload
+            break;
+
+        case ActionType.getUserById:
+            newAppState.user = action.payload
             break;
 
         case ActionType.isLoggedIn:
@@ -44,10 +57,6 @@ export function reduce(state: AppState = initialValue, action: Action): AppState
 
         case ActionType.getPurchaseId:
             newAppState.purchaseId = action.payload
-            break;
-
-        case ActionType.getPurchaseDetails:
-            newAppState.purchaseDetails = action.payload
             break;
 
         case ActionType.getAllPurchasesDetails:

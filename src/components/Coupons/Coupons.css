@@ -288,3 +288,45 @@
 .pagination-in-coupons-page {
     width: 20px;
 }
+
+.react-confirm-alert-body {
+    display: flex;
+    font-family: 'Changa', sans-serif;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    text-align: center;
+    color: black;
+    backdrop-filter: blur(1px);
+    box-shadow: 0 0 10px #f4f2f2;
+}
+
+.react-confirm-alert-body h1 {
+    font-size: 18px;
+}
+
+.react-confirm-alert-button-group button {
+    background: #8e7d8181;
+    font-size: 14px;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-align: center;
+    width: 100px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: .2s;
+    box-shadow: 0 0 10px #ffffff;
+}
+
+.react-confirm-alert-button-group button:hover {
+    background: black;
+}
+
+.react-confirm-alert-overlay {
+    background: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(4px);
+}

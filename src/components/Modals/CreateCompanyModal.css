@@ -1,9 +1,8 @@
-.create-coupon-modal-background {
+.create-company-modal-background {
     width: 100vw;
     height: 100vh;
     position: fixed;
-    background-color: rgba(200, 200, 200, 0.9);
-    /* opacity: .93; */
+    background-color: rgba(200, 200, 200, 0.5);
     inset: 0;
     display: flex;
     z-index: 999;
@@ -11,31 +10,32 @@
     align-items: center;
 }
 
-.form-create-coupon {
+.form-create-company {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 600px;
-    width: 400px;
+    height: 431px;
+    width: 531px;
     gap: 5px;
 }
 
-.create-coupon-modal-title {
+.create-company-modal-title {
     font-weight: bolder;
     height: 30px;
+    font-size: 25px;
 }
 
 
-.create-coupon-modal-conatainer {
+.create-company-modal-conatainer {
     display: inline-block;
     margin: 0 0.5rem;
     isolation: isolate;
     width: 600px;
-    height: 694px;
+    height: 587px;
     border-radius: 12px;
     background-color: #9DB5B2;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
     display: flex;
     z-index: 2;
     position: absolute;
@@ -49,7 +49,7 @@
     justify-content: flex-end;
 }
 
-.form-create-coupon-container {
+.form-create-company-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -58,26 +58,36 @@
 }
 
 
-.details-of-coupons {
+.details-of-company {
     display: flex;
     flex-direction: column;
-    height: 55px;
-    width: 350px;
-
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 548px;
     font-weight: bold;
 }
 
-.details-of-coupons input {
+.details-of-company input {
     border-radius: 5px;
+    width: 450px;
+    height: 41px;
+}
 
+.details-of-company label {
+    font-size: 20px;
+    border-radius: 5px;
+    width: 450px;
 }
 
 .error {
     color: red;
     margin: 0;
-    height: 15px;
+    font-size: 15px;
+    height: 20px;
+    width: 450px;
 }
 
-.button-submit-coupon {
+.button-submit-company {
     height: 40px;
 }

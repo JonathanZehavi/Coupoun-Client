@@ -11,6 +11,7 @@ import Coupon from './Coupon';
 import { useCart } from '../Context/Cart-Context';
 import Menu from '../Menu/Menu';
 import styled from 'styled-components';
+import { useAuth } from '../Context/AuthProvider';
 
 
 function Coupons() {
@@ -18,6 +19,8 @@ function Coupons() {
   let dispatch = useDispatch();
 
   const { isLoggedIn } = useCart()
+
+  const { tokenDecoded } = useAuth()
 
   let couponsByPage: ICoupon[] = useSelector((state: AppState) => state.couponsByPage)
 
@@ -33,9 +36,9 @@ function Coupons() {
 
   let amountOfCoupons = coupons.length;
 
-  let pageCount = localStorage.getItem("userRole") === "Company" ? Math.ceil(couponsByPage.length / couponsPerPage) : Math.ceil(coupons.length / couponsPerPage)
+  let pageCount = tokenDecoded() === "ROLE_Company" ? Math.ceil(couponsByPage.length / couponsPerPage) : Math.ceil(coupons.length / couponsPerPage)
 
-  couponsByPage = localStorage.getItem("userRole") === "Company" ?
+  couponsByPage = tokenDecoded() === "ROLE_Company" ?
     coupons.filter((coupon => coupon.companyId === companyId))
     : couponsByPage;
 
@@ -50,7 +53,7 @@ function Coupons() {
       .catch(error => alert(error.message));
   }
 
-  let changePage = ({ selected }: any) => {
+  let changePage = ({ selected }: { selected: number }): void => {
     setPageNumber(selected)
   }
 
@@ -67,11 +70,6 @@ function Coupons() {
   useEffect(() => {
 
   }, [amountOfCoupons])
-
-
-
-
-
 
   return (
     <div>

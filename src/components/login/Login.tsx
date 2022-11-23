@@ -1,15 +1,20 @@
-import { useContext, useState } from 'react'
+import { ChangeEvent, useContext, useEffect, useState } from 'react'
 import axios from 'axios';
 import "./Login.css";
+import jwt_decode from 'jwt-decode'
 import { ConnectContext } from '../Context/Socket-Container';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from './LoadingSpinner';
 import { useCart } from '../Context/Cart-Context';
 import { Button } from 'react-bootstrap';
+import { useAuth } from '../Context/AuthProvider';
+import { IUserLoggedInData } from '../../Model/IUserLoggedInData';
 
 function Login() {
 
     const { logIn, setCartItems, isLoggedIn } = useCart()
+
+    const { tokenDecoded } = useAuth()
 
     let navigate = useNavigate();
 
@@ -27,7 +32,7 @@ function Login() {
 
     let connect = useContext(ConnectContext);
 
-    let onChange = ((e: any) => {
+    let onChange = ((e: ChangeEvent<HTMLInputElement>) => {
         setError("")
         setIsLoading(false)
 
@@ -41,7 +46,7 @@ function Login() {
         }
     })
 
-    const onLoginClicked = async (e: any) => {
+    const onLoginClicked = async (e: React.SyntheticEvent) => {
         e.preventDefault();
 
         setIsLoading(true)
@@ -52,7 +57,7 @@ function Login() {
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
             localStorage.setItem("companyId", JSON.stringify(serverResponse.companyId))
             localStorage.setItem('token', token);
-            localStorage.setItem('userRole', serverResponse.role)
+            tokenDecoded()
             localStorage.setItem('isLoggedIn', 'true')
             localStorage.setItem('userId', serverResponse.id)
             logIn()
@@ -61,11 +66,12 @@ function Login() {
             navigate('/');
             setIsLoading(false)
         }
-        catch (error: any) {
+        catch (error) {
             setIsLoading(false)
             setError("Username or Password is incorrect")
         }
     }
+
 
     return (
         <div>
@@ -80,7 +86,8 @@ function Login() {
                         <>
                             <div className='title_login_container'>
                                 <h1 className='title_login'>Login</h1>
-                            </div><form className='form' onSubmit={onLoginClicked}>
+                            </div>
+                            <form className='form' onSubmit={onLoginClicked}>
                                 <div className='details'>
                                     <label htmlFor="email">Email*</label>
                                     <input id='1' name='username' type="email" placeholder='Email' onChange={onChange} />
@@ -103,6 +110,7 @@ function Login() {
                         </>
                     }
                 </div>
+
             </div>
         </div >
     )

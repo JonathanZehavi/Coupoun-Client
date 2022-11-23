@@ -15,9 +15,6 @@ import './Checkout.css'
 function Checkout() {
 
   const { cartItems } = useCart()
-  console.log(cartItems, "cartItems");
-  
-
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -44,7 +41,6 @@ function Checkout() {
     axios.post("http://localhost:8080/purchases", purchase)
       .then(response => {
         let serverResponse = response.data
-        console.log(serverResponse.id);     
         setPurchaseId(serverResponse.id);
         dispatch({ type: ActionType.getPurchaseId, payload: serverResponse.id })
       }
@@ -77,25 +73,21 @@ function Checkout() {
     setPurchase({ ...purchase, coupons: [...couponsToPurchase], totalPrice })
   }
 
-
-
-
-  console.log(purchase.totalPrice);
   let handlePlaceOrderClick = () => {
-    
+
     setIsLoading(true)
     createPurchase(purchase)
     localStorage.removeItem("shopping-cart")
-    
+
     setTimeout(() => {
       navigate("/receipt")
-      
+
     }, 3000)
   }
 
   useEffect(() => {
     getCoupons()
-   
+
   }, [])
 
   useEffect(() => {

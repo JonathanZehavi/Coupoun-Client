@@ -1,20 +1,22 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { ICustomer } from '../../Model/ICustomer';
 import { ActionType } from '../../Redux/action-type';
+import LoadingSpinner from '../Login/LoadingSpinner';
 import "./Register.css";
 
 function Register() {
 
-  let dispatch = useDispatch();
 
-  async function createCustomer(customer: any) {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  async function createCustomer(customer: ICustomer) {
     axios.post("http://localhost:8080/customers", customer)
       .then(response => {
         let serverResponse = response.data
-        dispatch({ type: ActionType.createCustomer, payload: serverResponse })
       }).catch(error => alert(error.message))
   }
 
@@ -24,7 +26,7 @@ function Register() {
   }
 
 
-  let [newCustomer, setNewCustomer] = useState({
+  const [newCustomer, setNewCustomer] = useState<ICustomer>({
     user: {
       username: "",
       password: "",
@@ -33,23 +35,24 @@ function Register() {
       role: "Customer"
     },
     address: "",
-    amountOfChildren: "",
+    amountOfChildren: 0,
     phoneNumber: "",
-    birthday: ""
+    birthday: []
   })
 
 
-  let [firstnameError, setFirstnameError] = useState<string>("")
-  let [lastnameError, setLastnameError] = useState<string>("")
-  let [emailError, setEmailError] = useState<string>("")
-  let [passwordError, setPasswordError] = useState<string>("")
-  let [addressError, setAddressError] = useState<string>("")
-  let [phoneNumberError, setPhoneNumberError] = useState<string>("")
-  let [birthdateError, setBirthdateError] = useState<string>("")
+  const [firstnameError, setFirstnameError] = useState<string>("")
+  const [lastnameError, setLastnameError] = useState<string>("")
+  const [emailError, setEmailError] = useState<string>("")
+  const [passwordError, setPasswordError] = useState<string>("")
+  const [addressError, setAddressError] = useState<string>("")
+  const [phoneNumberError, setPhoneNumberError] = useState<string>("")
+  const [amountOfChildrenError, setAmountOfChildrenError] = useState<string>("")
+  const [birthdateError, setBirthdateError] = useState<string>("")
 
   let navigate = useNavigate()
 
-  let onChange = ((e: any) => {
+  let onChange = ((e: ChangeEvent<HTMLInputElement>) => {
 
     if (e.target.name === "firstname") {
       setFirstnameError("")
@@ -69,26 +72,27 @@ function Register() {
     if (e.target.name === "phoneNumber") {
       setPhoneNumberError("")
     }
+    if (e.target.name === "amountOfChildren") {
+      setAmountOfChildrenError("")
+    }
     if (e.target.name === "birthday") {
       setBirthdateError("")
     }
-    if (+e.target.id <= 4) {
-      setNewCustomer({
-        ...newCustomer,
-        user: {
-          ...newCustomer.user,
-          [e.target.name]: e.target.value
-        },
-
-      })
-    } else {
-      setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value })
-    }
+    setNewCustomer({
+      ...newCustomer,
+      user: {
+        ...newCustomer.user,
+        [e.target.name]: e.target.value
+      },
+      [e.target.name]: e.target.value
+    })
   })
 
 
-  const sendForm = async (e: any) => {
+  const sendForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setIsLoading(true)
 
     let isValid: boolean = true;
 
@@ -117,6 +121,9 @@ function Register() {
     if (!newCustomer.amountOfChildren) {
       setNewCustomer({ ...newCustomer, [newCustomer.amountOfChildren]: 0 })
     }
+    if (newCustomer.amountOfChildren < 0) {
+      setAmountOfChildrenError("Amount of Children Cannot be below 0")
+    }
     if (!/^\+?(972|0)(\-)?0?(([23489]{1}\d{7})|[5]{1}\d{8})$/i.test(newCustomer.phoneNumber)) {
       setPhoneNumberError("Phone number is not valid")
       isValid = false
@@ -125,11 +132,10 @@ function Register() {
       setPhoneNumberError("Phone number is required")
       isValid = false
     }
-    if (!newCustomer.birthday) {
+    if (newCustomer.birthday.length < 3) {
       setBirthdateError("Birth date is required")
       isValid = false
     }
-
 
     if (isUsernameExist) {
       setEmailError("The email you have entered already exist")
@@ -137,7 +143,11 @@ function Register() {
     }
     if (isValid) {
       createCustomer(newCustomer)
-      navigate('/login')
+      setTimeout(() => {
+        navigate('/login')
+      }, 2500)
+    } else {
+      setIsLoading(false)
     }
   }
 
@@ -193,8 +203,8 @@ function Register() {
 
               <div className='details_register'>
                 <label htmlFor="amountOfChildren">Amount Of Kids</label>
-                <input defaultValue={newCustomer.amountOfChildren} id='6' name='amountOfChildren' type="number" placeholder='Amount Of Kids' onChange={onChange} />
-                <p className='register-error'></p>
+                <input defaultValue={newCustomer.amountOfChildren} id='6' name='amountOfChildren' type="number" placeholder='Amount Of Kids' min={0} onChange={onChange} />
+                <p className='register-error'>{amountOfChildrenError}</p>
               </div>
 
               <div className='details_register'>
@@ -205,14 +215,17 @@ function Register() {
 
               <div className='details_register'>
                 <label htmlFor="birthday">Birth Date*</label>
-                <input defaultValue={newCustomer.birthday} id='8' name='birthday' type="date" placeholder='Birth Date' onChange={onChange} />
+                <input defaultValue={`${newCustomer.birthday[0]}-${newCustomer.birthday[1]}-${newCustomer.birthday[2]}`} id='8' name='birthday' type="date" placeholder='Birth Date' onChange={onChange} />
                 <p className='register-error'>{birthdateError}</p>
               </div>
             </div>
           </div>
 
           <div className='submit_button_container'>
-            <Button style={{ width: '120px' }} type='submit'>Submit</Button>
+            <Button style={{ width: '120px', margin: '10px' }} type='submit'>Submit</Button>
+          </div>
+          <div className='loading-spinner-container'>
+            {isLoading && <span className='loadnig-spinner-register-span'><LoadingSpinner /> Signing you up...</span>}
           </div>
         </form>
       </div>

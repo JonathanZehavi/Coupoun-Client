@@ -3,11 +3,14 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { Card } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
-import { ICoupon } from '../../Model/ICoupon';
-import { IPurchaseDetails } from '../../Model/IPurchaseDetails';
+import { useNavigate } from 'react-router-dom';
+import { ICoupon } from '../../../Model/ICoupon';
+import { IPurchaseDetails } from '../../../Model/IPurchaseDetails';
 import './Statistics.css'
 
 function Statistics() {
+
+    let navigate = useNavigate()
 
     const [purchases, setPurchases] = useState<IPurchaseDetails[]>([])
     const [allPurchases, setAllPurchases] = useState<IPurchaseDetails[]>([])
@@ -19,7 +22,7 @@ function Statistics() {
     let pageCount = Math.ceil(allPurchases.length / purchasesPerPage)
 
 
-    let changePage = ({ selected }: any) => {
+    let changePage = ({ selected }: { selected: number }): void => {
         setPageNumber(selected)
     }
 
@@ -35,7 +38,11 @@ function Statistics() {
                 setAllPurchases(serverResponse)
             }
             )
-            .catch(error => alert(error.message));
+            .catch(error => {
+                if (error.message.includes("403")) {
+                    navigate("/unauthorized")
+                }
+            });
     }
 
 
@@ -51,7 +58,11 @@ function Statistics() {
                 setPurchases(serverResponse)
             }
             )
-            .catch(error => alert(error.message));
+            .catch(error => {
+                if (error.message.includes("403")) {
+                    navigate("/unauthorized")
+                }
+            });
     }
 
     useEffect(() => {
@@ -63,6 +74,7 @@ function Statistics() {
 
     return (
         <div className='stats-container'>
+            <div style={{ fontSize: "25px", fontWeight: "bold" }}>{`Total of ${allPurchases.length} purchases`}</div>
             <div className='stats-area'>
                 {purchases.map((purchase: IPurchaseDetails) => {
                     const date = new Date(

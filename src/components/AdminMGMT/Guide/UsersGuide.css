@@ -1,0 +1,9 @@
+.user-guide-container {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+}
+
+.text-user-guide {
+    margin: 50px;
+}

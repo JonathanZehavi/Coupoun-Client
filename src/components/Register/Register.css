@@ -10,31 +10,35 @@
     flex-direction: column;
     align-content: center;
     justify-content: space-evenly;
-    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    box-shadow: rgb(38 57 77) 0px 20px 30px -10px;
     background-color: #6c7888;
     color: white;
     font-weight: bold;
     padding: 10px;
     border-radius: 5px;
-    height:450px;
+    height: 555px;
     width: 60vw;
 }
 
 
 .register-form-middle-area {
-display: flex;
+    display: flex;
     align-items: center;
     justify-content: space-evenly;
 }
 
 .title_register {
     font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 50px;
 }
 
 .title_register_container {
     display: flex;
     justify-content: center;
+    height: 150px;
 }
 
 .details {
@@ -81,5 +85,23 @@ display: flex;
     color: red;
     margin: 0;
     height: 15px;
+    width: 299px;
 }
 
+.loading-spinner-container {
+    height: 29px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.loadnig-spinner-register-span {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    font-size: 15px;
+
+}

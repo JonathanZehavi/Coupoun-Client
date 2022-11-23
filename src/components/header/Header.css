@@ -57,7 +57,8 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #484372;
+    /* background-color: #484372; */
+    background-color: rgb(38, 57, 77);
     color: white;
     height: 58px;
     width: 110px;

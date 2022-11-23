@@ -1,22 +1,26 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import { Button, Card, Stack } from 'react-bootstrap'
+import { confirmAlert } from 'react-confirm-alert'
+import { MdDeleteForever, MdEditNote } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ICompany } from '../../Model/ICompany'
-import { ICoupon } from '../../Model/ICoupon'
-import { ActionType } from '../../Redux/action-type'
-import { AppState } from '../../Redux/app-state'
+import { ICompany } from '../../../Model/ICompany'
+import { ICoupon } from '../../../Model/ICoupon'
+import { ActionType } from '../../../Redux/action-type'
+import { AppState } from '../../../Redux/app-state'
 import './SingleCompanyPage.css'
 
 function SingleCompanyPage() {
+
+
+  let { id } = useParams()
 
   let dispatch = useDispatch()
   let navigate = useNavigate()
 
   const [editCompanyMode, setEditCompanyMode] = useState<boolean>(false)
 
-  let { id } = useParams()
 
   const [company, setCompany] = useState<{ [key: string]: string | number | any | ICompany }>({})
 
@@ -26,6 +30,7 @@ function SingleCompanyPage() {
 
   let coupons = useSelector((state: AppState) => state.couponsByCompanyId)
 
+
   async function getCouponsByComnpanyId(id: number) {
     axios.get(`http://localhost:8080/coupons/byCompanyId/${id}`,
       {
@@ -34,9 +39,29 @@ function SingleCompanyPage() {
         }
       })
       .then(response => {
-        let serverResponse = response.data
+        let serverResponse = [...response.data]
         dispatch({ type: ActionType.getCouponsByCompanyId, payload: serverResponse })
-      }).catch(error => alert(error.message))
+      }).catch(error => {
+        if (error.message.includes("403")) {
+          navigate("/unauthorized")
+        }
+      });
+  }
+
+  async function getCompanyById(id: number) {
+    axios.get(`http://localhost:8080/companies/${id}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+        }
+      }).then(response => {
+        let serverResponse = { ...response.data }
+        setCompany(serverResponse)
+      }).catch(error => {
+        if (error.message.includes("403")) {
+          navigate("/unauthorized")
+        }
+      });
   }
 
   async function updateCompany(id: number, comapny: { [key: string]: string | number | any | ICompany }) {
@@ -45,7 +70,11 @@ function SingleCompanyPage() {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem("token")}`
         },
-      }).catch(error => alert(error.message))
+      }).catch(error => {
+        if (error.message.includes("403")) {
+          navigate("/unauthorized")
+        }
+      });
   }
 
   const deleteCompany = (id: number) => {
@@ -55,7 +84,11 @@ function SingleCompanyPage() {
           'Authorization': `${localStorage.getItem('token')}`
         },
       }
-      ).catch(error => alert(error.message));
+      ).catch(error => {
+        if (error.message.includes("403")) {
+          navigate("/unauthorized")
+        }
+      });
       navigate("/")
     }
   }
@@ -67,7 +100,7 @@ function SingleCompanyPage() {
     setEditCompanyMode(false)
   }
 
-  let onChange = (e: any) => {
+  let onChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === "companyName") {
       setCompanyNameError("")
     }
@@ -107,12 +140,8 @@ function SingleCompanyPage() {
 
   useEffect(() => {
     getCouponsByComnpanyId(JSON.parse(id))
-    fetch(`http://localhost:8080/companies/${JSON.parse(id)}`,
-      {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem("token")}`
-        }
-      }).then(data => data.json()).then(setCompany);
+    getCompanyById(JSON.parse(id))
+
   }, [])
 
 
@@ -137,8 +166,8 @@ function SingleCompanyPage() {
             <p className='error-company-form'>{phonNumberError}</p>
           </div>
           <div className="buttons-company-container">
-            <Button onClick={submitChanges}>Submit</Button>
-            <Button onClick={handleCancelEditCompanyClick}>Cancel</Button>
+            <Button variant='success' onClick={submitChanges}>Submit</Button>
+            <Button variant='danger' onClick={handleCancelEditCompanyClick}>Cancel</Button>
           </div>
 
         </div>
@@ -156,40 +185,54 @@ function SingleCompanyPage() {
               Phone Number: {company.phoneNumber}
             </Card.Text>
             <Card.Footer className='single-company-card-footer'>
-              <Button onClick={handleEditCompanyClick}>Edit</Button>
-              <Button onClick={() => deleteCompany(JSON.parse(id))}>Delete</Button>
+
+              <Button variant='danger' onClick={() =>
+                confirmAlert({
+                  title: `Are you sure you want to delete '${company.companyName}'? This action will lead deleting all the coupons linked to this company`,
+                  buttons: [
+                    {
+                      label: 'Yes',
+                      onClick: () => deleteCompany(JSON.parse(id))
+                    },
+                    {
+                      label: 'No',
+                    }
+                  ],
+                })}
+              >Delete <MdDeleteForever /></Button>
+              <Button variant='warning' style={{ color: "white" }} onClick={handleEditCompanyClick}>Edit <MdEditNote /></Button>
             </Card.Footer>
           </Card.Body>
         </Card>
       }
 
-
-
-      <div className='coupons-company-container'>
-
-        {coupons.map((coupon: ICoupon) => {
-          return <Stack className='coupon-card-on-company-page' direction="horizontal" gap={2}>
-            <Link className='link_to_coupon' to={`/coupon/${coupon.id}`}>
-              <img src={coupon.image} alt='coupon-card-img' style={{
-                width: "125px",
-                height: "125px",
-                objectFit: "cover"
-              }} />
-            </Link>
-
-
-            <div className="me-auto">
-              <div>
-                {coupon.title}{" "}
+      {coupons.length ?
+        <div className='coupons-company-container'>
+          {coupons.map((coupon: ICoupon) => {
+            return <Stack className='coupon-card-on-company-page' direction="horizontal" gap={2}>
+              <Link className='link_to_coupon' to={`/coupon/${coupon.id}`}>
+                <img src={coupon.image} alt='coupon-card-img' style={{
+                  width: "125px",
+                  height: "125px",
+                  objectFit: "cover"
+                }} />
+              </Link>
+              <div className="me-auto">
+                <div>
+                  {coupon.title}{" "}
+                </div>
+                <div className="text-muted" style={{ fontSize: ".75rem" }}>
+                  ${coupon.price}
+                </div>
               </div>
-              <div className="text-muted" style={{ fontSize: ".75rem" }}>
-                ${coupon.price}
-              </div>
-            </div>
-          </Stack>
-        })}
-      </div>
+            </Stack>
+          }
+          )}
+        </div>
+        :
+        <div className='no-coupons-message'>There are no coupons available for this company yet</div>
 
+      }
     </div>
   )
 }

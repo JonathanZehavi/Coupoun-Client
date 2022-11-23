@@ -4,8 +4,11 @@ import './MyInfoPage.css'
 import CompanyInfo from './CompanyInfo';
 import CustomerInfo from './CustomerInfo';
 import AdminInfo from './AdminInfo';
+import { useAuth } from '../Context/AuthProvider';
 
 function MyInfoPage() {
+
+  const { tokenDecoded } = useAuth()
 
   return (
     <div className='my-info-container'>
@@ -17,9 +20,9 @@ function MyInfoPage() {
               My Info
             </div>
           </Card.Title>
-          {localStorage.getItem("userRole") === 'Admin' && <AdminInfo />}
-          {localStorage.getItem("userRole") === 'Company' && <CompanyInfo />}
-          {localStorage.getItem("userRole") === 'Customer' && <CustomerInfo />}
+          {tokenDecoded() === 'ROLE_Admin' && <AdminInfo />}
+          {tokenDecoded() === 'ROLE_Company' && <CompanyInfo />}
+          {tokenDecoded() === 'ROLE_Customer' && <CustomerInfo />}
         </Card.Body>
       </Card>
 

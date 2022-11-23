@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import "./App.css";
 import Footer from './components/Footer/Footer';
@@ -11,22 +11,32 @@ import SingleCoupon from './components/Single-Coupon-Page/SingleCoupon';
 import { useSelector } from 'react-redux';
 import { AppState } from './Redux/app-state';
 import { CartProvider } from './components/Context/Cart-Context';
-import CreateCouponModal from './components/Modal/CreateCouponModal';
+import CreateCouponModal from './components/Modals/CreateCouponModal';
 import MyInfoPage from './components/My-Info-Page/MyInfoPage';
 import Checkout from './components/Checkout/Checkout';
 import Receipt from './components/Receipt/Receipt';
 import Coupons from './components/Coupons/Coupons';
-import Menu from './components/Menu/Menu';
-import AdminPage from './components/AdminMGMT/AdminPage';
-import SingleCompanyPage from './components/AdminMGMT/SingleCompanyPage';
-import Statistics from './components/AdminMGMT/Statistics';
+import SingleCompanyPage from './components/AdminMGMT/SingleCompanyPage/SingleCompanyPage';
+import Statistics from './components/AdminMGMT/Statistics/Statistics';
 import CompanyStats from './components/CompanyStats/CompanyStats';
 import PurchasesHistory from './components/PurchasesHistory/PurchasesHistory';
+import CreateCompanyModal from './components/Modals/CreateCompanyModal';
+import AdminPage from './components/AdminMGMT/AdminPage/AdminPage';
+import SingleUserPage from './components/AdminMGMT/SingleUserPage/SingleUserPage';
+import Guide from './components/AdminMGMT/Guide/Guide';
+import { AuthProvider, useAuth } from './components/Context/AuthProvider';
+import Unautorized from './components/Unauthorized/Unautorized';
+import RequireAuth from './components/RequireAuth/RequireAuth';
 
 
 function App() {
 
   let openModal = useSelector((state: AppState) => state.openModal)
+  let openCompanyModal = useSelector((state: AppState) => state.openCompanyModal)
+
+
+  const { tokenDecoded } = useAuth()
+
 
   const GlobalStyle = createGlobalStyle`
   body {
@@ -35,32 +45,51 @@ function App() {
   }
   `
 
+
   return (
     <div className='app'>
       <GlobalStyle />
       {/* <SocketContainer> */}
-
       <BrowserRouter>
-        <CartProvider>
-          <Header />
-          {openModal && <CreateCouponModal />}
-          <Routes>
-            <Route path='/' element={<Coupons />} />
-            <Route path='/' element={<Menu />} />
-            <Route path="/signup" element={<Register />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/coupon/:id' element={<SingleCoupon />} />
-            <Route path='/company/:id' element={<SingleCompanyPage />} />
-            <Route path='/myinfo' element={<MyInfoPage />} />
-            <Route path='/checkout' element={<Checkout />} />
-            <Route path='/receipt' element={<Receipt />} />
-            <Route path='/mgmt' element={<AdminPage />} />
-            <Route path='/statistics' element={<Statistics />} />
-            <Route path='/companystatistics' element={<CompanyStats />} />
-            <Route path='/purchaseshistory' element={<PurchasesHistory />} />
-          </Routes>
-          <Footer />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Header />
+            {openModal && <CreateCouponModal />}
+            {openCompanyModal && <CreateCompanyModal />}
+
+            <Routes>
+
+              <Route path='/' element={<Coupons />} />
+              <Route path="/signup" element={<Register />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/unauthorized' element={<Unautorized />} />
+
+
+              <Route element={<RequireAuth allowdRoles={tokenDecoded()} />}>
+                <Route path='/coupon/:id' element={<SingleCoupon />} />
+                <Route path='/myinfo' element={<MyInfoPage />} />
+                <Route path='/checkout' element={<Checkout />} />
+                <Route path='/purchaseshistory' element={<PurchasesHistory />} />
+                <Route path='/receipt' element={<Receipt />} />
+                <Route path='/user/:id' element={<SingleUserPage />} />
+              </Route>
+
+              <Route element={<RequireAuth allowdRoles={tokenDecoded()} />}>
+                <Route path='/companystatistics' element={<CompanyStats />} />
+              </Route>
+
+              <Route element={<RequireAuth allowdRoles={'ROLE_Admin'} />}>
+                <Route path='/mgmt' element={<AdminPage />} />
+                <Route path='/company/:id' element={<SingleCompanyPage />} />
+                <Route path='/statistics' element={<Statistics />} />
+                <Route path='/guide' element={<Guide />} />
+              </Route>
+
+
+            </Routes>
+            <Footer />
+          </CartProvider>
+        </AuthProvider>
       </BrowserRouter>
       {/* </SocketContainer> */}
     </div>

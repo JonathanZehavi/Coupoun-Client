@@ -9,7 +9,7 @@ export interface ICustomer {
         role: string;
     }
     address: string;
-    amountOfChildren: string;
+    amountOfChildren: number;
     phoneNumber: string;
     birthday: number[];
 }

@@ -1,16 +1,19 @@
 import axios from 'axios'
+import { response } from 'express'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { Button, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ICoupon } from '../../Model/ICoupon'
 import { ActionType } from '../../Redux/action-type'
 import { AppState } from '../../Redux/app-state'
 import './CompanyStats.css'
 
 function CompanyStats() {
+
     let dispatch = useDispatch();
+    let navigate = useNavigate()
 
     let coupons = useSelector((state: AppState) => state.couponsByCompanyId);
 
@@ -20,18 +23,26 @@ function CompanyStats() {
     let companyId = JSON.parse(localStorage.getItem("companyId"));
 
     const getAmountOfTimesPurchased = async (couponId: number) => {
-        let response = await axios.get(`http://localhost:8080/purchases/ByCouponId/${couponId}`)
-        let data = response.data
-        setAmountOfTimePurchased(data)
-        return data;
+        await axios.get(`http://localhost:8080/purchases/ByCouponId/${couponId}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
+            }).then(response => {
+                let serverResponse = response.data
+                setAmountOfTimePurchased(serverResponse)
+            })
+            .catch(error => {
+                if (error.message.includes("403")) {
+                    navigate("/unauthorized")
+                }
+            });
     }
 
     let handleClick = (id: number) => {
         getAmountOfTimesPurchased(id)
         setIsShownId(id)
     }
-
-
 
     async function getCouponsByComnpanyId(id: number) {
         axios.get(`http://localhost:8080/coupons/byCompanyId/${id}`)
@@ -67,7 +78,7 @@ function CompanyStats() {
                             <Card.Footer className='footer-card-company-stats-container'>
                                 <Button value={coupon.id} key={coupon.id} onClick={() => {
                                     handleClick(coupon.id)
-                                }}>Purchased For:</Button><span className='amount-of-times-purchased'>{isShownId === coupon.id ? amountOfTimePurchased : ""}</span>
+                                }}>Purchased For:</Button><span className='amount-of-times-purchased'>{isShownId === coupon.id ? `${amountOfTimePurchased} Times` : ""}</span>
                             </Card.Footer>
                         </Card>
                     })}

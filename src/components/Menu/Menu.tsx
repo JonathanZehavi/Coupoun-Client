@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react'
-import { Button, Dropdown } from 'react-bootstrap';
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react'
+import { Button, Dropdown, DropdownProps } from 'react-bootstrap';
 import { TbCirclePlus } from 'react-icons/tb'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,7 @@ import './Menu.css'
 export function Menu() {
 
   const [parameter, setParameter] = useState<string>("")
+  const [categoryPicked, setCategoryPicked] = useState<string>("")
 
   let dispatch = useDispatch()
   let navigate = useNavigate()
@@ -75,12 +76,13 @@ export function Menu() {
 
 
 
-  let handleCategoryPicked = ((e: any) => {
-    if (e.target.name === "All") {
+  let handleCategoryPicked = ((eventKey: string) => {
+    setCategoryPicked(eventKey)
+    if (eventKey === "All") {
       setItemsPerPage(0, 10)
       getCoupons()
     } else {
-      getCouponsByCategory(e.target.name)
+      getCouponsByCategory(eventKey)
     }
   })
 
@@ -88,12 +90,6 @@ export function Menu() {
     dispatch({ type: ActionType.openModal, payload: true })
   }
 
-
-  let handleChange = (e: any) => {
-    setItemsPerPage(0, 10)
-    getCoupons()
-    sortBy(pageNumber, pageSize, e)
-  }
 
   useEffect(() => {
     getCoupons()
@@ -105,29 +101,33 @@ export function Menu() {
     <div className='aside_content'>
       <>
         <div>
-          <Dropdown>
+          <Dropdown onSelect={handleCategoryPicked}>
             <Dropdown.Toggle style={{ backgroundColor: "#333", width: "200px", fontSize: "16px", border: "none" }}>
-              Categories
+              {(categoryPicked && categoryPicked !== "All") ? `${categoryPicked}` : "Categories"}
             </Dropdown.Toggle>
             <Dropdown.Menu style={{ width: "200px" }}>
-              <Dropdown.Item onClick={handleCategoryPicked} name='All'>Show All</Dropdown.Item>
+              <Dropdown.Item eventKey={'All'}>Show All</Dropdown.Item>
               {allCategories.map((category: string, index) => {
-                return <Dropdown.Item onClick={handleCategoryPicked} key={index} name={category}>{category}</Dropdown.Item>
+                return <Dropdown.Item eventKey={category} key={index} name={category}>{category}</Dropdown.Item>
               })}
             </Dropdown.Menu>
           </Dropdown>
         </div>
         <div>
 
-          <Dropdown onSelect={handleChange} >
-            <Dropdown.Toggle style={{ backgroundColor: "#333", width: "200px", fontSize: "16px", border: "none" }}>
-              Sort Items
+          <Dropdown onSelect={(eventKey: string) => {
+            setParameter(eventKey)
+            sortBy(pageNumber, pageSize, eventKey)
+
+          }} >
+            <Dropdown.Toggle style={{ backgroundColor: "#333", width: "200px", fontSize: "16px", border: "none" }} >
+              {parameter ? (parameter === "endDate" ? "Expired date" : `${parameter}`) : "Sort Coupons"}
             </Dropdown.Toggle>
             <Dropdown.Menu style={{ width: "200px", border: "none" }}>
-              <Dropdown.Item eventKey={"title"} id='title' name='sorting-parameter'>Ttile</Dropdown.Item>
-              <Dropdown.Item eventKey={"endDate"} id='endDate' name='sorting-parameter'>Expiration Date</Dropdown.Item>
-              <Dropdown.Item eventKey={"category"} id='category' name='sorting-parameter' type="radio">Category</Dropdown.Item>
-              <Dropdown.Item eventKey={"price"} id='price' name='sorting-parameter'>Price Low To High</Dropdown.Item>
+              <Dropdown.Item eventKey="title" id='title' name='title'>Ttile</Dropdown.Item>
+              <Dropdown.Item eventKey="endDate" id='endDate' name='endDate'>Expiration Date</Dropdown.Item>
+              <Dropdown.Item eventKey="category" id='category' name='category' type="radio">Category</Dropdown.Item>
+              <Dropdown.Item eventKey="price" id='price' name='price'>Price Low To High</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
 

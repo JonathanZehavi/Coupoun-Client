@@ -1,0 +1,52 @@
+.guide-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.nav-guide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(95, 138, 143, 0.7);
+    width: 80%;
+    height: 8vh;
+    margin-top: 30px;
+    border-radius: 20px;
+}
+
+.button-group-guide {
+    background-color: none;
+}
+
+.buttons-tabs-guide-companies:focus {
+    font-size: 25px;
+    background-color: rgb(225, 222, 218);
+    border: none;
+}
+
+.buttons-tabs-guide-companies:hover {
+    font-size: 25px;
+}
+
+.buttons-tabs-guide-coupons:focus {
+    font-size: 25px;
+    background-color: rgb(225, 222, 218);
+    border: none;
+}
+
+.buttons-tabs-guide-coupons:hover {
+    font-size: 25px;
+}
+
+.buttons-tabs-guide-users:focus {
+    font-size: 25px;
+    background-color: rgb(225, 222, 218);
+    border: none;
+}
+
+.buttons-tabs-guide-users:hover {
+    font-size: 25px;
+}

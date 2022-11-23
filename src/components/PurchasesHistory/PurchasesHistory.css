@@ -9,6 +9,7 @@
 
 .purchase-history-container {
     display: grid;
+
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -41,4 +42,15 @@
 .header-history {
     border-bottom: 1px solid;
     border-width: 50%;
+}
+
+.nothing-to-show-here-purchases-history-contianer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 50px;
+    width: 1100px;
+    height: 500px;
 }

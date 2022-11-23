@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { FaUserCircle, FaHistory } from 'react-icons/fa'
 import { Button, Form } from 'react-bootstrap';
 import { ICustomer } from '../../Model/ICustomer';
@@ -61,6 +61,8 @@ function CustomerInfo() {
 
     const [firstnameError, setFirstnameError] = useState("")
     const [lastnameError, setLastnameError] = useState("")
+    const [emailError, setEmailError] = useState("")
+    const [passwordError, setPasswordError] = useState("")
     const [addressError, setAddressError] = useState("")
     const [phoneNumberError, setPhoneNumberError] = useState("")
     const [amountOfChildernError, setAmountOfChildrenError] = useState("")
@@ -68,12 +70,18 @@ function CustomerInfo() {
 
 
 
-    let onChangeCustomer = (e: any) => {
+    let onChangeCustomer = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.name === "firstname") {
             setFirstnameError("")
         }
         if (e.target.name === "lastname") {
             setLastnameError("")
+        }
+        if (e.target.name === "username") {
+            setEmailError("")
+        }
+        if (e.target.name === "password") {
+            setPasswordError("")
         }
         if (e.target.name === "address") {
             setAddressError("")
@@ -87,6 +95,15 @@ function CustomerInfo() {
         if (e.target.name === "birthday") {
             setBirthdayError("")
         }
+
+        let [year, month, day] = customer.birthday
+        if (month.toString().length == 2) {
+            month = month % 10
+        }
+        if (day.toString().length == 2 && day.toString().includes('0')) {
+            day = day % 10
+        }
+
         setCustomer({
             ...customer,
             [e.target.name]: e.target.value,
@@ -94,11 +111,17 @@ function CustomerInfo() {
                 ...customer.user,
                 [e.target.name]: e.target.value,
             },
+            ['birthday']: [year, month, day]
         })
+
     }
 
     let handleSubmitChanges = () => {
         let isValid = true;
+        if (customer.user.password > 12) {
+            setPasswordError("Password is required")
+            isValid = false
+        }
 
         if (!customer.address) {
             setAddressError("Adress is required")
@@ -112,6 +135,7 @@ function CustomerInfo() {
             setBirthdayError("Birth Date is required")
             isValid = false
         }
+
         if (customer.birthday <= new Date()) {
             setBirthdayError("Birth Date is invalid")
             isValid = false
@@ -123,6 +147,15 @@ function CustomerInfo() {
         }
         if (!customer.user.lastname) {
             setLastnameError("Last name is required")
+            isValid = false
+        }
+        if (!customer.user.username) {
+            setEmailError("Email is required")
+            isValid = false
+        }
+
+        if (!customer.user.password) {
+            setPasswordError("Password is required")
             isValid = false
         }
 
@@ -156,28 +189,35 @@ function CustomerInfo() {
                 <>
                     <Form>
                         <Form.Group>
-
-                            <Form.Label>First Name</Form.Label>
+                            <Form.Label>First Name*</Form.Label>
                             <Form.Control name='firstname' defaultValue={customer.user.firstname} onChange={onChangeCustomer} />
                             <p className="error-update">{firstnameError}</p>
 
-                            <Form.Label>Last Name</Form.Label>
+                            <Form.Label>Last Name*</Form.Label>
                             <Form.Control name='lastname' defaultValue={customer.user.lastname} onChange={onChangeCustomer} />
                             <p className="error-update">{lastnameError}</p>
 
-                            <Form.Label>Address</Form.Label>
+                            <Form.Label>Email*</Form.Label>
+                            <Form.Control name='username' type='email' defaultValue={customer.user.username} onChange={onChangeCustomer} />
+                            <p className="error-update">{emailError}</p>
+
+                            <Form.Label>Password*</Form.Label>
+                            <Form.Control name='password' type='password' onChange={onChangeCustomer} />
+                            <p className="error-update">{passwordError}</p>
+
+                            <Form.Label>Address*</Form.Label>
                             <Form.Control name='address' defaultValue={customer.address} onChange={onChangeCustomer} />
                             <p className="error-update">{addressError}</p>
 
-                            <Form.Label>Amount Of Kids</Form.Label>
+                            <Form.Label>Amount Of Kids*</Form.Label>
                             <Form.Control name='amountOfChildren' type='number' defaultValue={customer.amountOfChildren} onChange={onChangeCustomer} />
                             <p className="error-update">{amountOfChildernError}</p>
 
-                            <Form.Label>Phone Number</Form.Label>
+                            <Form.Label>Phone Number*</Form.Label>
                             <Form.Control name='phoneNumber' defaultValue={customer.phoneNumber} onChange={onChangeCustomer} />
                             <p className="error-update">{phoneNumberError}</p>
 
-                            <Form.Label>Birth Date</Form.Label>
+                            <Form.Label>Birth Date*</Form.Label>
                             <Form.Control name="birthday" type='date' defaultValue={`${customer.birthday[0]}-${customer.birthday[1]}-${customer.birthday[2]}`} onChange={onChangeCustomer} />
                             <p className="error-update">{birthdayError}</p>
 

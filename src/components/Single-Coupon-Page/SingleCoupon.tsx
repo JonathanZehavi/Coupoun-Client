@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
+import { confirmAlert } from 'react-confirm-alert';
 import { MdDeleteForever, MdEditNote } from 'react-icons/md';
 import { TbShoppingCartPlus } from 'react-icons/tb';
 import { useDispatch } from 'react-redux';
@@ -8,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ICoupon } from '../../Model/ICoupon';
 import { ActionType } from '../../Redux/action-type';
 import { useCart } from '../Context/Cart-Context';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import './SingleCoupon.css'
 
 
@@ -17,7 +19,7 @@ function SingleCoupon() {
 
   let navigate = useNavigate()
 
-  const { getAmountOfItems, increaseCartAmount, decreaseCartAmount, removeFromCart }: any = useCart()
+  const { getAmountOfItems, increaseCartAmount, decreaseCartAmount, removeFromCart } = useCart()
 
   async function deleteCoupon(id: number) {
     axios.delete(`http://localhost:8080/coupons/${id}`,
@@ -107,7 +109,7 @@ function SingleCoupon() {
 
   }
 
-  let handleSubmitChangesClick = (e: any) => {
+  let handleSubmitChangesClick = (e: React.SyntheticEvent) => {
     e.preventDefault()
 
     let isValid: boolean = true;
@@ -277,7 +279,20 @@ function SingleCoupon() {
                 </div>
               }
               {(localStorage.getItem('userRole') === "Admin" || localStorage.getItem('userRole') === "Company") &&
-                <><Button className='delete_coupon_button_on_single_coupon bg-danger' style={{ fontSize: "10px", width: "100px", border: "none" }} onClick={() => deleteCoupon(coupon.id)}>Delete<MdDeleteForever /></Button>
+                <><Button className='delete_coupon_button_on_single_coupon bg-danger' style={{ fontSize: "10px", width: "100px", border: "none" }} onClick={() =>
+                  confirmAlert({
+                    title: 'Are you sure you want to delete?',
+                    buttons: [
+                      {
+                        label: 'Yes',
+                        onClick: () => deleteCoupon(coupon.id)
+                      },
+                      {
+                        label: 'No',
+                      }
+                    ],
+                  })
+                }>Delete<MdDeleteForever /></Button>
                   <Button className='edit_coupon_button_on_single_coupon bg-warning' style={{ fontSize: "10px", width: "100px", border: "none" }} onClick={() => setEditMode(true)} >Edit<MdEditNote /></Button></>}
             </div>
           </div>

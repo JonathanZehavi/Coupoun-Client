@@ -1,6 +1,6 @@
 export interface ICompany {
     id?: number;
-    companyName: String;
-    phoneNumber: String;
-    address: String;
+    companyName: string;
+    phoneNumber: string;
+    address: string;
 }

@@ -65,7 +65,7 @@ function App() {
               <Route path='/unauthorized' element={<Unautorized />} />
 
 
-              <Route element={<RequireAuth allowdRoles={tokenDecoded()} />}>
+              <Route element={<RequireAuth allowdRoles={'ROLE_Admin'} />}>
                 <Route path='/coupon/:id' element={<SingleCoupon />} />
                 <Route path='/myinfo' element={<MyInfoPage />} />
                 <Route path='/checkout' element={<Checkout />} />
@@ -74,7 +74,7 @@ function App() {
                 <Route path='/user/:id' element={<SingleUserPage />} />
               </Route>
 
-              <Route element={<RequireAuth allowdRoles={tokenDecoded()} />}>
+              <Route element={<RequireAuth allowdRoles={'ROLE_Company'} />}>
                 <Route path='/companystatistics' element={<CompanyStats />} />
               </Route>
 
